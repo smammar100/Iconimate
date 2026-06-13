@@ -23,6 +23,7 @@ export const ICON_META: Record<string, IconMeta> = {
   trash: { motion: "toss", glow: "#F0584F" },
   cloud: { motion: "drift", glow: "#23C4D6" },
   "address-book": { motion: "nod", glow: "#F56EB3" },
+  "control-tower": { motion: "flip", glow: "#3B82F6" },
 };
 
 export const META_FALLBACK: IconMeta = { motion: "spring", glow: "#6E56F7" };

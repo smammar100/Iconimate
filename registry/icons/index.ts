@@ -14,6 +14,7 @@ import { CameraIcon } from "./camera";
 import { TrashIcon } from "./trash";
 import { CloudIcon } from "./cloud";
 import { AddressBookIcon } from "./address-book";
+import { ControlTowerIcon } from "./control-tower";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -39,6 +40,7 @@ export const icons: IconEntry[] = [
   { slug: "trash", name: "Trash", keywords: ["delete", "bin", "remove", "garbage"], Component: TrashIcon },
   { slug: "cloud", name: "Cloud", keywords: ["weather", "sky", "storage", "upload"], Component: CloudIcon },
   { slug: "address-book", name: "Address Book", keywords: ["contact", "contacts", "person", "profile", "directory", "card"], Component: AddressBookIcon },
+  { slug: "control-tower", name: "Control Tower", keywords: ["airport", "aviation", "atc", "air traffic", "antenna", "radar"], Component: ControlTowerIcon },
 ];
 
 export {
@@ -56,4 +58,5 @@ export {
   TrashIcon,
   CloudIcon,
   AddressBookIcon,
+  ControlTowerIcon,
 };

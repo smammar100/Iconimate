@@ -2,29 +2,20 @@
 
 import { useRef } from "react";
 import type { IconHandle } from "@/lib/icon";
-import { PERSON, FRAME } from "./address-book-paths";
-import { AddressBookV1 } from "./variants/v1";
-import { AddressBookV2 } from "./variants/v2";
-import { AddressBookV3 } from "./variants/v3";
-import { AddressBookV4 } from "./variants/v4";
-import { AddressBookV5 } from "./variants/v5";
-import { AddressBookV6 } from "./variants/v6";
-import { AddressBookV7 } from "./variants/v7";
-import { AddressBookV8 } from "./variants/v8";
-import { AddressBookV9 } from "./variants/v9";
-import { AddressBookV10 } from "./variants/v10";
+import { ThemeToggle } from "@/components/dark/theme-toggle";
+import { TOWER } from "./control-tower-icon";
+import { BannerV1 } from "./variants/b1";
+import { BannerV2 } from "./variants/b2";
+import { BannerV3 } from "./variants/b3";
+import { BannerV4 } from "./variants/b4";
+import { BannerV5 } from "./variants/b5";
 
 const VARIANTS = [
-  { n: 1, name: "Flip", C: AddressBookV1 },
-  { n: 2, name: "Person pop", C: AddressBookV2 },
-  { n: 3, name: "Page turn", C: AddressBookV3 },
-  { n: 4, name: "Head nod", C: AddressBookV4 },
-  { n: 5, name: "Lift", C: AddressBookV5 },
-  { n: 6, name: "Jingle", C: AddressBookV6 },
-  { n: 7, name: "Person rise", C: AddressBookV7 },
-  { n: 8, name: "Heartbeat", C: AddressBookV8 },
-  { n: 9, name: "Idle nod (loop)", C: AddressBookV9 },
-  { n: 10, name: "Open cover", C: AddressBookV10 },
+  { n: 1, name: "Swing", C: BannerV1 },
+  { n: 2, name: "Wind wave", C: BannerV2 },
+  { n: 3, name: "Hoist", C: BannerV3 },
+  { n: 4, name: "Antenna flip", C: BannerV4 },
+  { n: 5, name: "Gust", C: BannerV5 },
 ];
 
 export default function Lab() {
@@ -45,17 +36,18 @@ export default function Lab() {
           </div>
           <div className="dc-nav-links">
             <a href="/">← Back to set</a>
+            <ThemeToggle />
           </div>
         </nav>
 
         <header className="lab-head">
           <span className="lab-eyebrow">
             <span className="dc-eyebrow__dot" />
-            Prototype · address-book · 10 candidates
+            Prototype · control tower · 5 candidates
           </span>
-          <h1 className="lab-title">Pick the animation for Address Book.</h1>
+          <h1 className="lab-title">Pick the animation for Control tower.</h1>
           <p className="lab-sub">
-            Ten takes on the same glyph. Hover any card to preview, or click to replay. Tell me the
+            Five takes on the same glyph. Hover any card to preview, or click to replay. Tell me the
             number you want and I’ll promote it into the main set.
           </p>
           <div className="lab-toolbar">
@@ -65,12 +57,11 @@ export default function Lab() {
             <div className="lab-source">
               <span className="lab-source__icon">
                 <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden>
-                  <path d={FRAME} />
-                  <path d={PERSON} />
+                  <path d={TOWER} />
                 </svg>
               </span>
               <span className="dc-mono" style={{ fontSize: 12.5 }}>
-                Phosphor “address-book”, filled · 256 grid
+                Phosphor control tower, filled · 256 grid
               </span>
             </div>
           </div>

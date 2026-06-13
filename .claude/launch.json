@@ -5,7 +5,8 @@
       "name": "Iconimate docs (Next.js dev)",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["dev"],
-      "port": 3000
+      "port": 3000,
+      "autoPort": true
     }
   ]
 }

@@ -19,7 +19,7 @@ export function DarkIconCard({
 }) {
   const ref = useRef<IconHandle>(null);
   const { Component, name, slug } = entry;
-  const { motion, glow } = metaFor(slug);
+  const { motion } = metaFor(slug);
 
   const play = () => ref.current?.startAnimation();
   const rest = () => ref.current?.stopAnimation();
@@ -38,7 +38,6 @@ export function DarkIconCard({
         onCopy(slug, name);
       }}
     >
-      <span className="dc-card__glow" style={{ background: glow }} aria-hidden />
       <span className="dc-card__top">
         <span className="dc-card__icon">
           <Component ref={ref} size={30} style={{ pointerEvents: "none" }} />

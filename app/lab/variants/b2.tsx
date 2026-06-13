@@ -5,22 +5,24 @@ import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
-import { PERSON, FRAME } from "../address-book-paths";
+import { TOWER } from "../control-tower-icon";
 
-// Jingle — the whole card rocks on the foot of its spine and settles, like a flicked binder.
-// Diminishing-amplitude keyframes carry the decay, so this is a tween (springs cap at 2 keyframes).
-const cardV: Variants = {
-  normal: { rotate: 0, transition: RETURN_TRANSITION },
-  animate: { rotate: [0, 3.5, -2.5, 1.5, -0.6, 0], transition: { duration: 0.85, ease: "easeInOut" } },
+// STATE icon: a slow cloth ripple in the wind — the bottom sways while the hang point holds.
+const wave: Variants = {
+  normal: { skewX: 0, rotate: 0, transition: RETURN_TRANSITION },
+  animate: {
+    skewX: [0, -7, 7, 0],
+    rotate: [0, 1.5, -1.5, 0],
+    transition: { duration: 2.8, ease: "easeInOut", repeat: Infinity, repeatType: "loop" },
+  },
 };
 
-export const AddressBookV6 = forwardRef<IconHandle, IconProps>(function AddressBookV6(
+export const BannerV2 = forwardRef<IconHandle, IconProps>(function BannerV2(
   { size = 28, style, ...props },
   ref,
 ) {
   const { controls, reduced, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
-
   return (
     <div {...props} {...bind} style={{ display: "inline-flex", overflow: "hidden", ...style }}>
       <motion.svg
@@ -33,14 +35,11 @@ export const AddressBookV6 = forwardRef<IconHandle, IconProps>(function AddressB
         animate={controls}
         style={{ overflow: "visible" }}
       >
-        {/* the whole card pivots on the bottom of its left spine at (64, 200) */}
-        <motion.g
-          variants={reduced ? undefined : cardV}
-          style={{ transformBox: "view-box", transformOrigin: "64px 200px" }}
-        >
-          <path d={FRAME} />
-          <path d={PERSON} />
-        </motion.g>
+        <motion.path
+          variants={reduced ? undefined : wave}
+          style={{ transformBox: "view-box", originX: 0.5, originY: 0.09 }}
+          d={TOWER}
+        />
       </motion.svg>
     </div>
   );

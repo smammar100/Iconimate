@@ -5,21 +5,24 @@ import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { ARRIVE, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
-import { PERSON, FRAME } from "../address-book-paths";
+import { TOWER } from "../control-tower-icon";
 
-// The person rises up into the empty card and fades in, settling on the expo-out tail; the frame holds still.
-const personV: Variants = {
+// Hoisted up the pole: rises from below, overshoots, and settles — fading in as it climbs.
+const hoist: Variants = {
   normal: { y: 0, opacity: 1, transition: RETURN_TRANSITION },
-  animate: { y: [22, 0], opacity: [0, 1], transition: { duration: 0.5, ease: ARRIVE } },
+  animate: {
+    y: [44, -6, 0],
+    opacity: [0, 1, 1],
+    transition: { duration: 0.6, ease: ARRIVE, times: [0, 0.7, 1] },
+  },
 };
 
-export const AddressBookV7 = forwardRef<IconHandle, IconProps>(function AddressBookV7(
+export const BannerV3 = forwardRef<IconHandle, IconProps>(function BannerV3(
   { size = 28, style, ...props },
   ref,
 ) {
   const { controls, reduced, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
-
   return (
     <div {...props} {...bind} style={{ display: "inline-flex", overflow: "hidden", ...style }}>
       <motion.svg
@@ -32,11 +35,10 @@ export const AddressBookV7 = forwardRef<IconHandle, IconProps>(function AddressB
         animate={controls}
         style={{ overflow: "visible" }}
       >
-        <path d={FRAME} />
         <motion.path
-          variants={reduced ? undefined : personV}
-          style={{ transformBox: "view-box", transformOrigin: "136px 120px" }}
-          d={PERSON}
+          variants={reduced ? undefined : hoist}
+          style={{ transformBox: "view-box", transformOrigin: "128px 128px" }}
+          d={TOWER}
         />
       </motion.svg>
     </div>

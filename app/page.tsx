@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { icons } from "@/registry/icons";
 import { DarkIconCard } from "@/components/dark/dark-icon-card";
 import { CommandPalette } from "@/components/dark/command-palette";
-import { FeaturedShowcase } from "@/components/dark/featured-showcase";
+import { InteractiveHero } from "@/components/dark/interactive-hero";
+import { ThemeToggle } from "@/components/dark/theme-toggle";
 import { installCommand } from "@/components/dark/icon-meta";
 
 export default function Home() {
@@ -37,8 +38,6 @@ export default function Home() {
 
   return (
     <main className="dc">
-      <div className="dc-hero__glow" aria-hidden />
-
       <div className="dc-shell">
         {/* nav */}
         <nav className="dc-nav">
@@ -51,6 +50,7 @@ export default function Home() {
             <a href="https://github.com" target="_blank" rel="noreferrer">
               GitHub
             </a>
+            <ThemeToggle />
             <button type="button" className="dc-btn dc-btn--ghost" onClick={() => setPaletteOpen(true)}>
               <span className="dc-mono" style={{ fontSize: 12 }}>⌘K</span>
             </button>
@@ -60,52 +60,8 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* hero */}
-        <header className="dc-hero">
-          <div className="dc-hero__grid">
-            <div>
-              <span className="dc-eyebrow">
-                <span className="dc-eyebrow__dot" />
-                Open source · MIT · {icons.length} animated icons
-              </span>
-              <h1 className="dc-h1">
-                Icons that
-                <br />
-                earn their motion.
-              </h1>
-              <p className="dc-sub">
-                A hand-built set of animated SVG icons for React — spring physics, anticipation, and
-                settle frames, calibrated to read at 24px.
-              </p>
-
-              <div className="dc-cta">
-                <span className="dc-install dc-mono">
-                  <span className="dc-install__dollar">$</span>
-                  shadcn add iconimate/bell
-                  <button
-                    type="button"
-                    className="dc-install__copy"
-                    aria-label="Copy install command"
-                    onClick={() => copy("bell", "Bell")}
-                  >
-                    <CopyGlyph />
-                  </button>
-                </span>
-              </div>
-
-              <button
-                type="button"
-                className="dc-kbd-hint"
-                onClick={() => setPaletteOpen(true)}
-                style={{ background: "none", border: "none", cursor: "pointer", padding: 0, fontFamily: "inherit" }}
-              >
-                Press <span className="dc-kbd">⌘K</span> to search the set
-              </button>
-            </div>
-
-            <FeaturedShowcase />
-          </div>
-        </header>
+        {/* hero — Figma Community-style hover interaction */}
+        <InteractiveHero onCopy={copy} onOpenSearch={() => setPaletteOpen(true)} />
 
         {/* the set */}
         <section id="icons" className="dc-section" style={{ scrollMarginTop: 20 }}>
@@ -154,14 +110,6 @@ export default function Home() {
   );
 }
 
-function CopyGlyph() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="9" y="9" width="11" height="11" rx="2.5" />
-      <path d="M5 15a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2" />
-    </svg>
-  );
-}
 function SearchGlyph() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
