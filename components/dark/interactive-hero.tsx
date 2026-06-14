@@ -17,10 +17,11 @@ type PhraseKey = "animated" | "motion" | "magic";
 
 const bySlug = (slug: string) => icons.find((i) => i.slug === slug) as IconEntry;
 
+// Scatter the icons that are actually live on the home page (the visible set).
 const PHRASES: { key: PhraseKey; label: string; slugs: string[] }[] = [
-  { key: "animated", label: "animated icons", slugs: ["bell", "heart", "star", "bookmark", "sun", "acorn"] },
-  { key: "motion", label: "spring motion", slugs: ["bolt", "arrow-right", "moon", "cloud", "camera", "address-book"] },
-  { key: "magic", label: "hover magic", slugs: ["mail", "trash", "sun", "heart", "moon", "star"] },
+  { key: "animated", label: "animated icons", slugs: ["acorn", "address-book", "control-tower", "phone-book", "airplane", "airplane-in-flight"] },
+  { key: "motion", label: "spring motion", slugs: ["airplane-landing", "airplane-takeoff", "airplane-taxiing", "airplane-tilt", "acorn", "address-book"] },
+  { key: "magic", label: "hover magic", slugs: ["control-tower", "phone-book", "airplane", "airplane-in-flight", "airplane-landing", "airplane-takeoff"] },
 ];
 
 /** Scatter positions around the centered heading (margins only, so text stays clear). */
@@ -33,12 +34,12 @@ const SLOTS = [
   { left: "86%", top: "85%", rot: 6 },
 ];
 
+// Nothing motion: fade, don't slide. Opacity only, subtle ease-out, no spring.
 const decorV: Variants = {
-  hidden: { scale: 0.4, opacity: 0, transition: { duration: 0.18, ease: "easeIn" } },
+  hidden: { opacity: 0, transition: { duration: 0.15, ease: [0.25, 0.1, 0.25, 1] } },
   shown: (i: number) => ({
-    scale: 1,
     opacity: 1,
-    transition: { delay: i * 0.035, type: "spring", stiffness: 340, damping: 20, mass: 0.7 },
+    transition: { delay: i * 0.03, duration: 0.22, ease: [0.25, 0.1, 0.25, 1] },
   }),
 };
 
@@ -67,9 +68,15 @@ function DecorIcon({
       className="dc-decor-pos"
       style={{ left: slot.left, top: slot.top, ["--rot" as string]: `${slot.rot}deg` } as React.CSSProperties}
     >
-      <motion.div className="dc-decor" custom={index} variants={decorV} initial="hidden" animate={active ? "shown" : "hidden"}>
-        <span className="dc-decor__glow" style={{ background: glow }} aria-hidden />
-        <Component ref={ref} size={24} style={{ pointerEvents: "none", position: "relative", zIndex: 1 }} />
+      <motion.div
+        className="dc-decor"
+        style={{ color: glow }}
+        custom={index}
+        variants={decorV}
+        initial="hidden"
+        animate={active ? "shown" : "hidden"}
+      >
+        <Component ref={ref} size={34} style={{ pointerEvents: "none", position: "relative", zIndex: 1 }} />
       </motion.div>
     </div>
   );
@@ -143,12 +150,12 @@ export function InteractiveHero({
 
           <h1 className="dc-ih1">
             A hand-built set of <Word phrase={animated} />, <Word phrase={springMotion} />, and{" "}
-            <Word phrase={magic} /> for React.
+            <Word phrase={magic} />.
           </h1>
 
           <p className="dc-ihero__sub">
-            Spring physics, anticipation, and settle frames, calibrated to read at 24px. Hover a phrase
-            to see the set move.
+            Open-source React icons, hand-drawn on the Phosphor 256 grid and tuned to read at 24px.
+            Hover a phrase to watch the set move.
           </p>
 
           <div className="dc-cta" style={{ justifyContent: "center" }}>

@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { icons, type IconEntry } from "@/registry/icons";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { visibleIcons, type IconEntry } from "@/registry/icons";
 import type { IconHandle } from "@/lib/icon";
 import { metaFor } from "./icon-meta";
 
-const RECENT = ["mail", "bolt", "moon", "camera", "trash", "cloud"];
+const RECENT = [
+  "airplane-tilt",
+  "airplane-taxiing",
+  "airplane-takeoff",
+  "airplane-landing",
+  "airplane-in-flight",
+  "airplane",
+];
 
 /** Live preview: the active row's icon plays its animation; the rest sit still. */
 function RowIcon({ entry, active }: { entry: IconEntry; active: boolean }) {
@@ -40,18 +47,21 @@ export function CommandPalette({
   const [active, setActive] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const baseId = useId();
+  const listId = `${baseId}-list`;
+  const optionId = (i: number) => `${baseId}-opt-${i}`;
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) {
-      const recent = RECENT.map((s) => icons.find((i) => i.slug === s)).filter(Boolean) as IconEntry[];
-      const rest = icons.filter((i) => !RECENT.includes(i.slug));
+      const recent = RECENT.map((s) => visibleIcons.find((i) => i.slug === s)).filter(Boolean) as IconEntry[];
+      const rest = visibleIcons.filter((i) => !RECENT.includes(i.slug));
       return [
         { label: "Recently added", items: recent },
         { label: "All icons", items: rest },
       ];
     }
-    const matches = icons.filter(
+    const matches = visibleIcons.filter(
       (i) =>
         i.name.toLowerCase().includes(q) ||
         i.slug.includes(q) ||
@@ -102,6 +112,10 @@ export function CommandPalette({
     } else if (e.key === "Escape") {
       e.preventDefault();
       onClose();
+    } else if (e.key === "Tab") {
+      // keep focus within the dialog (combobox stays on the input)
+      e.preventDefault();
+      inputRef.current?.focus();
     }
   };
 
@@ -129,13 +143,17 @@ export function CommandPalette({
               setActive(0);
             }}
             aria-label="Search icons"
+            role="combobox"
+            aria-expanded={flat.length > 0}
+            aria-controls={listId}
+            aria-activedescendant={flat[active] ? optionId(active) : undefined}
             spellCheck={false}
             autoComplete="off"
           />
           <span className="dc-kbd">esc</span>
         </div>
 
-        <div className="dc-cmdk__list">
+        <div className="dc-cmdk__list" role="listbox" id={listId} aria-label="Icons">
           {flat.length === 0 && <div className="dc-cmdk__empty">No icons match “{query}”.</div>}
           {groups.map((group) =>
             group.items.length === 0 ? null : (
@@ -152,6 +170,9 @@ export function CommandPalette({
                       ref={(el) => {
                         rowRefs.current[i] = el;
                       }}
+                      id={optionId(i)}
+                      role="option"
+                      aria-selected={isActive}
                       className={`dc-cmdk__row${isActive ? " is-active" : ""}`}
                       onMouseMove={() => setActive(i)}
                       onClick={() => {

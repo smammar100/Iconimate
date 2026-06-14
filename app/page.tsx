@@ -103,7 +103,7 @@ export default function Home() {
           <span className="dc-toast__check">
             <CheckGlyph />
           </span>
-          Copied install for {toast}
+          [ COPIED ] {toast}
         </div>
       )}
     </main>

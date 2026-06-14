@@ -1,10 +1,30 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
+import { Space_Grotesk, Space_Mono, Doto } from "next/font/google";
 import "@react-spectrum/s2/page.css";
 import "./globals.css";
 import { AppProvider } from "./providers";
+
+// Nothing design DNA: Space Grotesk + Space Mono (Colophon foundry — same as
+// Nothing's typefaces), Doto for the dot-matrix display moments.
+const grotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+  variable: "--font-grotesk",
+  display: "swap",
+});
+const mono = Space_Mono({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-mono",
+  display: "swap",
+});
+const doto = Doto({
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  variable: "--font-doto",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Iconimate — Animated icons that earn their motion",
@@ -27,7 +47,7 @@ export default async function RootLayout({
       lang="en"
       data-theme={theme}
       suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={`${grotesk.variable} ${mono.variable} ${doto.variable}`}
     >
       <body>
         <AppProvider initialColorScheme={theme ?? "dark"}>{children}</AppProvider>
