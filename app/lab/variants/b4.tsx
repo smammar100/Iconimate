@@ -3,17 +3,22 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { ARRIVE, RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
-import { TOWER_BASE, ANTENNA } from "../control-tower-icon";
+import { PLANE, PLANE_PIVOT } from "../tilt-icon";
 
-// Only the antenna flips a full turn on its vertical axis; the tower holds still beneath it.
-const flip: Variants = {
-  normal: { rotateY: 0, transformPerspective: 500, transition: RETURN_TRANSITION },
-  animate: { rotateY: [0, 360], transformPerspective: 500, transition: { duration: 0.8, ease: ARRIVE } },
+// FLOAT — drifting on smooth air: the craft rises and sinks in a slow, easy bob
+// with the faintest roll, hanging weightless. Continuous.
+const float: Variants = {
+  normal: { y: 0, rotate: 0, transition: RETURN_TRANSITION },
+  animate: {
+    y: [0, -8, 0, 5, 0],
+    rotate: [0, 3, 0, -3, 0],
+    transition: { duration: 3.4, ease: "easeInOut", repeat: Infinity, repeatType: "loop" },
+  },
 };
 
-export const BannerV4 = forwardRef<IconHandle, IconProps>(function BannerV4(
+export const TiltV4 = forwardRef<IconHandle, IconProps>(function TiltV4(
   { size = 28, style, ...props },
   ref,
 ) {
@@ -31,13 +36,10 @@ export const BannerV4 = forwardRef<IconHandle, IconProps>(function BannerV4(
         animate={controls}
         style={{ overflow: "visible" }}
       >
-        {/* static tower */}
-        <path d={TOWER_BASE} />
-        {/* the antenna spins on its own vertical axis */}
         <motion.path
-          variants={reduced ? undefined : flip}
-          style={{ transformBox: "view-box", originX: 0.5, originY: 0.156 }}
-          d={ANTENNA}
+          variants={reduced ? undefined : float}
+          style={{ transformBox: "view-box", originX: PLANE_PIVOT.x, originY: PLANE_PIVOT.y }}
+          d={PLANE}
         />
       </motion.svg>
     </div>

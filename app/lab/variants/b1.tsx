@@ -5,15 +5,23 @@ import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
-import { TOWER } from "../control-tower-icon";
+import { PLANE, PLANE_PIVOT } from "../tilt-icon";
 
-// Knocked into a pendulum swing from its hang point, settling with diminishing amplitude.
-const swing: Variants = {
-  normal: { rotate: 0, transition: RETURN_TRANSITION },
-  animate: { rotate: [0, 13, -9, 5, -2, 0], transition: { duration: 1, ease: "easeInOut" } },
+// LOOP — a full clockwise barrel roll: the craft tucks in slightly and spins one
+// complete turn clockwise about its centre, swelling back out as it comes around
+// to rest. One clean 360.
+const loopCw: Variants = {
+  // no rotate in normal: on hover-out the craft holds (360° ≡ rest) instead of
+  // un-spinning counter-clockwise back to 0.
+  normal: { scale: 1, transition: RETURN_TRANSITION },
+  animate: {
+    rotate: [0, 360],
+    scale: [1, 0.9, 1.06, 1],
+    transition: { duration: 1, ease: "easeInOut" },
+  },
 };
 
-export const BannerV1 = forwardRef<IconHandle, IconProps>(function BannerV1(
+export const TiltV1 = forwardRef<IconHandle, IconProps>(function TiltV1(
   { size = 28, style, ...props },
   ref,
 ) {
@@ -32,9 +40,9 @@ export const BannerV1 = forwardRef<IconHandle, IconProps>(function BannerV1(
         style={{ overflow: "visible" }}
       >
         <motion.path
-          variants={reduced ? undefined : swing}
-          style={{ transformBox: "view-box", originX: 0.5, originY: 0.09 }}
-          d={TOWER}
+          variants={reduced ? undefined : loopCw}
+          style={{ transformBox: "view-box", originX: PLANE_PIVOT.x, originY: PLANE_PIVOT.y }}
+          d={PLANE}
         />
       </motion.svg>
     </div>

@@ -3,19 +3,19 @@
 import { useRef } from "react";
 import type { IconHandle } from "@/lib/icon";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
-import { TOWER } from "./control-tower-icon";
-import { BannerV1 } from "./variants/b1";
-import { BannerV2 } from "./variants/b2";
-import { BannerV3 } from "./variants/b3";
-import { BannerV4 } from "./variants/b4";
-import { BannerV5 } from "./variants/b5";
+import { PLANE } from "./tilt-icon";
+import { TiltV1 } from "./variants/b1";
+import { TiltV2 } from "./variants/b2";
+import { TiltV3 } from "./variants/b3";
+import { TiltV4 } from "./variants/b4";
+import { TiltV5 } from "./variants/b5";
 
 const VARIANTS = [
-  { n: 1, name: "Swing", C: BannerV1 },
-  { n: 2, name: "Wind wave", C: BannerV2 },
-  { n: 3, name: "Hoist", C: BannerV3 },
-  { n: 4, name: "Antenna flip", C: BannerV4 },
-  { n: 5, name: "Gust", C: BannerV5 },
+  { n: 1, name: "Loop (cw)", C: TiltV1 },
+  { n: 2, name: "Bank (loop)", C: TiltV2 },
+  { n: 3, name: "Zoom", C: TiltV3 },
+  { n: 4, name: "Float (loop)", C: TiltV4 },
+  { n: 5, name: "Buzz", C: TiltV5 },
 ];
 
 export default function Lab() {
@@ -43,12 +43,13 @@ export default function Lab() {
         <header className="lab-head">
           <span className="lab-eyebrow">
             <span className="dc-eyebrow__dot" />
-            Prototype · control tower · 5 candidates
+            Prototype · airplane tilt · 5 candidates
           </span>
-          <h1 className="lab-title">Pick the animation for Control tower.</h1>
+          <h1 className="lab-title">Give it a spin.</h1>
           <p className="lab-sub">
-            Five takes on the same glyph. Hover any card to preview, or click to replay. Tell me the
-            number you want and I’ll promote it into the main set.
+            Five takes on the banked craft — a full clockwise barrel-roll loop, a back-and-forth
+            wing-rock bank, a quick zoom along its heading, a weightless float, and an excitable
+            buzz. Hover any card to preview, or click to replay. Tell me the number you want.
           </p>
           <div className="lab-toolbar">
             <button type="button" className="dc-btn" onClick={playAll}>
@@ -57,11 +58,11 @@ export default function Lab() {
             <div className="lab-source">
               <span className="lab-source__icon">
                 <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden>
-                  <path d={TOWER} />
+                  <path d={PLANE} />
                 </svg>
               </span>
               <span className="dc-mono" style={{ fontSize: 12.5 }}>
-                Phosphor control tower, filled · 256 grid
+                Phosphor airplane tilt · 256 grid
               </span>
             </div>
           </div>

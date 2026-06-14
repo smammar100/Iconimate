@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { icons } from "@/registry/icons";
+import { visibleIcons } from "@/registry/icons";
 import { DarkIconCard } from "@/components/dark/dark-icon-card";
 import { CommandPalette } from "@/components/dark/command-palette";
 import { InteractiveHero } from "@/components/dark/interactive-hero";
@@ -67,7 +67,7 @@ export default function Home() {
         <section id="icons" className="dc-section" style={{ scrollMarginTop: 20 }}>
           <div className="dc-section__head">
             <div className="dc-section__title">
-              All icons <span className="dc-section__count">{icons.length}</span>
+              All icons <span className="dc-section__count">{visibleIcons.length}</span>
             </div>
             <button
               type="button"
@@ -83,7 +83,7 @@ export default function Home() {
           </div>
 
           <div className="dc-grid">
-            {icons.map((entry) => (
+            {visibleIcons.map((entry) => (
               <DarkIconCard key={entry.slug} entry={entry} onCopy={copy} />
             ))}
           </div>
@@ -91,7 +91,7 @@ export default function Home() {
 
         {/* footer */}
         <footer className="dc-footer">
-          <span>iconimate · v0.1.0 · {icons.length} icons</span>
+          <span>iconimate · v0.1.0 · {visibleIcons.length} icons</span>
           <span>⌘K search · ↵ install · drawn on the Phosphor 256 grid</span>
         </footer>
       </div>

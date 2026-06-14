@@ -15,6 +15,13 @@ import { TrashIcon } from "./trash";
 import { CloudIcon } from "./cloud";
 import { AddressBookIcon } from "./address-book";
 import { ControlTowerIcon } from "./control-tower";
+import { PhoneBookIcon } from "./phone-book";
+import { AirplaneIcon } from "./airplane";
+import { AirplaneInFlightIcon } from "./airplane-in-flight";
+import { AirplaneLandingIcon } from "./airplane-landing";
+import { AirplaneTakeoffIcon } from "./airplane-takeoff";
+import { AirplaneTaxiingIcon } from "./airplane-taxiing";
+import { AirplaneTiltIcon } from "./airplane-tilt";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -41,7 +48,33 @@ export const icons: IconEntry[] = [
   { slug: "cloud", name: "Cloud", keywords: ["weather", "sky", "storage", "upload"], Component: CloudIcon },
   { slug: "address-book", name: "Address Book", keywords: ["contact", "contacts", "person", "profile", "directory", "card"], Component: AddressBookIcon },
   { slug: "control-tower", name: "Control Tower", keywords: ["airport", "aviation", "atc", "air traffic", "antenna", "radar"], Component: ControlTowerIcon },
+  { slug: "phone-book", name: "Phone Book", keywords: ["address book", "contacts", "directory", "telephone", "tabs", "yellow pages"], Component: PhoneBookIcon },
+  { slug: "airplane", name: "Airplane", keywords: ["plane", "flight", "fly", "travel", "aircraft", "jet"], Component: AirplaneIcon },
+  { slug: "airplane-in-flight", name: "Airplane in Flight", keywords: ["plane", "flight", "fly", "travel", "cruise", "departure", "contrail"], Component: AirplaneInFlightIcon },
+  { slug: "airplane-landing", name: "Airplane Landing", keywords: ["plane", "landing", "arrive", "arrival", "descent", "approach", "runway", "travel"], Component: AirplaneLandingIcon },
+  { slug: "airplane-takeoff", name: "Airplane Takeoff", keywords: ["plane", "takeoff", "depart", "departure", "climb", "ascend", "runway", "travel"], Component: AirplaneTakeoffIcon },
+  { slug: "airplane-taxiing", name: "Airplane Taxiing", keywords: ["plane", "taxi", "taxiing", "ground", "runway", "roll", "gate", "travel"], Component: AirplaneTaxiingIcon },
+  { slug: "airplane-tilt", name: "Airplane Tilt", keywords: ["plane", "tilt", "bank", "fly", "travel", "jet", "turn"], Component: AirplaneTiltIcon },
 ];
+
+/** Slugs hidden from the public home page (still in the registry and installable). */
+export const HOME_HIDDEN_SLUGS = new Set<string>([
+  "bell",
+  "heart",
+  "star",
+  "bookmark",
+  "sun",
+  "arrow-right",
+  "bolt",
+  "moon",
+  "camera",
+  "trash",
+  "cloud",
+  "mail",
+]);
+
+/** Icons shown on the home page (the registry minus the hidden slugs). */
+export const visibleIcons: IconEntry[] = icons.filter((entry) => !HOME_HIDDEN_SLUGS.has(entry.slug));
 
 export {
   BellIcon,
@@ -59,4 +92,11 @@ export {
   CloudIcon,
   AddressBookIcon,
   ControlTowerIcon,
+  PhoneBookIcon,
+  AirplaneIcon,
+  AirplaneInFlightIcon,
+  AirplaneLandingIcon,
+  AirplaneTakeoffIcon,
+  AirplaneTaxiingIcon,
+  AirplaneTiltIcon,
 };

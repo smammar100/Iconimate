@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, type Variants } from "motion/react";
-import { icons, type IconEntry } from "@/registry/icons";
+import { icons, visibleIcons, type IconEntry } from "@/registry/icons";
 import type { IconHandle } from "@/lib/icon";
 import { metaFor } from "./icon-meta";
 
@@ -138,7 +138,7 @@ export function InteractiveHero({
         <div className="dc-ihero__inner">
           <span className="dc-eyebrow">
             <span className="dc-eyebrow__dot" />
-            Open source · MIT · {icons.length} animated icons
+            Open source · MIT · {visibleIcons.length} animated icons
           </span>
 
           <h1 className="dc-ih1">

@@ -24,6 +24,13 @@ export const ICON_META: Record<string, IconMeta> = {
   cloud: { motion: "drift", glow: "#23C4D6" },
   "address-book": { motion: "nod", glow: "#F56EB3" },
   "control-tower": { motion: "flip", glow: "#3B82F6" },
+  "phone-book": { motion: "page flip", glow: "#E0A23C" },
+  airplane: { motion: "thermal", glow: "#46B0E6" },
+  "airplane-in-flight": { motion: "climb", glow: "#2BB3A3" },
+  "airplane-landing": { motion: "arrival", glow: "#EC6A5E" },
+  "airplane-takeoff": { motion: "departure", glow: "#9D7BF4" },
+  "airplane-taxiing": { motion: "taxi-in", glow: "#5FB97A" },
+  "airplane-tilt": { motion: "bank", glow: "#C77DF0" },
 };
 
 export const META_FALLBACK: IconMeta = { motion: "spring", glow: "#6E56F7" };

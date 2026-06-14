@@ -5,19 +5,21 @@ import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { ARRIVE, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
-import { TOWER } from "../control-tower-icon";
+import { PLANE, PLANE_PIVOT } from "../tilt-icon";
 
-// Hoisted up the pole: rises from below, overshoots, and settles — fading in as it climbs.
-const hoist: Variants = {
-  normal: { y: 0, opacity: 1, transition: RETURN_TRANSITION },
+// ZOOM — the craft darts forward along its heading (up and to the right), swelling
+// a touch with speed, then eases back to rest. A quick jet away and home.
+const zoom: Variants = {
+  normal: { x: 0, y: 0, scale: 1, transition: RETURN_TRANSITION },
   animate: {
-    y: [44, -6, 0],
-    opacity: [0, 1, 1],
-    transition: { duration: 0.6, ease: ARRIVE, times: [0, 0.7, 1] },
+    x: [0, 20, 0],
+    y: [0, -20, 0],
+    scale: [1, 1.05, 1],
+    transition: { duration: 0.85, ease: ARRIVE, times: [0, 0.45, 1] },
   },
 };
 
-export const BannerV3 = forwardRef<IconHandle, IconProps>(function BannerV3(
+export const TiltV3 = forwardRef<IconHandle, IconProps>(function TiltV3(
   { size = 28, style, ...props },
   ref,
 ) {
@@ -36,9 +38,9 @@ export const BannerV3 = forwardRef<IconHandle, IconProps>(function BannerV3(
         style={{ overflow: "visible" }}
       >
         <motion.path
-          variants={reduced ? undefined : hoist}
-          style={{ transformBox: "view-box", transformOrigin: "128px 128px" }}
-          d={TOWER}
+          variants={reduced ? undefined : zoom}
+          style={{ transformBox: "view-box", originX: PLANE_PIVOT.x, originY: PLANE_PIVOT.y }}
+          d={PLANE}
         />
       </motion.svg>
     </div>
