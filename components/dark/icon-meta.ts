@@ -31,6 +31,11 @@ export const ICON_META: Record<string, IconMeta> = {
   "airplane-takeoff": { motion: "departure", glow: "#9D7BF4" },
   "airplane-taxiing": { motion: "taxi-in", glow: "#5FB97A" },
   "airplane-tilt": { motion: "bank", glow: "#C77DF0" },
+  presentation: { motion: "tap", glow: "#E6A23C" },
+  alarm: { motion: "ring", glow: "#F0584F" },
+  alien: { motion: "glow eyes", glow: "#22C55E" },
+  "align-bottom": { motion: "drop", glow: "#5B8DEF" },
+  "align-bottom-simple": { motion: "drop", glow: "#5B8DEF" },
 };
 
 export const META_FALLBACK: IconMeta = { motion: "spring", glow: "#6E56F7" };

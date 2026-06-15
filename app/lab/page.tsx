@@ -3,19 +3,19 @@
 import { useRef } from "react";
 import type { IconHandle } from "@/lib/icon";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
-import { PLANE } from "./tilt-icon";
-import { TiltV1 } from "./variants/b1";
-import { TiltV2 } from "./variants/b2";
-import { TiltV3 } from "./variants/b3";
-import { TiltV4 } from "./variants/b4";
-import { TiltV5 } from "./variants/b5";
+import { ALIGN_BOTTOM } from "./align-bottom-icon";
+import { AlignV1 } from "./variants/g1";
+import { AlignV2 } from "./variants/g2";
+import { AlignV3 } from "./variants/g3";
+import { AlignV4 } from "./variants/g4";
+import { AlignV5 } from "./variants/g5";
 
 const VARIANTS = [
-  { n: 1, name: "Loop (cw)", C: TiltV1 },
-  { n: 2, name: "Bank (loop)", C: TiltV2 },
-  { n: 3, name: "Zoom", C: TiltV3 },
-  { n: 4, name: "Float (loop)", C: TiltV4 },
-  { n: 5, name: "Buzz", C: TiltV5 },
+  { n: 1, name: "Drop (spring)", C: AlignV1 },
+  { n: 2, name: "Grow (spring)", C: AlignV2 },
+  { n: 3, name: "Nudge (loop)", C: AlignV3 },
+  { n: 4, name: "Equalizer (loop)", C: AlignV4 },
+  { n: 5, name: "Rise", C: AlignV5 },
 ];
 
 export default function Lab() {
@@ -43,13 +43,14 @@ export default function Lab() {
         <header className="lab-head">
           <span className="lab-eyebrow">
             <span className="dc-eyebrow__dot" />
-            Prototype · airplane tilt · 5 candidates
+            Prototype · align bottom · 5 candidates
           </span>
-          <h1 className="lab-title">Give it a spin.</h1>
+          <h1 className="lab-title">Stick the landing.</h1>
           <p className="lab-sub">
-            Five takes on the banked craft — a full clockwise barrel-roll loop, a back-and-forth
-            wing-rock bank, a quick zoom along its heading, a weightless float, and an excitable
-            buzz. Hover any card to preview, or click to replay. Tell me the number you want.
+            Five takes on align-bottom — blocks dropping in from the top and springing to rest on
+            the line, blocks growing up out of the floor, a soft attention nudge, an equalizer
+            pump, and a rise from below. Bottoms stay aligned throughout; the artwork is untouched.
+            Hover any card to preview, or click to replay. Tell me the number you want.
           </p>
           <div className="lab-toolbar">
             <button type="button" className="dc-btn" onClick={playAll}>
@@ -58,11 +59,11 @@ export default function Lab() {
             <div className="lab-source">
               <span className="lab-source__icon">
                 <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden>
-                  <path d={PLANE} />
+                  <path d={ALIGN_BOTTOM} />
                 </svg>
               </span>
               <span className="dc-mono" style={{ fontSize: 12.5 }}>
-                Phosphor airplane tilt · 256 grid
+                Phosphor align bottom · 256 grid
               </span>
             </div>
           </div>

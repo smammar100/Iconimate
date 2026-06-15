@@ -22,6 +22,11 @@ import { AirplaneLandingIcon } from "./airplane-landing";
 import { AirplaneTakeoffIcon } from "./airplane-takeoff";
 import { AirplaneTaxiingIcon } from "./airplane-taxiing";
 import { AirplaneTiltIcon } from "./airplane-tilt";
+import { PresentationIcon } from "./presentation";
+import { AlarmIcon } from "./alarm";
+import { AlienIcon } from "./alien";
+import { AlignBottomIcon } from "./align-bottom";
+import { AlignBottomSimpleIcon } from "./align-bottom-simple";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -55,6 +60,11 @@ export const icons: IconEntry[] = [
   { slug: "airplane-takeoff", name: "Airplane Takeoff", keywords: ["plane", "takeoff", "depart", "departure", "climb", "ascend", "runway", "travel"], Component: AirplaneTakeoffIcon },
   { slug: "airplane-taxiing", name: "Airplane Taxiing", keywords: ["plane", "taxi", "taxiing", "ground", "runway", "roll", "gate", "travel"], Component: AirplaneTaxiingIcon },
   { slug: "airplane-tilt", name: "Airplane Tilt", keywords: ["plane", "tilt", "bank", "fly", "travel", "jet", "turn"], Component: AirplaneTiltIcon },
+  { slug: "presentation", name: "Presentation", keywords: ["slide", "board", "easel", "deck", "chart", "screen", "lecture", "talk"], Component: PresentationIcon },
+  { slug: "alarm", name: "Alarm", keywords: ["clock", "alarm", "timer", "wake", "reminder", "snooze", "time", "ring"], Component: AlarmIcon },
+  { slug: "alien", name: "Alien", keywords: ["et", "ufo", "extraterrestrial", "space", "martian", "visitor", "eyes", "glow"], Component: AlienIcon },
+  { slug: "align-bottom", name: "Align Bottom", keywords: ["align", "bottom", "layout", "distribute", "arrange", "baseline", "blocks", "drop"], Component: AlignBottomIcon },
+  { slug: "align-bottom-simple", name: "Align Bottom Simple", keywords: ["align", "bottom", "simple", "layout", "arrange", "baseline", "block", "drop"], Component: AlignBottomSimpleIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -99,4 +109,9 @@ export {
   AirplaneTakeoffIcon,
   AirplaneTaxiingIcon,
   AirplaneTiltIcon,
+  PresentationIcon,
+  AlarmIcon,
+  AlienIcon,
+  AlignBottomIcon,
+  AlignBottomSimpleIcon,
 };
