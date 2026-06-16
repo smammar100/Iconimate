@@ -27,6 +27,16 @@ import { AlarmIcon } from "./alarm";
 import { AlienIcon } from "./alien";
 import { AlignBottomIcon } from "./align-bottom";
 import { AlignBottomSimpleIcon } from "./align-bottom-simple";
+import { AlignCenterHorizontalIcon } from "./align-center-horizontal";
+import { AlignCenterHorizontalSimpleIcon } from "./align-center-horizontal-simple";
+import { AlignCenterVerticalIcon } from "./align-center-vertical";
+import { AlignCenterVerticalSimpleIcon } from "./align-center-vertical-simple";
+import { AlignLeftIcon } from "./align-left";
+import { AlignLeftSimpleIcon } from "./align-left-simple";
+import { AlignRightIcon } from "./align-right";
+import { AlignRightSimpleIcon } from "./align-right-simple";
+import { AlignTopIcon } from "./align-top";
+import { AlignTopSimpleIcon } from "./align-top-simple";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -65,6 +75,16 @@ export const icons: IconEntry[] = [
   { slug: "alien", name: "Alien", keywords: ["et", "ufo", "extraterrestrial", "space", "martian", "visitor", "eyes", "glow"], Component: AlienIcon },
   { slug: "align-bottom", name: "Align Bottom", keywords: ["align", "bottom", "layout", "distribute", "arrange", "baseline", "blocks", "drop"], Component: AlignBottomIcon },
   { slug: "align-bottom-simple", name: "Align Bottom Simple", keywords: ["align", "bottom", "simple", "layout", "arrange", "baseline", "block", "drop"], Component: AlignBottomSimpleIcon },
+  { slug: "align-center-horizontal", name: "Align Center Horizontal", keywords: ["align", "center", "horizontal", "layout", "distribute", "arrange", "axis", "blocks", "wipe"], Component: AlignCenterHorizontalIcon },
+  { slug: "align-center-horizontal-simple", name: "Align Center Horizontal Simple", keywords: ["align", "center", "horizontal", "simple", "layout", "arrange", "axis", "block", "drop", "bounce"], Component: AlignCenterHorizontalSimpleIcon },
+  { slug: "align-center-vertical", name: "Align Center Vertical", keywords: ["align", "center", "vertical", "layout", "distribute", "arrange", "axis", "blocks", "drop", "bounce"], Component: AlignCenterVerticalIcon },
+  { slug: "align-center-vertical-simple", name: "Align Center Vertical Simple", keywords: ["align", "center", "vertical", "simple", "layout", "arrange", "axis", "block", "drop", "bounce"], Component: AlignCenterVerticalSimpleIcon },
+  { slug: "align-left", name: "Align Left", keywords: ["align", "left", "layout", "distribute", "arrange", "baseline", "blocks", "drop", "bounce"], Component: AlignLeftIcon },
+  { slug: "align-left-simple", name: "Align Left Simple", keywords: ["align", "left", "simple", "layout", "arrange", "baseline", "block", "drop", "bounce"], Component: AlignLeftSimpleIcon },
+  { slug: "align-right", name: "Align Right", keywords: ["align", "right", "layout", "distribute", "arrange", "baseline", "blocks", "drop", "bounce"], Component: AlignRightIcon },
+  { slug: "align-right-simple", name: "Align Right Simple", keywords: ["align", "right", "simple", "layout", "arrange", "baseline", "block", "drop", "bounce"], Component: AlignRightSimpleIcon },
+  { slug: "align-top", name: "Align Top", keywords: ["align", "top", "layout", "distribute", "arrange", "baseline", "blocks", "drop", "bounce"], Component: AlignTopIcon },
+  { slug: "align-top-simple", name: "Align Top Simple", keywords: ["align", "top", "simple", "layout", "arrange", "baseline", "block", "drop", "bounce"], Component: AlignTopSimpleIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -114,4 +134,14 @@ export {
   AlienIcon,
   AlignBottomIcon,
   AlignBottomSimpleIcon,
+  AlignCenterHorizontalIcon,
+  AlignCenterHorizontalSimpleIcon,
+  AlignCenterVerticalIcon,
+  AlignCenterVerticalSimpleIcon,
+  AlignLeftIcon,
+  AlignLeftSimpleIcon,
+  AlignRightIcon,
+  AlignRightSimpleIcon,
+  AlignTopIcon,
+  AlignTopSimpleIcon,
 };

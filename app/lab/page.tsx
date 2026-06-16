@@ -3,19 +3,23 @@
 import { useRef } from "react";
 import type { IconHandle } from "@/lib/icon";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
-import { ALIGN_BOTTOM } from "./align-bottom-icon";
-import { AlignV1 } from "./variants/g1";
-import { AlignV2 } from "./variants/g2";
-import { AlignV3 } from "./variants/g3";
-import { AlignV4 } from "./variants/g4";
-import { AlignV5 } from "./variants/g5";
+import { ALIGN_CENTER_HORIZONTAL } from "./align-center-horizontal-icon";
+import { AlignCH1 } from "./variants/h1";
+import { AlignCH2 } from "./variants/h2";
+import { AlignCH3 } from "./variants/h3";
+import { AlignCH4 } from "./variants/h4";
+import { AlignCH5 } from "./variants/h5";
+import { AlignCH6 } from "./variants/h6";
+import { AlignCH7 } from "./variants/h7";
 
 const VARIANTS = [
-  { n: 1, name: "Drop (spring)", C: AlignV1 },
-  { n: 2, name: "Grow (spring)", C: AlignV2 },
-  { n: 3, name: "Nudge (loop)", C: AlignV3 },
-  { n: 4, name: "Equalizer (loop)", C: AlignV4 },
-  { n: 5, name: "Rise", C: AlignV5 },
+  { n: 1, name: "Snap (spring)", C: AlignCH1 },
+  { n: 2, name: "Grow (spring)", C: AlignCH2 },
+  { n: 3, name: "Sway (loop)", C: AlignCH3 },
+  { n: 4, name: "Pulse (loop)", C: AlignCH4 },
+  { n: 5, name: "Wipe", C: AlignCH5 },
+  { n: 6, name: "Center wipe", C: AlignCH6 },
+  { n: 7, name: "Drop (bounce)", C: AlignCH7 },
 ];
 
 export default function Lab() {
@@ -43,14 +47,15 @@ export default function Lab() {
         <header className="lab-head">
           <span className="lab-eyebrow">
             <span className="dc-eyebrow__dot" />
-            Prototype · align bottom · 5 candidates
+            Prototype · align center horizontal simple · 7 candidates
           </span>
-          <h1 className="lab-title">Stick the landing.</h1>
+          <h1 className="lab-title">Find the center.</h1>
           <p className="lab-sub">
-            Five takes on align-bottom — blocks dropping in from the top and springing to rest on
-            the line, blocks growing up out of the floor, a soft attention nudge, an equalizer
-            pump, and a rise from below. Bottoms stay aligned throughout; the artwork is untouched.
-            Hover any card to preview, or click to replay. Tell me the number you want.
+            Seven takes on align-center-horizontal-simple — a spring snap into place, a
+            horizontal grow out of the center axis, a gentle balance sway, a breathing
+            pulse, a left-to-right wipe, a center-out wipe, and a drop-and-bounce. The exact Phosphor
+            glyph, animated whole so the artwork is pixel-identical. Hover any card to
+            preview, or click to replay.
           </p>
           <div className="lab-toolbar">
             <button type="button" className="dc-btn" onClick={playAll}>
@@ -59,11 +64,11 @@ export default function Lab() {
             <div className="lab-source">
               <span className="lab-source__icon">
                 <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden>
-                  <path d={ALIGN_BOTTOM} />
+                  <path d={ALIGN_CENTER_HORIZONTAL} />
                 </svg>
               </span>
               <span className="dc-mono" style={{ fontSize: 12.5 }}>
-                Phosphor align bottom · 256 grid
+                Phosphor align center horizontal simple · 256 grid
               </span>
             </div>
           </div>

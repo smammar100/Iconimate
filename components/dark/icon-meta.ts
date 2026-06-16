@@ -36,6 +36,16 @@ export const ICON_META: Record<string, IconMeta> = {
   alien: { motion: "glow eyes", glow: "#22C55E" },
   "align-bottom": { motion: "drop", glow: "#5B8DEF" },
   "align-bottom-simple": { motion: "drop", glow: "#5B8DEF" },
+  "align-center-horizontal": { motion: "drop", glow: "#5B8DEF" },
+  "align-center-horizontal-simple": { motion: "drop", glow: "#5B8DEF" },
+  "align-center-vertical": { motion: "drop", glow: "#5B8DEF" },
+  "align-center-vertical-simple": { motion: "drop", glow: "#5B8DEF" },
+  "align-left": { motion: "drop", glow: "#5B8DEF" },
+  "align-left-simple": { motion: "drop", glow: "#5B8DEF" },
+  "align-right": { motion: "drop", glow: "#5B8DEF" },
+  "align-right-simple": { motion: "drop", glow: "#5B8DEF" },
+  "align-top": { motion: "drop", glow: "#5B8DEF" },
+  "align-top-simple": { motion: "drop", glow: "#5B8DEF" },
 };
 
 export const META_FALLBACK: IconMeta = { motion: "spring", glow: "#6E56F7" };

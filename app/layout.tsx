@@ -49,7 +49,7 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${grotesk.variable} ${mono.variable} ${doto.variable}`}
     >
-      <body>
+      <body suppressHydrationWarning>
         <AppProvider initialColorScheme={theme ?? "dark"}>{children}</AppProvider>
       </body>
     </html>
