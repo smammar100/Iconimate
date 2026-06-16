@@ -9,14 +9,17 @@ import type { IconHandle, IconProps } from "@/lib/icon";
 // DROP — on hover only the two blocks fall in from above, hit their rest line and
 // rebound UP with diminishing hops before settling, the short right block a beat
 // behind the tall left one. Every keyframe is <= 0 (the rest line) so they bounce off
-// the floor and never dip below. The center guide axis holds perfectly still and is
-// drawn as one continuous line (it shows through the blocks' hollow centres), so it
-// never reads as a dotted/broken stub.
+// the floor and never dip below. The center guide axis holds perfectly still and runs
+// the full width behind the blocks. Each block is an outlined frame whose interior is
+// filled with the card surface colour (var(--surface)) — opaque (the axis never
+// bleeds through) and matching whatever card it sits in.
 const AXIS = "M216,120a8,8,0,0,1,0,16H40a8,8,0,0,1,0-16Z";
-const BLOCK_LEFT =
-  "M64,32H104a16,16,0,0,1,16,16V208a16,16,0,0,1-16,16H64a16,16,0,0,1-16-16V48A16,16,0,0,1,64,32ZM64,48V208h40V48Z";
-const BLOCK_RIGHT =
-  "M152,56H192a16,16,0,0,1,16,16V184a16,16,0,0,1-16,16H152a16,16,0,0,1-16-16V72A16,16,0,0,1,152,56ZM152,72V184h40V72Z";
+const LEFT_OUTER =
+  "M64,32H104a16,16,0,0,1,16,16V208a16,16,0,0,1-16,16H64a16,16,0,0,1-16-16V48A16,16,0,0,1,64,32Z";
+const LEFT_INNER = "M64,48H104V208H64Z";
+const RIGHT_OUTER =
+  "M152,56H192a16,16,0,0,1,16,16V184a16,16,0,0,1-16,16H152a16,16,0,0,1-16-16V72A16,16,0,0,1,152,56Z";
+const RIGHT_INNER = "M152,72H192V184H152Z";
 
 const FALL_BOUNCE: Transition = {
   duration: 0.95,
@@ -50,8 +53,14 @@ export const AlignCenterVerticalIcon = forwardRef<IconHandle, IconProps>(
           style={{ overflow: "visible" }}
         >
           <path d={AXIS} />
-          <motion.path variants={reduced ? undefined : dropLeft} d={BLOCK_LEFT} />
-          <motion.path variants={reduced ? undefined : dropRight} d={BLOCK_RIGHT} />
+          <motion.g variants={reduced ? undefined : dropLeft}>
+            <path d={LEFT_OUTER} />
+            <path d={LEFT_INNER} fill="var(--surface)" />
+          </motion.g>
+          <motion.g variants={reduced ? undefined : dropRight}>
+            <path d={RIGHT_OUTER} />
+            <path d={RIGHT_INNER} fill="var(--surface)" />
+          </motion.g>
         </motion.svg>
       </div>
     );

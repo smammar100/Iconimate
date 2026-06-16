@@ -9,11 +9,13 @@ import type { IconHandle, IconProps } from "@/lib/icon";
 // DROP — on hover only the block falls in from above, hits its rest line and rebounds
 // UP with diminishing hops before settling. Every keyframe is <= 0 (the rest line) so
 // it bounces off the floor and never dips below. The center guide axis holds
-// perfectly still and is drawn as one continuous line (it shows through the block's
-// hollow centre), so it never reads as a dotted/broken stub.
+// perfectly still and runs the full height behind the block. The block is an outlined
+// frame whose interior is filled with the card surface colour (var(--surface)) — so
+// it's opaque (the axis never bleeds through) and matches whatever card it sits in.
 const AXIS = "M128,32a8,8,0,0,1,8,8V216a8,8,0,0,1-16,0V40A8,8,0,0,1,128,32Z";
-const BLOCK =
-  "M48,80H208a16,16,0,0,1,16,16v64a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V96A16,16,0,0,1,48,80ZM48,96v64H208V96Z";
+const BLOCK_OUTER =
+  "M48,80H208a16,16,0,0,1,16,16v64a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V96A16,16,0,0,1,48,80Z";
+const BLOCK_INNER = "M48,96H208V160H48Z";
 
 const FALL_BOUNCE: Transition = {
   duration: 0.95,
@@ -43,7 +45,10 @@ export const AlignCenterHorizontalSimpleIcon = forwardRef<IconHandle, IconProps>
           style={{ overflow: "visible" }}
         >
           <path d={AXIS} />
-          <motion.path variants={reduced ? undefined : drop} d={BLOCK} />
+          <motion.g variants={reduced ? undefined : drop}>
+            <path d={BLOCK_OUTER} />
+            <path d={BLOCK_INNER} fill="var(--surface)" />
+          </motion.g>
         </motion.svg>
       </div>
     );
