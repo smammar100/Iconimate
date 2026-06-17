@@ -13,6 +13,11 @@ html,
 body {
   height: 100%;
 }
+html {
+  /* Reserve the scrollbar gutter on both edges so the centered layout stays
+     symmetric whether or not a vertical scrollbar is present. */
+  scrollbar-gutter: stable both-edges;
+}
 body {
   margin: 0;
   background: var(--bg);
