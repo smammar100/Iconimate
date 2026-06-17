@@ -37,6 +37,11 @@ import { AlignRightIcon } from "./align-right";
 import { AlignRightSimpleIcon } from "./align-right-simple";
 import { AlignTopIcon } from "./align-top";
 import { AlignTopSimpleIcon } from "./align-top-simple";
+import { AmazonLogoIcon } from "./amazon-logo";
+import { AmbulanceIcon } from "./ambulance";
+import { AnchorIcon } from "./anchor";
+import { AnchorSimpleIcon } from "./anchor-simple";
+import { AndroidLogoIcon } from "./android-logo";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -85,6 +90,11 @@ export const icons: IconEntry[] = [
   { slug: "align-right-simple", name: "Align Right Simple", keywords: ["align", "right", "simple", "layout", "arrange", "baseline", "block", "drop", "bounce"], Component: AlignRightSimpleIcon },
   { slug: "align-top", name: "Align Top", keywords: ["align", "top", "layout", "distribute", "arrange", "baseline", "blocks", "drop", "bounce"], Component: AlignTopIcon },
   { slug: "align-top-simple", name: "Align Top Simple", keywords: ["align", "top", "simple", "layout", "arrange", "baseline", "block", "drop", "bounce"], Component: AlignTopSimpleIcon },
+  { slug: "amazon-logo", name: "Amazon Logo", keywords: ["amazon", "logo", "brand", "shop", "shopping", "arrow", "smile", "wobble"], Component: AmazonLogoIcon },
+  { slug: "ambulance", name: "Ambulance", keywords: ["ambulance", "emergency", "medical", "hospital", "van", "vehicle", "rescue", "siren", "drive"], Component: AmbulanceIcon },
+  { slug: "anchor", name: "Anchor", keywords: ["anchor", "ship", "boat", "nautical", "sea", "marine", "harbor", "moor", "sway"], Component: AnchorIcon },
+  { slug: "anchor-simple", name: "Anchor Simple", keywords: ["anchor", "simple", "ship", "boat", "nautical", "sea", "marine", "harbor", "moor", "sway"], Component: AnchorSimpleIcon },
+  { slug: "android-logo", name: "Android Logo", keywords: ["android", "logo", "robot", "bot", "google", "mobile", "phone", "os", "blink"], Component: AndroidLogoIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -144,4 +154,9 @@ export {
   AlignRightSimpleIcon,
   AlignTopIcon,
   AlignTopSimpleIcon,
+  AmazonLogoIcon,
+  AmbulanceIcon,
+  AnchorIcon,
+  AnchorSimpleIcon,
+  AndroidLogoIcon,
 };
