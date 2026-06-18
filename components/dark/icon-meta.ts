@@ -51,6 +51,12 @@ export const ICON_META: Record<string, IconMeta> = {
   anchor: { motion: "sway", glow: "#3B82F6" },
   "anchor-simple": { motion: "sway", glow: "#3B82F6" },
   "android-logo": { motion: "hop", glow: "#3DDC84" },
+  angle: { motion: "draw", glow: "#14B8A6" },
+  angular: { motion: "flip", glow: "#DD0031" },
+  aperture: { motion: "iris", glow: "#22D3EE" },
+  "app-store-logo": { motion: "draw", glow: "#0D96F6" },
+  "app-window": { motion: "blink", glow: "#8B5CF6" },
+  "apple-logo": { motion: "flick", glow: "#A3AAAE" },
 };
 
 export const META_FALLBACK: IconMeta = { motion: "spring", glow: "#6E56F7" };

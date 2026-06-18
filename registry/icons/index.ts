@@ -42,6 +42,12 @@ import { AmbulanceIcon } from "./ambulance";
 import { AnchorIcon } from "./anchor";
 import { AnchorSimpleIcon } from "./anchor-simple";
 import { AndroidLogoIcon } from "./android-logo";
+import { AngleIcon } from "./angle";
+import { AngularIcon } from "./angular";
+import { ApertureIcon } from "./aperture";
+import { AppStoreLogoIcon } from "./app-store-logo";
+import { AppWindowIcon } from "./app-window";
+import { AppleLogoIcon } from "./apple-logo";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -95,6 +101,12 @@ export const icons: IconEntry[] = [
   { slug: "anchor", name: "Anchor", keywords: ["anchor", "ship", "boat", "nautical", "sea", "marine", "harbor", "moor", "sway"], Component: AnchorIcon },
   { slug: "anchor-simple", name: "Anchor Simple", keywords: ["anchor", "simple", "ship", "boat", "nautical", "sea", "marine", "harbor", "moor", "sway"], Component: AnchorSimpleIcon },
   { slug: "android-logo", name: "Android Logo", keywords: ["android", "logo", "robot", "bot", "google", "mobile", "phone", "os", "blink"], Component: AndroidLogoIcon },
+  { slug: "angle", name: "Angle", keywords: ["angle", "geometry", "measure", "protractor", "degree", "math", "corner", "axis", "draw"], Component: AngleIcon },
+  { slug: "angular", name: "Angular", keywords: ["angular", "logo", "brand", "framework", "shield", "badge", "javascript", "typescript", "google", "flip"], Component: AngularIcon },
+  { slug: "aperture", name: "Aperture", keywords: ["aperture", "camera", "lens", "iris", "photo", "shutter", "exposure", "f-stop", "focus", "blades"], Component: ApertureIcon },
+  { slug: "app-store-logo", name: "App Store Logo", keywords: ["app store", "apple", "ios", "logo", "brand", "download", "apps", "draw"], Component: AppStoreLogoIcon },
+  { slug: "app-window", name: "App Window", keywords: ["app", "window", "browser", "screen", "ui", "application", "desktop", "dots", "blink"], Component: AppWindowIcon },
+  { slug: "apple-logo", name: "Apple Logo", keywords: ["apple", "logo", "brand", "fruit", "mac", "ios", "leaf", "flick"], Component: AppleLogoIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -159,4 +171,10 @@ export {
   AnchorIcon,
   AnchorSimpleIcon,
   AndroidLogoIcon,
+  AngleIcon,
+  AngularIcon,
+  ApertureIcon,
+  AppStoreLogoIcon,
+  AppWindowIcon,
+  AppleLogoIcon,
 };
