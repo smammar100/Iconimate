@@ -84,7 +84,7 @@ const drawStomp: Variants = {
   },
 };
 
-export const AppStoreDrawStompIcon = forwardRef<IconHandle, IconProps>(
+const AppStoreDrawStompIcon = forwardRef<IconHandle, IconProps>(
   function AppStoreDrawStompIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -120,7 +120,7 @@ const stomp: Variants = {
   },
 };
 
-export const AppStoreStompIcon = forwardRef<IconHandle, IconProps>(
+const AppStoreStompIcon = forwardRef<IconHandle, IconProps>(
   function AppStoreStompIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -143,7 +143,7 @@ const bounce: Variants = {
   },
 };
 
-export const AppStoreBounceIcon = forwardRef<IconHandle, IconProps>(
+const AppStoreBounceIcon = forwardRef<IconHandle, IconProps>(
   function AppStoreBounceIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -166,7 +166,7 @@ const pop: Variants = {
   },
 };
 
-export const AppStorePopIcon = forwardRef<IconHandle, IconProps>(
+const AppStorePopIcon = forwardRef<IconHandle, IconProps>(
   function AppStorePopIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -189,7 +189,7 @@ const wobble: Variants = {
   },
 };
 
-export const AppStoreWobbleIcon = forwardRef<IconHandle, IconProps>(
+const AppStoreWobbleIcon = forwardRef<IconHandle, IconProps>(
   function AppStoreWobbleIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -204,7 +204,7 @@ export const AppStoreWobbleIcon = forwardRef<IconHandle, IconProps>(
 );
 
 /* ── 6. DRAW — the outline traces itself on and fills, no stomp. ───────────── */
-export const AppStoreDrawIcon = forwardRef<IconHandle, IconProps>(
+const AppStoreDrawIcon = forwardRef<IconHandle, IconProps>(
   function AppStoreDrawIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);

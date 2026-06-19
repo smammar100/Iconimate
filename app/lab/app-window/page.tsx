@@ -65,7 +65,7 @@ const blink: Variants = {
   },
 };
 
-export const AppWindowBlinkIcon = forwardRef<IconHandle, IconProps>(
+const AppWindowBlinkIcon = forwardRef<IconHandle, IconProps>(
   function AppWindowBlinkIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -94,7 +94,7 @@ const open: Variants = {
   },
 };
 
-export const AppWindowOpenIcon = forwardRef<IconHandle, IconProps>(
+const AppWindowOpenIcon = forwardRef<IconHandle, IconProps>(
   function AppWindowOpenIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -122,7 +122,7 @@ const loadDot: Variants = {
   }),
 };
 
-export const AppWindowLoadIcon = forwardRef<IconHandle, IconProps>(
+const AppWindowLoadIcon = forwardRef<IconHandle, IconProps>(
   function AppWindowLoadIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -148,7 +148,7 @@ const pop: Variants = {
   },
 };
 
-export const AppWindowPopIcon = forwardRef<IconHandle, IconProps>(
+const AppWindowPopIcon = forwardRef<IconHandle, IconProps>(
   function AppWindowPopIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -177,7 +177,7 @@ const tilt: Variants = {
   },
 };
 
-export const AppWindowTiltIcon = forwardRef<IconHandle, IconProps>(
+const AppWindowTiltIcon = forwardRef<IconHandle, IconProps>(
   function AppWindowTiltIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);

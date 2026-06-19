@@ -66,7 +66,7 @@ const stamp: Variants = {
   },
 };
 
-export const AngularStampIcon = forwardRef<IconHandle, IconProps>(
+const AngularStampIcon = forwardRef<IconHandle, IconProps>(
   function AngularStampIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -90,7 +90,7 @@ const flip: Variants = {
   animate: { rotateY: [0, 360], transition: { duration: 0.85, ease: SWEEP } },
 };
 
-export const AngularFlipIcon = forwardRef<IconHandle, IconProps>(
+const AngularFlipIcon = forwardRef<IconHandle, IconProps>(
   function AngularFlipIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -118,7 +118,7 @@ const letter: Variants = {
   },
 };
 
-export const AngularLetterIcon = forwardRef<IconHandle, IconProps>(
+const AngularLetterIcon = forwardRef<IconHandle, IconProps>(
   function AngularLetterIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -143,7 +143,7 @@ const pulse: Variants = {
   },
 };
 
-export const AngularPulseIcon = forwardRef<IconHandle, IconProps>(
+const AngularPulseIcon = forwardRef<IconHandle, IconProps>(
   function AngularPulseIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -171,7 +171,7 @@ const tilt: Variants = {
   },
 };
 
-export const AngularTiltIcon = forwardRef<IconHandle, IconProps>(
+const AngularTiltIcon = forwardRef<IconHandle, IconProps>(
   function AngularTiltIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);

@@ -112,12 +112,12 @@ const make = (variants: Variants) =>
     return <Variant {...props} variants={variants} forwardedRef={ref} />;
   });
 
-export const ApertureIrisIcon = make(iris);
-export const ApertureSpinIcon = make(spin);
-export const AperturePulseIcon = make(pulse);
-export const ApertureSnapIcon = make(snap);
-export const ApertureOpenIcon = make(open);
-export const ApertureShutterIcon = make(shutter);
+const ApertureIrisIcon = make(iris);
+const ApertureSpinIcon = make(spin);
+const AperturePulseIcon = make(pulse);
+const ApertureSnapIcon = make(snap);
+const ApertureOpenIcon = make(open);
+const ApertureShutterIcon = make(shutter);
 
 /* ── Preview grid ──────────────────────────────────────────────────────────── */
 

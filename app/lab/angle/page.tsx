@@ -78,7 +78,7 @@ const measureArc: Variants = {
   },
 };
 
-export const AngleMeasureIcon = forwardRef<IconHandle, IconProps>(
+const AngleMeasureIcon = forwardRef<IconHandle, IconProps>(
   function AngleMeasureIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -102,7 +102,7 @@ const hinge: Variants = {
   animate: { rotate: [0, -9, 0], transition: { duration: 0.7, ease: OVERSHOOT } },
 };
 
-export const AngleHingeIcon = forwardRef<IconHandle, IconProps>(
+const AngleHingeIcon = forwardRef<IconHandle, IconProps>(
   function AngleHingeIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -131,7 +131,7 @@ const sweep: Variants = {
   },
 };
 
-export const AngleSweepIcon = forwardRef<IconHandle, IconProps>(
+const AngleSweepIcon = forwardRef<IconHandle, IconProps>(
   function AngleSweepIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -158,7 +158,7 @@ const pop: Variants = {
   },
 };
 
-export const AnglePopIcon = forwardRef<IconHandle, IconProps>(
+const AnglePopIcon = forwardRef<IconHandle, IconProps>(
   function AnglePopIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -197,7 +197,7 @@ const drawArc: Variants = {
   },
 };
 
-export const AngleDrawIcon = forwardRef<IconHandle, IconProps>(
+const AngleDrawIcon = forwardRef<IconHandle, IconProps>(
   function AngleDrawIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);

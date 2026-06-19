@@ -67,7 +67,7 @@ const pop: Variants = {
   },
 };
 
-export const AppleLogoPopIcon = forwardRef<IconHandle, IconProps>(
+const AppleLogoPopIcon = forwardRef<IconHandle, IconProps>(
   function AppleLogoPopIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -93,7 +93,7 @@ const bounce: Variants = {
   },
 };
 
-export const AppleLogoBounceIcon = forwardRef<IconHandle, IconProps>(
+const AppleLogoBounceIcon = forwardRef<IconHandle, IconProps>(
   function AppleLogoBounceIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -119,7 +119,7 @@ const wobble: Variants = {
   },
 };
 
-export const AppleLogoWobbleIcon = forwardRef<IconHandle, IconProps>(
+const AppleLogoWobbleIcon = forwardRef<IconHandle, IconProps>(
   function AppleLogoWobbleIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -146,7 +146,7 @@ const grow: Variants = {
   },
 };
 
-export const AppleLogoGrowIcon = forwardRef<IconHandle, IconProps>(
+const AppleLogoGrowIcon = forwardRef<IconHandle, IconProps>(
   function AppleLogoGrowIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -172,7 +172,7 @@ const leafSway: Variants = {
   },
 };
 
-export const AppleLogoLeafIcon = forwardRef<IconHandle, IconProps>(
+const AppleLogoLeafIcon = forwardRef<IconHandle, IconProps>(
   function AppleLogoLeafIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
@@ -212,7 +212,7 @@ const biteLeaf: Variants = {
   },
 };
 
-export const AppleLogoBiteIcon = forwardRef<IconHandle, IconProps>(
+const AppleLogoBiteIcon = forwardRef<IconHandle, IconProps>(
   function AppleLogoBiteIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
