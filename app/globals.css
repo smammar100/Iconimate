@@ -101,17 +101,46 @@ body {
   --green-900: #107d32;
   --green-1000: #003a00;
 
-  /* ── Elevation (Light) — hierarchy from tone first, shadows stay subtle ── */
-  --shadow-card: 0 2px 2px rgba(0, 0, 0, 0.04);
-  --shadow-popover: 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 8px -4px rgba(0, 0, 0, 0.04),
-    0 16px 24px -8px rgba(0, 0, 0, 0.06);
-  --shadow-modal: 0 1px 1px rgba(0, 0, 0, 0.02), 0 8px 16px -4px rgba(0, 0, 0, 0.04),
-    0 24px 32px -8px rgba(0, 0, 0, 0.06);
+  /* ── Elevation ladder (Light) — fluidfunctionalism "surfaces" ────────────
+     8-step surface + shadow ladder. Light: two faint color steps then flat
+     white, differentiated by an accumulating drop-shadow ladder. */
+  --surface-1: #fafafa;
+  --surface-2: #fcfcfc;
+  --surface-3: #ffffff;
+  --surface-4: #ffffff;
+  --surface-5: #ffffff;
+  --surface-6: #ffffff;
+  --surface-7: #ffffff;
+  --surface-8: #ffffff;
+  --shadow-color: rgb(0 0 0 / 0.06);
+  --shadow-1: 0 0 0 1px var(--shadow-color);
+  --shadow-2: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color);
+  --shadow-3: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color),
+    0 3px 3px -1.5px var(--shadow-color);
+  --shadow-4: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color),
+    0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color);
+  --shadow-5: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color),
+    0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color),
+    0 12px 12px -6px var(--shadow-color);
+  --shadow-6: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color),
+    0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color),
+    0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color);
+  --shadow-7: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color),
+    0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color),
+    0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color),
+    0 48px 48px -24px var(--shadow-color);
+  --shadow-8: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color),
+    0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color),
+    0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color),
+    0 48px 48px -24px var(--shadow-color), 0 96px 96px -48px var(--shadow-color);
+  /* Semantic elevation steps the app reads */
+  --shadow-card: var(--shadow-2); /* resting cards / inputs */
+  --shadow-popover: var(--shadow-4); /* toasts / floating chips */
+  --shadow-modal: var(--shadow-6); /* dialog / command palette */
 
   /* ── Semantic aliases (the app reads these) ──────────────────────────── */
-  --bg: var(--background-100);
-  --surface: var(--background-100);
-  --surface-2: var(--background-200);
+  --bg: var(--background-100); /* substrate, level 0 */
+  --surface: var(--surface-2); /* default raised surface (cards, inputs) */
   --border: var(--gray-alpha-400); /* 400 = default border */
   --border-2: var(--gray-alpha-500); /* 500 = hover border */
   --text: var(--gray-1000); /* 1000 = primary text */
@@ -122,7 +151,7 @@ body {
   --iword-rest: var(--gray-700);
   --accent: var(--blue-700); /* links, focus, success-state */
   --green: var(--green-700); /* success */
-  --cmdk-bg: var(--background-100);
+  --cmdk-bg: var(--surface-4); /* dialog sits high on the ladder */
   --overlay: var(--gray-alpha-700);
   --toast-bg: var(--gray-1000); /* dark inverted toast on light surfaces */
   --toast-text: var(--background-100);
@@ -179,18 +208,57 @@ body {
   --amber-800: #ffae00;
   --green-700: #45cb62;
 
-  --shadow-card: 0 2px 2px rgba(0, 0, 0, 0.3);
-  --shadow-popover: 0 1px 1px rgba(0, 0, 0, 0.15), 0 4px 8px -4px rgba(0, 0, 0, 0.25),
-    0 16px 24px -8px rgba(0, 0, 0, 0.35);
-  --shadow-modal: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 16px -4px rgba(0, 0, 0, 0.25),
-    0 24px 32px -8px rgba(0, 0, 0, 0.4);
+  /* ── Elevation ladder (Dark) — additive white-opacity surfaces with layered
+     inset highlights + drop shadows. fluidfunctionalism "surfaces". ────────── */
+  --surface-1: #171717;
+  --surface-2: #1e1e1e;
+  --surface-3: #252525;
+  --surface-4: #2c2c2c;
+  --surface-5: #333333;
+  --surface-6: #3a3a3a;
+  --surface-7: #414141;
+  --surface-8: #484848;
+  --dm-hi-base: rgba(255, 255, 255, 0.01);
+  --dm-hi-mid: rgba(255, 255, 255, 0.02);
+  --dm-hi-high: rgba(255, 255, 255, 0.04);
+  --dm-hi-peak: rgba(255, 255, 255, 0.06);
+  --dm-ring-base: rgba(255, 255, 255, 0.02);
+  --dm-ring-mid: rgba(255, 255, 255, 0.04);
+  --dm-ring-high: rgba(255, 255, 255, 0.06);
+  --dm-drop: rgba(0, 0, 0, 0.18);
+  --shadow-1: inset 0 0 0 1px var(--dm-ring-base);
+  --shadow-2: inset 0 1px 0 0 var(--dm-hi-base), inset 0 0 0 1px var(--dm-ring-base),
+    0 1px 1px -0.5px var(--dm-drop);
+  --shadow-3: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-base),
+    0 0 0 1px rgba(0, 0, 0, 0.12), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop);
+  --shadow-4: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-mid),
+    0 0 0 1px rgba(0, 0, 0, 0.14), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop),
+    0 6px 6px -3px var(--dm-drop);
+  --shadow-5: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-mid),
+    0 0 0 1px rgba(0, 0, 0, 0.16), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop),
+    0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop);
+  --shadow-6: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-high),
+    0 0 0 1px rgba(0, 0, 0, 0.18), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop),
+    0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop);
+  --shadow-7: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high),
+    0 0 0 1px rgba(0, 0, 0, 0.2), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop),
+    0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop),
+    0 48px 48px -24px var(--dm-drop);
+  --shadow-8: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high),
+    0 0 0 1px rgba(0, 0, 0, 0.22), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop),
+    0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop),
+    0 48px 48px -24px var(--dm-drop), 0 96px 96px -48px var(--dm-drop);
+  --shadow-card: var(--shadow-2);
+  --shadow-popover: var(--shadow-4);
+  --shadow-modal: var(--shadow-6);
 
   --text-dim: var(--gray-800); /* secondary on dark = #a1a1a1 */
+  --surface: var(--surface-2);
   --accent: var(--blue-800);
   --overlay: rgba(0, 0, 0, 0.7);
-  --cmdk-bg: var(--background-100);
-  --toast-bg: var(--gray-1000);
-  --toast-text: var(--background-100);
+  --cmdk-bg: var(--surface-4);
+  --toast-bg: var(--surface-3); /* lifted dark surface, no longer inverted */
+  --toast-text: var(--gray-1000);
   --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--blue-800);
 }
 
@@ -365,7 +433,7 @@ body {
   height: 46px;
   padding: 0 8px 0 16px;
   border-radius: 6px; /* Geist sm */
-  background: var(--background-100);
+  background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-card);
   font-family: var(--mono-font);
@@ -445,7 +513,7 @@ body {
   padding: 0 10px 0 14px;
   border-radius: 6px;
   border: 1px solid var(--border);
-  background: var(--background-100);
+  background: var(--surface);
   color: var(--text-faint);
   font-family: var(--ui-font);
   font-size: 14px;
@@ -472,7 +540,7 @@ body {
 .dc-card {
   position: relative;
   border-radius: 6px; /* Geist: everyday surface */
-  background: var(--background-100);
+  background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-card);
   padding: 22px 16px 16px;
@@ -858,7 +926,7 @@ body {
   align-items: center;
   gap: 14px;
   border: 1px solid var(--border);
-  background: var(--background-100);
+  background: var(--surface);
   border-radius: 6px;
   box-shadow: var(--shadow-card);
   padding: 12px 16px;
@@ -879,7 +947,7 @@ body {
 .lab-card {
   position: relative;
   border: 1px solid var(--border);
-  background: var(--background-100);
+  background: var(--surface);
   border-radius: 6px;
   box-shadow: var(--shadow-card);
   padding: 30px 16px 18px;

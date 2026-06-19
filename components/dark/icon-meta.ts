@@ -57,6 +57,12 @@ export const ICON_META: Record<string, IconMeta> = {
   "app-store-logo": { motion: "draw", glow: "#0D96F6" },
   "app-window": { motion: "blink", glow: "#8B5CF6" },
   "apple-logo": { motion: "flick", glow: "#A3AAAE" },
+  "apple-podcasts-logo": { motion: "wave", glow: "#A855F7" },
+  "approximate-equals": { motion: "nudge", glow: "#2DD4BF" },
+  archive: { motion: "stash", glow: "#F59E0B" },
+  armchair: { motion: "puff", glow: "#14B8A6" },
+  "arrow-arc-left": { motion: "draw", glow: "#3B82F6" },
+  "arrow-arc-right": { motion: "draw", glow: "#6366F1" },
 };
 
 export const META_FALLBACK: IconMeta = { motion: "spring", glow: "#6E56F7" };

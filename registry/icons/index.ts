@@ -48,6 +48,12 @@ import { ApertureIcon } from "./aperture";
 import { AppStoreLogoIcon } from "./app-store-logo";
 import { AppWindowIcon } from "./app-window";
 import { AppleLogoIcon } from "./apple-logo";
+import { ApplePodcastsLogoIcon } from "./apple-podcasts-logo";
+import { ApproximateEqualsIcon } from "./approximate-equals";
+import { ArchiveIcon } from "./archive";
+import { ArmchairIcon } from "./armchair";
+import { ArrowArcLeftIcon } from "./arrow-arc-left";
+import { ArrowArcRightIcon } from "./arrow-arc-right";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -107,6 +113,12 @@ export const icons: IconEntry[] = [
   { slug: "app-store-logo", name: "App Store Logo", keywords: ["app store", "apple", "ios", "logo", "brand", "download", "apps", "draw"], Component: AppStoreLogoIcon },
   { slug: "app-window", name: "App Window", keywords: ["app", "window", "browser", "screen", "ui", "application", "desktop", "dots", "blink"], Component: AppWindowIcon },
   { slug: "apple-logo", name: "Apple Logo", keywords: ["apple", "logo", "brand", "fruit", "mac", "ios", "leaf", "flick"], Component: AppleLogoIcon },
+  { slug: "apple-podcasts-logo", name: "Apple Podcasts Logo", keywords: ["apple", "podcasts", "podcast", "broadcast", "audio", "microphone", "mic", "logo", "brand"], Component: ApplePodcastsLogoIcon },
+  { slug: "approximate-equals", name: "Approximate Equals", keywords: ["approximately", "equal", "almost", "roughly", "math", "tilde", "wave", "≈"], Component: ApproximateEqualsIcon },
+  { slug: "archive", name: "Archive", keywords: ["box", "storage", "store", "save", "file", "inbox", "lid", "stash"], Component: ArchiveIcon },
+  { slug: "armchair", name: "Armchair", keywords: ["chair", "seat", "sofa", "couch", "furniture", "lounge", "cushion", "puff"], Component: ArmchairIcon },
+  { slug: "arrow-arc-left", name: "Arrow Arc Left", keywords: ["undo", "back", "rewind", "refresh", "rotate", "counter-clockwise", "arc", "return"], Component: ArrowArcLeftIcon },
+  { slug: "arrow-arc-right", name: "Arrow Arc Right", keywords: ["redo", "forward", "refresh", "rotate", "clockwise", "arc", "reload"], Component: ArrowArcRightIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -177,4 +189,10 @@ export {
   AppStoreLogoIcon,
   AppWindowIcon,
   AppleLogoIcon,
+  ApplePodcastsLogoIcon,
+  ApproximateEqualsIcon,
+  ArchiveIcon,
+  ArmchairIcon,
+  ArrowArcLeftIcon,
+  ArrowArcRightIcon,
 };
