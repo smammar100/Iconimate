@@ -224,8 +224,8 @@ export default function AppWindowLabPage() {
     <main
       style={{
         minHeight: "100vh",
-        background: "#0b0b0c",
-        color: "#ededed",
+        background: "var(--bg)",
+        color: "var(--text)",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -258,8 +258,8 @@ export default function AppWindowLabPage() {
               gap: 14,
               padding: "32px 16px 22px",
               borderRadius: 16,
-              background: "#161618",
-              border: "1px solid #232326",
+              background: "var(--surface)",
+              border: "1px solid var(--border-2)",
               outline: "none",
             }}
           >
@@ -268,7 +268,7 @@ export default function AppWindowLabPage() {
                 refs.current[i] = el;
               }}
               size={56}
-              style={{ color: "#fafafa" }}
+              style={{ color: "var(--text-strong)" }}
             />
             <div style={{ textAlign: "center" }}>
               <div style={{ fontSize: 14, fontWeight: 600 }}>{name}</div>

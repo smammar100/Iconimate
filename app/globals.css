@@ -1,12 +1,13 @@
 /*
- * Iconimate — Nothing-inspired design system.
- * Monochrome canvas, typographically driven, dot-matrix display moments, a single
- * red signal. Dark (OLED black / instrument panel) and light (off-white technical
- * manual) are both first-class. Theme tokens live on :root (dark default) with a
- * [data-theme="light"] override on <html>; the cookie set by the nav toggle applies
- * server-side (no flash), and untouched visitors follow the system preference.
+ * Iconimate — Vercel Geist design system.
+ * Minimal, high-contrast, content on near-neutral surfaces with generous
+ * whitespace; color signals state/hierarchy, not decoration. Geist Sans (UI/prose)
+ * + Geist Mono (code/data). Light is the documented default (:root); dark is the
+ * same token names with Geist dark values via [data-theme="dark"]. The cookie set
+ * by the nav toggle applies server-side (no flash).
  *
  * The legacy dc- and lab- class names are retained; only their styling changes.
+ * Icon animation components under registry/ are intentionally untouched.
  */
 
 html,
@@ -20,103 +21,188 @@ html {
 }
 body {
   margin: 0;
-  background: var(--bg);
+  /* Geist: content sits on near-neutral surfaces with plenty of whitespace —
+     no decorative texture. */
+  background-color: var(--bg);
+  color: var(--text);
 }
 
+/*
+ * Vercel Geist — Light theme is the documented default (this file). Dark is the
+ * same token names with Geist's dark values, applied via [data-theme="dark"].
+ * Step semantics per scale: 100 bg · 200 hover bg · 300 active bg · 400 border ·
+ * 500 hover border · 600 active border · 700 solid fill · 800 fill hover ·
+ * 900 secondary text/icon · 1000 primary text/icon.
+ */
 :root {
-  color-scheme: dark;
-  /* Nothing — Dark (OLED black, white data glowing) */
-  --bg: #000000;
-  --surface: #111111;
-  --surface-2: #1a1a1a;
-  --border: #222222;
-  --border-2: #333333;
-  --text: #e8e8e8; /* text-primary */
-  --text-dim: #999999; /* text-secondary — labels, captions */
-  --text-faint: #666666; /* text-disabled — timestamps, hints */
-  --text-strong: #ffffff; /* text-display — headlines, hero numbers */
-  --icon: #e8e8e8;
-  --iword-rest: #999999;
-  --iword-glint: #ffffff;
-  --accent: #d71921; /* the single red signal */
-  --accent-bright: #d71921;
-  --accent-soft: rgba(215, 25, 33, 0.15);
-  --accent-glow: rgba(215, 25, 33, 0.15);
-  --success: #4a9e5c;
-  --warning: #d4a843;
-  --cmdk-bg: #111111;
-  --overlay: rgba(0, 0, 0, 0.8);
-  --toast-bg: #111111;
-  --dot: rgba(255, 255, 255, 0.05); /* dot-matrix motif */
-
-  --ui-font: var(--font-grotesk), "DM Sans", system-ui, -apple-system, sans-serif;
-  --mono-font: var(--font-mono), "JetBrains Mono", "SF Mono", ui-monospace, monospace;
-  --display-font: var(--font-doto), var(--font-mono), ui-monospace, monospace;
-  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-:root[data-theme="light"] {
   color-scheme: light;
-  /* Nothing — Light (off-white paper, black ink) */
-  --bg: #f5f5f5;
-  --surface: #ffffff;
-  --surface-2: #f0f0f0;
-  --border: #e8e8e8;
-  --border-2: #cccccc;
-  --text: #1a1a1a;
-  --text-dim: #666666;
-  --text-faint: #999999;
-  --text-strong: #000000;
-  --icon: #1a1a1a;
-  --iword-rest: #666666;
-  --iword-glint: #000000;
-  --accent: #d71921;
-  --accent-bright: #d71921;
-  --accent-soft: rgba(215, 25, 33, 0.12);
-  --accent-glow: rgba(215, 25, 33, 0.12);
-  --success: #4a9e5c;
-  --warning: #d4a843;
-  --cmdk-bg: #ffffff;
-  --overlay: rgba(0, 0, 0, 0.45);
-  --toast-bg: #ffffff;
-  --dot: rgba(0, 0, 0, 0.06);
+
+  /* ── Geist palette (Light, sRGB) ─────────────────────────────────────── */
+  --background-100: #ffffff;
+  --background-200: #fafafa;
+  --gray-100: #f2f2f2;
+  --gray-200: #ebebeb;
+  --gray-300: #e6e6e6;
+  --gray-400: #eaeaea;
+  --gray-500: #c9c9c9;
+  --gray-600: #a8a8a8;
+  --gray-700: #8f8f8f;
+  --gray-800: #7d7d7d;
+  --gray-900: #4d4d4d;
+  --gray-1000: #171717;
+  --gray-alpha-100: #0000000d;
+  --gray-alpha-200: #00000015;
+  --gray-alpha-300: #0000001a;
+  --gray-alpha-400: #00000014;
+  --gray-alpha-500: #00000036;
+  --gray-alpha-600: #0000003d;
+  --gray-alpha-700: #00000070;
+  --gray-alpha-800: #00000082;
+  --gray-alpha-900: #000000b3;
+  --gray-alpha-1000: #000000e8;
+  --blue-100: #f0f7ff;
+  --blue-200: #e9f4ff;
+  --blue-300: #dfefff;
+  --blue-400: #cae7ff;
+  --blue-500: #94ccff;
+  --blue-600: #48aeff;
+  --blue-700: #006bff;
+  --blue-800: #0059ec;
+  --blue-900: #005ff2;
+  --blue-1000: #002359;
+  --red-100: #ffeeef;
+  --red-200: #ffe8ea;
+  --red-300: #ffe3e4;
+  --red-400: #ffd7d6;
+  --red-500: #ffb1b3;
+  --red-600: #ff676d;
+  --red-700: #fc0035;
+  --red-800: #ea001d;
+  --red-900: #d8001b;
+  --red-1000: #47000c;
+  --amber-100: #fff6de;
+  --amber-200: #fff4cf;
+  --amber-300: #fff1c1;
+  --amber-400: #ffdc73;
+  --amber-500: #ffc543;
+  --amber-600: #ffa600;
+  --amber-700: #ffae00;
+  --amber-800: #ff9300;
+  --amber-900: #aa4d00;
+  --amber-1000: #561900;
+  --green-100: #ecfdec;
+  --green-200: #e5fce7;
+  --green-300: #d3fad1;
+  --green-400: #b9f5bc;
+  --green-500: #82eb8d;
+  --green-600: #4ce15e;
+  --green-700: #28a948;
+  --green-800: #279141;
+  --green-900: #107d32;
+  --green-1000: #003a00;
+
+  /* ── Elevation (Light) — hierarchy from tone first, shadows stay subtle ── */
+  --shadow-card: 0 2px 2px rgba(0, 0, 0, 0.04);
+  --shadow-popover: 0 1px 1px rgba(0, 0, 0, 0.02), 0 4px 8px -4px rgba(0, 0, 0, 0.04),
+    0 16px 24px -8px rgba(0, 0, 0, 0.06);
+  --shadow-modal: 0 1px 1px rgba(0, 0, 0, 0.02), 0 8px 16px -4px rgba(0, 0, 0, 0.04),
+    0 24px 32px -8px rgba(0, 0, 0, 0.06);
+
+  /* ── Semantic aliases (the app reads these) ──────────────────────────── */
+  --bg: var(--background-100);
+  --surface: var(--background-100);
+  --surface-2: var(--background-200);
+  --border: var(--gray-alpha-400); /* 400 = default border */
+  --border-2: var(--gray-alpha-500); /* 500 = hover border */
+  --text: var(--gray-1000); /* 1000 = primary text */
+  --text-dim: var(--gray-900); /* 900 = secondary text */
+  --text-faint: var(--gray-700); /* 700 = disabled */
+  --text-strong: var(--gray-1000);
+  --icon: var(--gray-1000);
+  --iword-rest: var(--gray-700);
+  --accent: var(--blue-700); /* links, focus, success-state */
+  --green: var(--green-700); /* success */
+  --cmdk-bg: var(--background-100);
+  --overlay: var(--gray-alpha-700);
+  --toast-bg: var(--gray-1000); /* dark inverted toast on light surfaces */
+  --toast-text: var(--background-100);
+
+  /* Focus: 2px surface gap, then 2px blue-700 ring */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--blue-700);
+
+  /* Geist type — Sans for UI/prose, Mono for code/data */
+  --ui-font: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  --heading-font: var(--ui-font);
+  --mono-font: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  /* Geist motion easing — short, physical */
+  --ease: cubic-bezier(0.175, 0.885, 0.32, 1.1);
 }
-/* Until an explicit choice is stored, follow the system preference. */
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]):not([data-theme="light"]) {
-    color-scheme: light;
-    --bg: #f5f5f5;
-    --surface: #ffffff;
-    --surface-2: #f0f0f0;
-    --border: #e8e8e8;
-    --border-2: #cccccc;
-    --text: #1a1a1a;
-    --text-dim: #666666;
-    --text-faint: #999999;
-    --text-strong: #000000;
-    --icon: #1a1a1a;
-    --iword-rest: #666666;
-    --iword-glint: #000000;
-    --accent-soft: rgba(215, 25, 33, 0.12);
-    --accent-glow: rgba(215, 25, 33, 0.12);
-    --cmdk-bg: #ffffff;
-    --overlay: rgba(0, 0, 0, 0.45);
-    --toast-bg: #ffffff;
-    --dot: rgba(0, 0, 0, 0.06);
+
+/* Wide-gamut accent for Display P3 screens (sRGB above is the fallback). */
+@media (color-gamut: p3) {
+  :root {
+    --blue-700: oklch(57.61% 0.2508 258.23);
+    --red-800: oklch(58.19% 0.2482 25.15);
+    --amber-800: oklch(77.21% 0.1991 64.28);
+    --green-700: oklch(64.58% 0.1746 147.27);
   }
+}
+
+/* ── Geist Dark — same token names, dark values ──────────────────────────── */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background-100: #0a0a0a;
+  --background-200: #000000;
+  --gray-100: #1a1a1a;
+  --gray-200: #1f1f1f;
+  --gray-300: #292929;
+  --gray-400: #2e2e2e;
+  --gray-500: #454545;
+  --gray-600: #878787;
+  --gray-700: #8f8f8f;
+  --gray-800: #a1a1a1;
+  --gray-900: #ededed;
+  --gray-1000: #ededed;
+  --gray-alpha-100: #ffffff0f;
+  --gray-alpha-200: #ffffff14;
+  --gray-alpha-300: #ffffff1f;
+  --gray-alpha-400: #ffffff24;
+  --gray-alpha-500: #ffffff2e;
+  --gray-alpha-600: #ffffff3d;
+  --gray-alpha-700: #ffffff70;
+  --blue-100: #0f1b2d;
+  --blue-200: #10243e;
+  --blue-700: #0072f5;
+  --blue-800: #0a85ff;
+  --red-100: #2a1314;
+  --red-800: #ff4d4d;
+  --amber-800: #ffae00;
+  --green-700: #45cb62;
+
+  --shadow-card: 0 2px 2px rgba(0, 0, 0, 0.3);
+  --shadow-popover: 0 1px 1px rgba(0, 0, 0, 0.15), 0 4px 8px -4px rgba(0, 0, 0, 0.25),
+    0 16px 24px -8px rgba(0, 0, 0, 0.35);
+  --shadow-modal: 0 1px 1px rgba(0, 0, 0, 0.15), 0 8px 16px -4px rgba(0, 0, 0, 0.25),
+    0 24px 32px -8px rgba(0, 0, 0, 0.4);
+
+  --text-dim: var(--gray-800); /* secondary on dark = #a1a1a1 */
+  --accent: var(--blue-800);
+  --overlay: rgba(0, 0, 0, 0.7);
+  --cmdk-bg: var(--background-100);
+  --toast-bg: var(--gray-1000);
+  --toast-text: var(--background-100);
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--blue-800);
 }
 
 .dc {
   position: relative;
   min-height: 100vh;
-  background: var(--bg);
+  background: transparent; /* sits on the body surface */
   color: var(--text);
   font-family: var(--ui-font);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
-  /* dot-matrix motif — faint, uniform, never a border */
-  background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
-  background-size: 22px 22px;
 }
 .dc *,
 .dc *::before,
@@ -126,6 +212,14 @@ body {
 .dc a {
   color: inherit;
   text-decoration: none;
+}
+/* Geist: every interactive element shows a two-layer focus ring at :focus-visible. */
+.dc a:focus-visible,
+.dc button:focus-visible,
+.dc [tabindex]:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 6px;
 }
 .dc-mono {
   font-family: var(--mono-font);
@@ -149,36 +243,34 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--mono-font);
-  font-weight: 400;
-  font-size: 13px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-family: var(--heading-font);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.01em;
   color: var(--text-strong);
 }
 .dc-logo-mark {
   width: 28px;
   height: 28px;
-  border-radius: 4px; /* technical */
-  background: transparent;
-  border: 1px solid var(--border-2);
-  color: var(--text-strong);
+  border-radius: 6px; /* Geist sm */
+  background: var(--gray-1000);
+  border: none;
+  color: var(--background-100);
   display: grid;
   place-items: center;
-  font-family: var(--display-font);
-  font-weight: 500;
+  font-family: var(--heading-font);
+  font-weight: 600;
   font-size: 16px;
-  letter-spacing: 0;
+  letter-spacing: -0.02em;
 }
 .dc-nav-links {
   display: flex;
   align-items: center;
   gap: 20px;
-  font-family: var(--mono-font);
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-faint);
+  font-family: var(--ui-font);
+  font-size: 14px;
+  letter-spacing: 0;
+  color: var(--text-dim);
 }
 .dc-nav-links a {
   color: var(--text-dim);
@@ -187,32 +279,36 @@ body {
 .dc-nav-links a:hover {
   color: var(--text-strong);
 }
+/* Primary button — Geist: solid gray-1000 fill, background-100 label, button-14. */
 .dc-btn {
   height: 40px;
-  padding: 0 18px;
-  border-radius: 999px; /* pill */
+  padding: 0 12px;
+  border-radius: 6px; /* Geist sm */
   border: none;
-  background: var(--text-strong);
-  color: var(--bg);
-  font-family: var(--mono-font);
-  font-weight: 400;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  background: var(--gray-1000);
+  color: var(--background-100);
+  font-family: var(--ui-font);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0;
   cursor: pointer;
   transition: opacity 0.15s var(--ease);
 }
 .dc-btn:hover {
-  opacity: 0.82;
+  opacity: 0.9;
 }
+/* Secondary button — Geist: background-100 fill, translucent gray-alpha border. */
 .dc-btn--ghost {
-  background: transparent;
-  border: 1px solid var(--border-2);
+  background: var(--background-100);
+  border: 1px solid var(--border);
   color: var(--text);
+  font-family: var(--mono-font);
 }
 .dc-btn--ghost:hover {
   opacity: 1;
-  border-color: var(--text-dim);
+  background: var(--gray-alpha-100);
+  border-color: var(--border-2);
   color: var(--text-strong);
 }
 .dc-kbd {
@@ -238,22 +334,22 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 26px;
+  height: 28px;
   padding: 0 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border-2);
-  background: transparent;
+  border-radius: 9999px; /* Geist: pills allowed at full radius */
+  border: 1px solid var(--border);
+  background: var(--background-200);
   color: var(--text-dim);
-  font-family: var(--mono-font);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0;
 }
 .dc-eyebrow__dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent); /* the single red signal */
+  background: var(--accent); /* blue = state signal */
 }
 .dc-cta {
   display: flex;
@@ -268,9 +364,10 @@ body {
   gap: 12px;
   height: 46px;
   padding: 0 8px 0 16px;
-  border-radius: 8px; /* technical */
-  background: var(--surface);
-  border: 1px solid var(--border-2);
+  border-radius: 6px; /* Geist sm */
+  background: var(--background-100);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
   font-family: var(--mono-font);
   font-size: 13px;
   color: var(--text-dim);
@@ -283,16 +380,17 @@ body {
   place-items: center;
   width: 30px;
   height: 30px;
-  border-radius: 4px;
-  border: 1px solid var(--border-2);
+  border-radius: 6px;
+  border: 1px solid var(--border);
   background: transparent;
   color: var(--text-dim);
   cursor: pointer;
-  transition: color 0.15s var(--ease), border-color 0.15s var(--ease);
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease);
 }
 .dc-install__copy:hover {
   color: var(--text-strong);
-  border-color: var(--text-dim);
+  background: var(--gray-alpha-100);
+  border-color: var(--border-2);
 }
 .dc-kbd-hint {
   display: inline-flex;
@@ -300,10 +398,9 @@ body {
   gap: 8px;
   margin-top: 0;
   color: var(--text-faint);
-  font-family: var(--mono-font);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  letter-spacing: 0;
 }
 
 /* section + grid */
@@ -322,19 +419,21 @@ body {
   display: flex;
   align-items: baseline;
   gap: 14px;
-  font-family: var(--mono-font);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-/* the data-as-beauty moment — count in dot-matrix Doto */
-.dc-section__count {
-  font-family: var(--display-font);
-  font-size: 28px;
-  line-height: 1;
-  letter-spacing: 0;
+  font-family: var(--heading-font);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: -0.02em; /* Geist heading-20 */
   color: var(--text-strong);
+}
+/* count rendered as a tabular figure (Geist Mono) — data set as data */
+.dc-section__count {
+  font-family: var(--mono-font);
+  font-variant-numeric: tabular-nums;
+  font-size: 20px;
+  line-height: 26px;
+  letter-spacing: 0;
+  color: var(--text-dim);
 }
 .dc-searchbar {
   display: inline-flex;
@@ -344,18 +443,22 @@ body {
   max-width: 100%;
   height: 42px;
   padding: 0 10px 0 14px;
-  border-radius: 8px;
-  border: 1px solid var(--border-2);
-  background: transparent;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--background-100);
   color: var(--text-faint);
-  font-family: var(--mono-font);
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-family: var(--ui-font);
+  font-size: 14px;
+  letter-spacing: 0;
   cursor: text;
-  transition: border-color 0.15s var(--ease);
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
 }
 .dc-searchbar:hover {
-  border-color: var(--text-dim);
+  border-color: var(--border-2);
+}
+.dc-searchbar:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
 }
 .dc-searchbar__spacer {
   flex: 1;
@@ -368,9 +471,10 @@ body {
 }
 .dc-card {
   position: relative;
-  border-radius: 12px;
-  background: var(--surface);
+  border-radius: 6px; /* Geist: everyday surface */
+  background: var(--background-100);
   border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
   padding: 22px 16px 16px;
   display: flex;
   flex-direction: column;
@@ -380,14 +484,14 @@ body {
   text-align: left;
   font-family: inherit;
   appearance: none;
-  transition: border-color 0.2s var(--ease);
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
 }
 .dc-card:hover {
   border-color: var(--border-2);
 }
 .dc-card:focus-visible {
   outline: none;
-  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
 }
 .dc-card__top {
   position: relative;
@@ -424,11 +528,11 @@ body {
   position: relative;
   z-index: 1;
   margin-top: 5px;
-  font-size: 10.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: capitalize;
   color: var(--text-faint);
-  font-family: var(--mono-font);
+  font-family: var(--ui-font);
 }
 
 /* command palette — flat modal, border separation, no shadow/blur */
@@ -446,8 +550,9 @@ body {
 .dc-cmdk {
   width: min(620px, 96vw);
   background: var(--cmdk-bg);
-  border: 1px solid var(--border-2);
-  border-radius: 16px;
+  border: 1px solid var(--border);
+  border-radius: 12px; /* Geist: menus & modals */
+  box-shadow: var(--shadow-modal);
   overflow: hidden;
   animation: dc-pop 0.16s var(--ease);
 }
@@ -467,6 +572,7 @@ body {
   color: var(--text-strong);
   font-size: 16px;
   font-family: var(--ui-font);
+  letter-spacing: 0;
 }
 .dc-cmdk__input::placeholder {
   color: var(--text-faint);
@@ -477,10 +583,10 @@ body {
   padding: 8px;
 }
 .dc-cmdk__group {
-  font-family: var(--mono-font);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  font-family: var(--ui-font);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0;
   color: var(--text-faint);
   padding: 14px 12px 6px;
 }
@@ -495,9 +601,9 @@ body {
   color: var(--text);
 }
 .dc-cmdk__row.is-active {
-  background: var(--surface-2);
-  border-left-color: var(--accent); /* active row indicator */
-  border-radius: 0 6px 6px 0;
+  background: var(--gray-alpha-200); /* Geist: tonal highlight, not a colored bar */
+  border-left-color: transparent;
+  border-radius: 6px;
 }
 .dc-cmdk__row-icon {
   color: var(--icon);
@@ -512,11 +618,11 @@ body {
   font-weight: 400;
 }
 .dc-cmdk__row-motion {
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: capitalize;
   color: var(--text-faint);
-  font-family: var(--mono-font);
+  font-family: var(--ui-font);
 }
 .dc-cmdk__row-right {
   margin-left: auto;
@@ -525,9 +631,8 @@ body {
   gap: 8px;
 }
 .dc-cmdk__enter {
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0;
   color: var(--accent);
   display: none;
 }
@@ -538,9 +643,9 @@ body {
   padding: 32px 16px;
   text-align: center;
   color: var(--text-faint);
-  font-family: var(--mono-font);
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-family: var(--ui-font);
+  font-size: 14px;
+  letter-spacing: 0;
 }
 .dc-cmdk__footer {
   display: flex;
@@ -550,9 +655,9 @@ body {
   padding: 12px 14px;
   border-top: 1px solid var(--border);
   color: var(--text-faint);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-family: var(--ui-font);
+  font-size: 12px;
+  letter-spacing: 0;
 }
 .dc-cmdk__legend {
   display: flex;
@@ -581,10 +686,9 @@ body {
   gap: 12px;
   flex-wrap: wrap;
   color: var(--text-faint);
-  font-family: var(--mono-font);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  letter-spacing: 0;
 }
 
 /* copy feedback — inline status, flat, no toast pill/shadow */
@@ -598,18 +702,18 @@ body {
   align-items: center;
   gap: 9px;
   padding: 10px 16px;
-  border-radius: 4px;
-  background: var(--toast-bg);
-  border: 1px solid var(--border-2);
-  color: var(--text);
-  font-family: var(--mono-font);
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  border-radius: 12px;
+  background: var(--toast-bg); /* Geist: dark inverted toast */
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-popover);
+  color: var(--toast-text);
+  font-family: var(--ui-font);
+  font-size: 14px;
+  letter-spacing: 0;
   animation: dc-fade 0.16s var(--ease);
 }
 .dc-toast__check {
-  color: var(--accent);
+  color: var(--green); /* success = green; pair with the label text */
   display: inline-flex;
 }
 
@@ -637,11 +741,11 @@ body {
   align-items: center;
 }
 .dc-ih1 {
-  font-family: var(--ui-font);
-  font-size: clamp(28px, 3.8vw, 52px);
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  font-weight: 300; /* Nothing leans light */
+  font-family: var(--heading-font);
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1; /* Geist headings: line-height tracks font-size */
+  letter-spacing: -0.06em; /* Geist heading-56 ≈ -3.36px */
+  font-weight: 600;
   color: var(--text-strong);
   margin: 22px 0 0;
 }
@@ -672,10 +776,10 @@ body {
 }
 .dc-ihero__sub {
   font-family: var(--ui-font);
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 1.55;
   color: var(--text-dim);
-  max-width: 460px;
+  max-width: 480px;
   margin: 20px auto 0;
 }
 .dc-decor-pos {
@@ -715,29 +819,29 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 26px;
-  padding: 0 12px;
+  height: 28px;
+  padding: 0 14px;
   border-radius: 999px;
-  border: 1px solid var(--border-2);
-  background: transparent;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
   color: var(--text-dim);
-  font-family: var(--mono-font);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  letter-spacing: 0;
 }
 .lab-title {
-  font-family: var(--ui-font);
-  font-size: 36px;
-  font-weight: 300;
-  letter-spacing: -0.02em;
+  font-family: var(--heading-font);
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: -0.06em; /* Geist heading-40 */
   color: var(--text-strong);
   margin: 20px 0 0;
 }
 .lab-sub {
   font-family: var(--ui-font);
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.55;
   color: var(--text-dim);
   max-width: 560px;
   margin: 12px 0 0;
@@ -753,14 +857,15 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  border: 1px solid var(--border-2);
-  background: var(--surface);
-  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--background-100);
+  border-radius: 6px;
+  box-shadow: var(--shadow-card);
   padding: 12px 16px;
   color: var(--text-dim);
   font-family: var(--mono-font);
-  font-size: 12px;
-  letter-spacing: 0.04em;
+  font-size: 13px;
+  letter-spacing: 0;
 }
 .lab-source__icon {
   color: var(--text-strong);
@@ -774,8 +879,9 @@ body {
 .lab-card {
   position: relative;
   border: 1px solid var(--border);
-  background: var(--surface);
-  border-radius: 12px;
+  background: var(--background-100);
+  border-radius: 6px;
+  box-shadow: var(--shadow-card);
   padding: 30px 16px 18px;
   display: flex;
   flex-direction: column;
@@ -793,7 +899,7 @@ body {
 }
 .lab-card:focus-visible {
   outline: none;
-  border-color: var(--accent);
+  box-shadow: var(--focus-ring);
 }
 .lab-card__num {
   position: absolute;
@@ -801,8 +907,7 @@ body {
   left: 14px;
   font-family: var(--mono-font);
   font-size: 11px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--text-faint);
 }
 .lab-card__icon {
@@ -817,10 +922,10 @@ body {
   color: var(--text);
 }
 .lab-card__hint {
-  font-family: var(--mono-font);
-  font-size: 10.5px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--ui-font);
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: capitalize;
   color: var(--text-faint);
 }
 

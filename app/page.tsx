@@ -55,7 +55,7 @@ export default function Home() {
               <span className="dc-mono" style={{ fontSize: 12 }}>⌘K</span>
             </button>
             <button type="button" className="dc-btn" onClick={() => copy("bell", "Bell")}>
-              Get all icons
+              Get All Icons
             </button>
           </div>
         </nav>
@@ -67,7 +67,7 @@ export default function Home() {
         <section id="icons" className="dc-section" style={{ scrollMarginTop: 20 }}>
           <div className="dc-section__head">
             <div className="dc-section__title">
-              All icons <span className="dc-section__count">{visibleIcons.length}</span>
+              All Icons <span className="dc-section__count">{visibleIcons.length}</span>
             </div>
             <button
               type="button"
@@ -103,7 +103,7 @@ export default function Home() {
           <span className="dc-toast__check">
             <CheckGlyph />
           </span>
-          [ COPIED ] {toast}
+          Copied {toast}
         </div>
       )}
     </main>

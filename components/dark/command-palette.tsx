@@ -57,8 +57,8 @@ export function CommandPalette({
       const recent = RECENT.map((s) => visibleIcons.find((i) => i.slug === s)).filter(Boolean) as IconEntry[];
       const rest = visibleIcons.filter((i) => !RECENT.includes(i.slug));
       return [
-        { label: "Recently added", items: recent },
-        { label: "All icons", items: rest },
+        { label: "Recently Added", items: recent },
+        { label: "All Icons", items: rest },
       ];
     }
     const matches = visibleIcons.filter(
