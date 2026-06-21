@@ -81,6 +81,11 @@ export const ICON_META: Record<string, IconMeta> = {
   "arrow-circle-up": { motion: "scroll", glow: "#2DD4BF" },
   "arrow-circle-up-left": { motion: "scroll", glow: "#2DD4BF" },
   "arrow-circle-up-right": { motion: "scroll", glow: "#2DD4BF" },
+  "arrow-clockwise": { motion: "wind", glow: "#2DD4BF" },
+  "arrow-counter-clockwise": { motion: "wind", glow: "#2DD4BF" },
+  "arrow-down": { motion: "spring", glow: "#2DD4BF" },
+  "arrow-down-left": { motion: "spring", glow: "#2DD4BF" },
+  "arrow-down-right": { motion: "spring", glow: "#2DD4BF" },
 };
 
 export const META_FALLBACK: IconMeta = { motion: "spring", glow: "#6E56F7" };

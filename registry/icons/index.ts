@@ -72,6 +72,11 @@ import { ArrowCircleRightIcon } from "./arrow-circle-right";
 import { ArrowCircleUpIcon } from "./arrow-circle-up";
 import { ArrowCircleUpLeftIcon } from "./arrow-circle-up-left";
 import { ArrowCircleUpRightIcon } from "./arrow-circle-up-right";
+import { ArrowClockwiseIcon } from "./arrow-clockwise";
+import { ArrowCounterClockwiseIcon } from "./arrow-counter-clockwise";
+import { ArrowDownIcon } from "./arrow-down";
+import { ArrowDownLeftIcon } from "./arrow-down-left";
+import { ArrowDownRightIcon } from "./arrow-down-right";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -155,6 +160,11 @@ export const icons: IconEntry[] = [
   { slug: "arrow-circle-up", name: "Arrow Circle Up", keywords: ["circle", "up", "scroll", "collapse", "top", "upload", "arrow"], Component: ArrowCircleUpIcon },
   { slug: "arrow-circle-up-left", name: "Arrow Circle Up-Left", keywords: ["circle", "up", "left", "diagonal", "scroll", "arrow"], Component: ArrowCircleUpLeftIcon },
   { slug: "arrow-circle-up-right", name: "Arrow Circle Up-Right", keywords: ["circle", "up", "right", "diagonal", "scroll", "external", "arrow"], Component: ArrowCircleUpRightIcon },
+  { slug: "arrow-clockwise", name: "Arrow Clockwise", keywords: ["refresh", "reload", "spin", "loading", "rotate", "redo", "sync", "clockwise"], Component: ArrowClockwiseIcon },
+  { slug: "arrow-counter-clockwise", name: "Arrow Counter Clockwise", keywords: ["undo", "reload", "refresh", "rotate", "back", "revert", "history", "counter-clockwise"], Component: ArrowCounterClockwiseIcon },
+  { slug: "arrow-down", name: "Arrow Down", keywords: ["down", "download", "descend", "expand", "south", "scroll"], Component: ArrowDownIcon },
+  { slug: "arrow-down-left", name: "Arrow Down-Left", keywords: ["down", "left", "diagonal", "southwest", "descend"], Component: ArrowDownLeftIcon },
+  { slug: "arrow-down-right", name: "Arrow Down-Right", keywords: ["down", "right", "diagonal", "southeast", "descend", "expand"], Component: ArrowDownRightIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -249,4 +259,9 @@ export {
   ArrowCircleUpIcon,
   ArrowCircleUpLeftIcon,
   ArrowCircleUpRightIcon,
+  ArrowClockwiseIcon,
+  ArrowCounterClockwiseIcon,
+  ArrowDownIcon,
+  ArrowDownLeftIcon,
+  ArrowDownRightIcon,
 };
