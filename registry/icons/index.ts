@@ -54,6 +54,24 @@ import { ArchiveIcon } from "./archive";
 import { ArmchairIcon } from "./armchair";
 import { ArrowArcLeftIcon } from "./arrow-arc-left";
 import { ArrowArcRightIcon } from "./arrow-arc-right";
+import { ArrowBendDoubleUpLeftIcon } from "./arrow-bend-double-up-left";
+import { ArrowBendDoubleUpRightIcon } from "./arrow-bend-double-up-right";
+import { ArrowBendDownLeftIcon } from "./arrow-bend-down-left";
+import { ArrowBendDownRightIcon } from "./arrow-bend-down-right";
+import { ArrowBendLeftDownIcon } from "./arrow-bend-left-down";
+import { ArrowBendLeftUpIcon } from "./arrow-bend-left-up";
+import { ArrowBendRightDownIcon } from "./arrow-bend-right-down";
+import { ArrowBendRightUpIcon } from "./arrow-bend-right-up";
+import { ArrowBendUpLeftIcon } from "./arrow-bend-up-left";
+import { ArrowBendUpRightIcon } from "./arrow-bend-up-right";
+import { ArrowCircleDownIcon } from "./arrow-circle-down";
+import { ArrowCircleDownLeftIcon } from "./arrow-circle-down-left";
+import { ArrowCircleDownRightIcon } from "./arrow-circle-down-right";
+import { ArrowCircleLeftIcon } from "./arrow-circle-left";
+import { ArrowCircleRightIcon } from "./arrow-circle-right";
+import { ArrowCircleUpIcon } from "./arrow-circle-up";
+import { ArrowCircleUpLeftIcon } from "./arrow-circle-up-left";
+import { ArrowCircleUpRightIcon } from "./arrow-circle-up-right";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -119,6 +137,24 @@ export const icons: IconEntry[] = [
   { slug: "armchair", name: "Armchair", keywords: ["chair", "seat", "sofa", "couch", "furniture", "lounge", "cushion", "puff"], Component: ArmchairIcon },
   { slug: "arrow-arc-left", name: "Arrow Arc Left", keywords: ["undo", "back", "rewind", "refresh", "rotate", "counter-clockwise", "arc", "return"], Component: ArrowArcLeftIcon },
   { slug: "arrow-arc-right", name: "Arrow Arc Right", keywords: ["redo", "forward", "refresh", "rotate", "clockwise", "arc", "reload"], Component: ArrowArcRightIcon },
+  { slug: "arrow-bend-double-up-left", name: "Arrow Bend Double Up-Left", keywords: ["reply", "reply all", "return", "back", "undo", "double", "bend", "turn"], Component: ArrowBendDoubleUpLeftIcon },
+  { slug: "arrow-bend-double-up-right", name: "Arrow Bend Double Up-Right", keywords: ["forward", "redo", "share", "double", "bend", "turn", "next", "send"], Component: ArrowBendDoubleUpRightIcon },
+  { slug: "arrow-bend-down-left", name: "Arrow Bend Down-Left", keywords: ["return", "back", "reply", "bend", "turn", "down", "left", "branch"], Component: ArrowBendDownLeftIcon },
+  { slug: "arrow-bend-down-right", name: "Arrow Bend Down-Right", keywords: ["forward", "bend", "turn", "down", "right", "branch", "redirect"], Component: ArrowBendDownRightIcon },
+  { slug: "arrow-bend-left-down", name: "Arrow Bend Left-Down", keywords: ["bend", "turn", "left", "down", "branch", "redirect", "route"], Component: ArrowBendLeftDownIcon },
+  { slug: "arrow-bend-left-up", name: "Arrow Bend Left-Up", keywords: ["bend", "turn", "left", "up", "branch", "redirect", "route"], Component: ArrowBendLeftUpIcon },
+  { slug: "arrow-bend-right-down", name: "Arrow Bend Right-Down", keywords: ["bend", "turn", "right", "down", "branch", "redirect", "route"], Component: ArrowBendRightDownIcon },
+  { slug: "arrow-bend-right-up", name: "Arrow Bend Right-Up", keywords: ["bend", "turn", "right", "up", "branch", "redirect", "route"], Component: ArrowBendRightUpIcon },
+  { slug: "arrow-bend-up-left", name: "Arrow Bend Up-Left", keywords: ["reply", "return", "back", "bend", "turn", "up", "left", "branch"], Component: ArrowBendUpLeftIcon },
+  { slug: "arrow-bend-up-right", name: "Arrow Bend Up-Right", keywords: ["forward", "share", "bend", "turn", "up", "right", "branch", "next"], Component: ArrowBendUpRightIcon },
+  { slug: "arrow-circle-down", name: "Arrow Circle Down", keywords: ["download", "scroll", "expand", "collapse", "circle", "down", "chevron"], Component: ArrowCircleDownIcon },
+  { slug: "arrow-circle-down-left", name: "Arrow Circle Down-Left", keywords: ["circle", "down", "left", "diagonal", "scroll", "arrow"], Component: ArrowCircleDownLeftIcon },
+  { slug: "arrow-circle-down-right", name: "Arrow Circle Down-Right", keywords: ["circle", "down", "right", "diagonal", "scroll", "arrow"], Component: ArrowCircleDownRightIcon },
+  { slug: "arrow-circle-left", name: "Arrow Circle Left", keywords: ["circle", "left", "back", "previous", "scroll", "arrow"], Component: ArrowCircleLeftIcon },
+  { slug: "arrow-circle-right", name: "Arrow Circle Right", keywords: ["circle", "right", "next", "forward", "scroll", "arrow"], Component: ArrowCircleRightIcon },
+  { slug: "arrow-circle-up", name: "Arrow Circle Up", keywords: ["circle", "up", "scroll", "collapse", "top", "upload", "arrow"], Component: ArrowCircleUpIcon },
+  { slug: "arrow-circle-up-left", name: "Arrow Circle Up-Left", keywords: ["circle", "up", "left", "diagonal", "scroll", "arrow"], Component: ArrowCircleUpLeftIcon },
+  { slug: "arrow-circle-up-right", name: "Arrow Circle Up-Right", keywords: ["circle", "up", "right", "diagonal", "scroll", "external", "arrow"], Component: ArrowCircleUpRightIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -195,4 +231,22 @@ export {
   ArmchairIcon,
   ArrowArcLeftIcon,
   ArrowArcRightIcon,
+  ArrowBendDoubleUpLeftIcon,
+  ArrowBendDoubleUpRightIcon,
+  ArrowBendDownLeftIcon,
+  ArrowBendDownRightIcon,
+  ArrowBendLeftDownIcon,
+  ArrowBendLeftUpIcon,
+  ArrowBendRightDownIcon,
+  ArrowBendRightUpIcon,
+  ArrowBendUpLeftIcon,
+  ArrowBendUpRightIcon,
+  ArrowCircleDownIcon,
+  ArrowCircleDownLeftIcon,
+  ArrowCircleDownRightIcon,
+  ArrowCircleLeftIcon,
+  ArrowCircleRightIcon,
+  ArrowCircleUpIcon,
+  ArrowCircleUpLeftIcon,
+  ArrowCircleUpRightIcon,
 };
