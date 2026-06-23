@@ -6,24 +6,23 @@ import { useHover } from "@/hooks/use-hover";
 import { RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
-// SPRING — a horizontal squash with the tail (left) anchored: the arrowhead retracts
-// left, then springs back right, overshooting past rest and bouncing to a stop. The
-// height never changes — only the length compresses and stretches.
+// SPRING — a squash with the tail (lower-left) anchored: the arrow compresses toward
+// its tail, then springs back out up-right, overshooting past rest and bouncing to a
+// stop. (Diagonal arrow → uniform squash so the 45° shape keeps its proportions.)
 const ARROW =
-  "M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z";
-// The tail (left end of the shaft, x=40) — the squash anchor.
-const TAIL = { x: 40 / 256, y: 0.5 };
+  "M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z";
+// The tail (free end of the shaft, lower-left ~64,192) — the squash anchor.
+const TAIL = { x: 64 / 256, y: 192 / 256 };
 
 const squash: Variants = {
-  normal: { scaleX: 1, transition: RETURN_TRANSITION },
+  normal: { scale: 1, transition: RETURN_TRANSITION },
   animate: {
-    // rest → squash → stretch past rest (overshoot) → bounce → small overshoot → rest
-    scaleX: [1, 0.5, 1.12, 0.93, 1.04, 1],
+    scale: [1, 0.5, 1.12, 0.93, 1.04, 1],
     transition: { duration: 0.8, ease: "easeInOut", times: [0, 0.26, 0.5, 0.68, 0.85, 1] },
   },
 };
 
-export const ArrowRightIcon = forwardRef<IconHandle, IconProps>(function ArrowRightIcon(
+export const ArrowUpRightIcon = forwardRef<IconHandle, IconProps>(function ArrowUpRightIcon(
   { size = 28, style, ...props },
   ref,
 ) {

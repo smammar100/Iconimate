@@ -6,13 +6,13 @@ import { useHover } from "@/hooks/use-hover";
 import { RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
-// SPRING — a horizontal squash with the tail (left) anchored: the arrowhead retracts
-// left, then springs back right, overshooting past rest and bouncing to a stop. The
+// SPRING — a horizontal squash with the tail (right) anchored: the arrowhead retracts
+// right, then springs back left, overshooting past rest and bouncing to a stop. The
 // height never changes — only the length compresses and stretches.
 const ARROW =
-  "M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z";
-// The tail (left end of the shaft, x=40) — the squash anchor.
-const TAIL = { x: 40 / 256, y: 0.5 };
+  "M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z";
+// The tail (right end of the shaft, x=216) — the squash anchor.
+const TAIL = { x: 216 / 256, y: 0.5 };
 
 const squash: Variants = {
   normal: { scaleX: 1, transition: RETURN_TRANSITION },
@@ -23,7 +23,7 @@ const squash: Variants = {
   },
 };
 
-export const ArrowRightIcon = forwardRef<IconHandle, IconProps>(function ArrowRightIcon(
+export const ArrowLeftIcon = forwardRef<IconHandle, IconProps>(function ArrowLeftIcon(
   { size = 28, style, ...props },
   ref,
 ) {

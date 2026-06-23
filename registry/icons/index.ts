@@ -87,6 +87,10 @@ import { ArrowElbowRightDownIcon } from "./arrow-elbow-right-down";
 import { ArrowElbowRightUpIcon } from "./arrow-elbow-right-up";
 import { ArrowElbowUpLeftIcon } from "./arrow-elbow-up-left";
 import { ArrowElbowUpRightIcon } from "./arrow-elbow-up-right";
+import { ArrowLeftIcon } from "./arrow-left";
+import { ArrowUpIcon } from "./arrow-up";
+import { ArrowUpLeftIcon } from "./arrow-up-left";
+import { ArrowUpRightIcon } from "./arrow-up-right";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -185,6 +189,10 @@ export const icons: IconEntry[] = [
   { slug: "arrow-elbow-right-up", name: "Arrow Elbow Right-Up", keywords: ["elbow", "right", "up", "return", "bend", "branch"], Component: ArrowElbowRightUpIcon },
   { slug: "arrow-elbow-up-left", name: "Arrow Elbow Up-Left", keywords: ["elbow", "up", "left", "return", "bend", "branch"], Component: ArrowElbowUpLeftIcon },
   { slug: "arrow-elbow-up-right", name: "Arrow Elbow Up-Right", keywords: ["elbow", "up", "right", "return", "bend", "branch"], Component: ArrowElbowUpRightIcon },
+  { slug: "arrow-left", name: "Arrow Left", keywords: ["left", "back", "previous", "west", "return"], Component: ArrowLeftIcon },
+  { slug: "arrow-up", name: "Arrow Up", keywords: ["up", "upload", "ascend", "north", "top", "rise"], Component: ArrowUpIcon },
+  { slug: "arrow-up-left", name: "Arrow Up-Left", keywords: ["up", "left", "diagonal", "northwest", "ascend"], Component: ArrowUpLeftIcon },
+  { slug: "arrow-up-right", name: "Arrow Up-Right", keywords: ["up", "right", "diagonal", "northeast", "ascend", "external"], Component: ArrowUpRightIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -294,4 +302,8 @@ export {
   ArrowElbowRightUpIcon,
   ArrowElbowUpLeftIcon,
   ArrowElbowUpRightIcon,
+  ArrowLeftIcon,
+  ArrowUpIcon,
+  ArrowUpLeftIcon,
+  ArrowUpRightIcon,
 };
