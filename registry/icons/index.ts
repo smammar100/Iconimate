@@ -77,6 +77,16 @@ import { ArrowCounterClockwiseIcon } from "./arrow-counter-clockwise";
 import { ArrowDownIcon } from "./arrow-down";
 import { ArrowDownLeftIcon } from "./arrow-down-left";
 import { ArrowDownRightIcon } from "./arrow-down-right";
+import { ArrowElbowDownLeftIcon } from "./arrow-elbow-down-left";
+import { ArrowElbowDownRightIcon } from "./arrow-elbow-down-right";
+import { ArrowElbowLeftIcon } from "./arrow-elbow-left";
+import { ArrowElbowLeftDownIcon } from "./arrow-elbow-left-down";
+import { ArrowElbowLeftUpIcon } from "./arrow-elbow-left-up";
+import { ArrowElbowRightIcon } from "./arrow-elbow-right";
+import { ArrowElbowRightDownIcon } from "./arrow-elbow-right-down";
+import { ArrowElbowRightUpIcon } from "./arrow-elbow-right-up";
+import { ArrowElbowUpLeftIcon } from "./arrow-elbow-up-left";
+import { ArrowElbowUpRightIcon } from "./arrow-elbow-up-right";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -165,6 +175,16 @@ export const icons: IconEntry[] = [
   { slug: "arrow-down", name: "Arrow Down", keywords: ["down", "download", "descend", "expand", "south", "scroll"], Component: ArrowDownIcon },
   { slug: "arrow-down-left", name: "Arrow Down-Left", keywords: ["down", "left", "diagonal", "southwest", "descend"], Component: ArrowDownLeftIcon },
   { slug: "arrow-down-right", name: "Arrow Down-Right", keywords: ["down", "right", "diagonal", "southeast", "descend", "expand"], Component: ArrowDownRightIcon },
+  { slug: "arrow-elbow-down-left", name: "Arrow Elbow Down-Left", keywords: ["elbow", "down", "left", "return", "bend", "reply", "branch"], Component: ArrowElbowDownLeftIcon },
+  { slug: "arrow-elbow-down-right", name: "Arrow Elbow Down-Right", keywords: ["elbow", "down", "right", "return", "bend", "branch"], Component: ArrowElbowDownRightIcon },
+  { slug: "arrow-elbow-left", name: "Arrow Elbow Left", keywords: ["elbow", "left", "turn", "bend", "branch", "merge"], Component: ArrowElbowLeftIcon },
+  { slug: "arrow-elbow-left-down", name: "Arrow Elbow Left-Down", keywords: ["elbow", "left", "down", "return", "bend", "branch"], Component: ArrowElbowLeftDownIcon },
+  { slug: "arrow-elbow-left-up", name: "Arrow Elbow Left-Up", keywords: ["elbow", "left", "up", "return", "bend", "reply", "branch", "north"], Component: ArrowElbowLeftUpIcon },
+  { slug: "arrow-elbow-right", name: "Arrow Elbow Right", keywords: ["elbow", "right", "turn", "bend", "branch", "merge"], Component: ArrowElbowRightIcon },
+  { slug: "arrow-elbow-right-down", name: "Arrow Elbow Right-Down", keywords: ["elbow", "right", "down", "return", "bend", "branch"], Component: ArrowElbowRightDownIcon },
+  { slug: "arrow-elbow-right-up", name: "Arrow Elbow Right-Up", keywords: ["elbow", "right", "up", "return", "bend", "branch"], Component: ArrowElbowRightUpIcon },
+  { slug: "arrow-elbow-up-left", name: "Arrow Elbow Up-Left", keywords: ["elbow", "up", "left", "return", "bend", "branch"], Component: ArrowElbowUpLeftIcon },
+  { slug: "arrow-elbow-up-right", name: "Arrow Elbow Up-Right", keywords: ["elbow", "up", "right", "return", "bend", "branch"], Component: ArrowElbowUpRightIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -264,4 +284,14 @@ export {
   ArrowDownIcon,
   ArrowDownLeftIcon,
   ArrowDownRightIcon,
+  ArrowElbowDownLeftIcon,
+  ArrowElbowDownRightIcon,
+  ArrowElbowLeftIcon,
+  ArrowElbowLeftDownIcon,
+  ArrowElbowLeftUpIcon,
+  ArrowElbowRightIcon,
+  ArrowElbowRightDownIcon,
+  ArrowElbowRightUpIcon,
+  ArrowElbowUpLeftIcon,
+  ArrowElbowUpRightIcon,
 };

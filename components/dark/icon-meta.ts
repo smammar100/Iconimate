@@ -86,6 +86,16 @@ export const ICON_META: Record<string, IconMeta> = {
   "arrow-down": { motion: "spring", glow: "#2DD4BF" },
   "arrow-down-left": { motion: "spring", glow: "#2DD4BF" },
   "arrow-down-right": { motion: "spring", glow: "#2DD4BF" },
+  "arrow-elbow-down-left": { motion: "draw", glow: "#34D399" },
+  "arrow-elbow-down-right": { motion: "draw", glow: "#34D399" },
+  "arrow-elbow-left": { motion: "draw", glow: "#34D399" },
+  "arrow-elbow-left-down": { motion: "draw", glow: "#34D399" },
+  "arrow-elbow-left-up": { motion: "draw", glow: "#34D399" },
+  "arrow-elbow-right": { motion: "draw", glow: "#34D399" },
+  "arrow-elbow-right-down": { motion: "draw", glow: "#34D399" },
+  "arrow-elbow-right-up": { motion: "draw", glow: "#34D399" },
+  "arrow-elbow-up-left": { motion: "draw", glow: "#34D399" },
+  "arrow-elbow-up-right": { motion: "draw", glow: "#34D399" },
 };
 
 export const META_FALLBACK: IconMeta = { motion: "spring", glow: "#6E56F7" };
