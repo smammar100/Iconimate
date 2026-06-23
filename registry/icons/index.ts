@@ -88,6 +88,14 @@ import { ArrowElbowRightUpIcon } from "./arrow-elbow-right-up";
 import { ArrowElbowUpLeftIcon } from "./arrow-elbow-up-left";
 import { ArrowElbowUpRightIcon } from "./arrow-elbow-up-right";
 import { ArrowLeftIcon } from "./arrow-left";
+import { ArrowLineDownIcon } from "./arrow-line-down";
+import { ArrowLineDownLeftIcon } from "./arrow-line-down-left";
+import { ArrowLineDownRightIcon } from "./arrow-line-down-right";
+import { ArrowLineLeftIcon } from "./arrow-line-left";
+import { ArrowLineRightIcon } from "./arrow-line-right";
+import { ArrowLineUpIcon } from "./arrow-line-up";
+import { ArrowLineUpLeftIcon } from "./arrow-line-up-left";
+import { ArrowLineUpRightIcon } from "./arrow-line-up-right";
 import { ArrowUpIcon } from "./arrow-up";
 import { ArrowUpLeftIcon } from "./arrow-up-left";
 import { ArrowUpRightIcon } from "./arrow-up-right";
@@ -190,6 +198,14 @@ export const icons: IconEntry[] = [
   { slug: "arrow-elbow-up-left", name: "Arrow Elbow Up-Left", keywords: ["elbow", "up", "left", "return", "bend", "branch"], Component: ArrowElbowUpLeftIcon },
   { slug: "arrow-elbow-up-right", name: "Arrow Elbow Up-Right", keywords: ["elbow", "up", "right", "return", "bend", "branch"], Component: ArrowElbowUpRightIcon },
   { slug: "arrow-left", name: "Arrow Left", keywords: ["left", "back", "previous", "west", "return"], Component: ArrowLeftIcon },
+  { slug: "arrow-line-down", name: "Arrow Line Down", keywords: ["line", "down", "bottom", "baseline", "download", "to bottom", "skip"], Component: ArrowLineDownIcon },
+  { slug: "arrow-line-down-left", name: "Arrow Line Down-Left", keywords: ["line", "down", "left", "diagonal", "southwest", "to corner"], Component: ArrowLineDownLeftIcon },
+  { slug: "arrow-line-down-right", name: "Arrow Line Down-Right", keywords: ["line", "down", "right", "diagonal", "southeast", "to corner"], Component: ArrowLineDownRightIcon },
+  { slug: "arrow-line-left", name: "Arrow Line Left", keywords: ["line", "left", "west", "to edge", "first"], Component: ArrowLineLeftIcon },
+  { slug: "arrow-line-right", name: "Arrow Line Right", keywords: ["line", "right", "east", "to edge", "last"], Component: ArrowLineRightIcon },
+  { slug: "arrow-line-up", name: "Arrow Line Up", keywords: ["line", "up", "top", "upload", "to top"], Component: ArrowLineUpIcon },
+  { slug: "arrow-line-up-left", name: "Arrow Line Up-Left", keywords: ["line", "up", "left", "diagonal", "northwest", "to corner"], Component: ArrowLineUpLeftIcon },
+  { slug: "arrow-line-up-right", name: "Arrow Line Up-Right", keywords: ["line", "up", "right", "diagonal", "northeast", "to corner"], Component: ArrowLineUpRightIcon },
   { slug: "arrow-up", name: "Arrow Up", keywords: ["up", "upload", "ascend", "north", "top", "rise"], Component: ArrowUpIcon },
   { slug: "arrow-up-left", name: "Arrow Up-Left", keywords: ["up", "left", "diagonal", "northwest", "ascend"], Component: ArrowUpLeftIcon },
   { slug: "arrow-up-right", name: "Arrow Up-Right", keywords: ["up", "right", "diagonal", "northeast", "ascend", "external"], Component: ArrowUpRightIcon },
@@ -303,6 +319,14 @@ export {
   ArrowElbowUpLeftIcon,
   ArrowElbowUpRightIcon,
   ArrowLeftIcon,
+  ArrowLineDownIcon,
+  ArrowLineDownLeftIcon,
+  ArrowLineDownRightIcon,
+  ArrowLineLeftIcon,
+  ArrowLineRightIcon,
+  ArrowLineUpIcon,
+  ArrowLineUpLeftIcon,
+  ArrowLineUpRightIcon,
   ArrowUpIcon,
   ArrowUpLeftIcon,
   ArrowUpRightIcon,
