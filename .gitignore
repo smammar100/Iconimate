@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Claude Code scratch workflow scripts (kept local)
 .claude/wf-*.js
+
+# Motion guide — the project's private "brain"; kept local, never published
+registry/MOTION.md
