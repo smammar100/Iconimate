@@ -111,7 +111,9 @@ import { ArrowLineUpRightIcon } from "./arrow-line-up-right";
 import { ArrowSquareDownIcon } from "./arrow-square-down";
 import { ArrowSquareDownLeftIcon } from "./arrow-square-down-left";
 import { ArrowSquareDownRightIcon } from "./arrow-square-down-right";
+import { ArrowSquareInIcon } from "./arrow-square-in";
 import { ArrowSquareLeftIcon } from "./arrow-square-left";
+import { ArrowSquareOutIcon } from "./arrow-square-out";
 import { ArrowSquareRightIcon } from "./arrow-square-right";
 import { ArrowSquareUpIcon } from "./arrow-square-up";
 import { ArrowSquareUpLeftIcon } from "./arrow-square-up-left";
@@ -241,7 +243,9 @@ export const icons: IconEntry[] = [
   { slug: "arrow-square-down", name: "Arrow Square Down", keywords: ["square", "down", "box", "download", "save", "scroll", "south"], Component: ArrowSquareDownIcon },
   { slug: "arrow-square-down-left", name: "Arrow Square Down-Left", keywords: ["square", "down", "left", "box", "diagonal", "southwest", "scroll"], Component: ArrowSquareDownLeftIcon },
   { slug: "arrow-square-down-right", name: "Arrow Square Down-Right", keywords: ["square", "down", "right", "box", "diagonal", "southeast", "scroll"], Component: ArrowSquareDownRightIcon },
+  { slug: "arrow-square-in", name: "Arrow Square In", keywords: ["square", "in", "box", "minimize", "collapse", "corner", "tuck", "exit fullscreen"], Component: ArrowSquareInIcon },
   { slug: "arrow-square-left", name: "Arrow Square Left", keywords: ["square", "left", "box", "back", "previous", "west", "scroll"], Component: ArrowSquareLeftIcon },
+  { slug: "arrow-square-out", name: "Arrow Square Out", keywords: ["square", "out", "box", "expand", "maximize", "external", "open", "corner", "tuck"], Component: ArrowSquareOutIcon },
   { slug: "arrow-square-right", name: "Arrow Square Right", keywords: ["square", "right", "box", "forward", "next", "east", "scroll"], Component: ArrowSquareRightIcon },
   { slug: "arrow-square-up", name: "Arrow Square Up", keywords: ["square", "up", "box", "upload", "north", "scroll"], Component: ArrowSquareUpIcon },
   { slug: "arrow-square-up-left", name: "Arrow Square Up-Left", keywords: ["square", "up", "left", "box", "diagonal", "northwest", "scroll"], Component: ArrowSquareUpLeftIcon },
@@ -382,7 +386,9 @@ export {
   ArrowSquareDownIcon,
   ArrowSquareDownLeftIcon,
   ArrowSquareDownRightIcon,
+  ArrowSquareInIcon,
   ArrowSquareLeftIcon,
+  ArrowSquareOutIcon,
   ArrowSquareRightIcon,
   ArrowSquareUpIcon,
   ArrowSquareUpLeftIcon,
