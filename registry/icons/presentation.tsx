@@ -19,9 +19,14 @@ const BOARD =
 // rocks where it meets the legs.
 const APEX = { x: 0.5, y: 0.672 };
 
+// ANTICIPATION: a small counter-lean (+3) before the tap drives the other way,
+// then a diminishing rock settles it (follow-through).
 const tap: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
-  animate: { rotate: [0, -8, 5, 0], transition: { duration: 0.6, ease: ARRIVE } },
+  animate: {
+    rotate: [0, 3, -8, 5, -2, 0],
+    transition: { duration: 0.66, ease: ARRIVE, times: [0, 0.12, 0.4, 0.62, 0.82, 1] },
+  },
 };
 
 export const PresentationIcon = forwardRef<IconHandle, IconProps>(function PresentationIcon(

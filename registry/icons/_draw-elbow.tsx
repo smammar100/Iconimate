@@ -9,6 +9,9 @@ import type { IconHandle, IconProps } from "@/lib/icon";
 // while a chevron head rides the growing tip, rotated to the path tangent — so at
 // each sharp bend the head snaps a hard turn instead of banking around a curve.
 // One crisp, bounce-free easeInOut pass.
+// Principles: STRAIGHT-AHEAD (drawn progressively, tip to tail), ARCS (the head
+// banks to the path tangent at every point), SLOW IN & SLOW OUT (easeInOut draw),
+// SOLID DRAWING (head rides the real geometry). Reduced-motion: start() early-returns.
 const HEAD =
   "M24.97,5.66l-48,48a8,8,0,0,1-11.32-11.32L0,8L0,-8L-34.35,-42.34a8,8,0,0,1,11.32-11.32l48,48A8,8,0,0,1,24.97,5.66Z";
 const STROKE_W = 16;

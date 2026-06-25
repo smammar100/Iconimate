@@ -12,9 +12,16 @@ const TOWER_BASE =
   "M229.11,70.82A16,16,0,0,0,216,64H40A16,16,0,0,0,25,85.47l26.19,72a16,16,0,0,0,15,10.53H96v64a8,8,0,0,0,16,0V168h32v64a8,8,0,0,0,16,0V168h29.82a16,16,0,0,0,15-10.53l26.19-72A16,16,0,0,0,229.11,70.82ZM110.68,152,97.58,80h60.84l-13.1,72ZM40,80H81.32l13.09,72H66.18Zm149.82,72H161.59l13.09-72H216Z";
 const ANTENNA = "M136,64V32h16a8,8,0,0,0,0-16H104a8,8,0,0,0,0,16h16V64Z";
 
+// ANTICIPATION: the antenna winds back a few degrees before committing to the
+// full turn; FOLLOW-THROUGH: it overshoots 360 and eases back, so the sweep lands
+// with weight rather than stopping dead.
 const flip: Variants = {
   normal: { rotateY: 0, transformPerspective: 500, transition: RETURN_TRANSITION },
-  animate: { rotateY: [0, 360], transformPerspective: 500, transition: { duration: 0.8, ease: ARRIVE } },
+  animate: {
+    rotateY: [0, -18, 372, 360],
+    transformPerspective: 500,
+    transition: { duration: 0.9, ease: ARRIVE, times: [0, 0.14, 0.86, 1] },
+  },
 };
 
 export const ControlTowerIcon = forwardRef<IconHandle, IconProps>(function ControlTowerIcon(

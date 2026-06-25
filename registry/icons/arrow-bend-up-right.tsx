@@ -2,13 +2,16 @@
 
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import { animate, useMotionValue, useMotionValueEvent, useReducedMotion } from "motion/react";
+import { SNAP_DRAW_SPRING, SNAP_RETURN } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // SNAP — the arrow draws itself in a single fast, bouncy stroke. The centerline
 // is traced (stroke-dasharray / dashoffset off getTotalLength) while a separate
 // arrowhead group rides the growing tip — positioned with getPointAtLength and
-// rotated to the path's tangent (atan2) so it banks around the bend. On an
-// underdamped spring the tip overshoots just past the head, then springs to rest.
+// rotated to the path's tangent (atan2) so it banks around the bend. Disney's
+// anticipation (the draw springs up from zero), exaggeration (the head overshoots
+// past the tip), and follow-through (it settles back) — all on one underdamped
+// spring (SNAP_DRAW_SPRING); hover-out retraces home (SNAP_RETURN).
 //
 // arrow-bend-up-right: tail enters bottom-left, bends up, points right.
 const SPINE = "M32,200A96,96,0,0,1,128,104L204.69,104";
@@ -78,12 +81,12 @@ export const ArrowBendUpRightIcon = forwardRef<IconHandle, IconProps>(
       if (reduced) return;
       anim.current?.stop();
       progress.set(0);
-      anim.current = animate(progress, 1, { type: "spring", stiffness: 70, damping: 7, mass: 1 });
+      anim.current = animate(progress, 1, SNAP_DRAW_SPRING);
     }, [reduced, progress]);
 
     const stop = useCallback(() => {
       anim.current?.stop();
-      animate(progress, 1, { duration: 0.3, ease: "easeOut" });
+      animate(progress, 1, SNAP_RETURN);
     }, [progress]);
 
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);

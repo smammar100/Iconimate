@@ -16,7 +16,9 @@ const PERSON =
 
 const nod: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
-  animate: { rotate: [0, -9, 7, -3, 0], transition: { duration: 0.8, ease: "easeInOut" } },
+  // Anticipation: a small +3 chin-up wind-up before the friendly nod down, then a
+  // softening wobble settles upright (follow-through).
+  animate: { rotate: [0, 3, -9, 7, -3, 0], transition: { duration: 0.85, ease: "easeInOut" } },
 };
 
 export const AddressBookIcon = forwardRef<IconHandle, IconProps>(function AddressBookIcon(

@@ -3,15 +3,15 @@
 import { forwardRef, useId, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { RETURN_TRANSITION, SCROLL_LOOP } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
-// SCROLL — the right arrow rides a wheel inside the static box: it fades in
-// small behind, reaches full size at the centre, then shrinks and fades out ahead,
-// looping in the pointing direction (right) — a continuous cycle. The arrow is
-// clipped to the box interior so it only ever shows inside the frame. Two exact
-// Phosphor sub-paths (the rounded square + the inner arrow), animated whole so the
-// artwork is pixel-identical.
+// SCROLL — the arrow rides a wheel inside the static box, looping toward where it
+// points (right). Principles: ARCS (travel) + SECONDARY ACTION (scale & opacity track
+// the travel — small/faint behind, full at centre, small/faint ahead) + TIMING
+// (symmetric easeInOut cadence via the shared SCROLL_LOOP token). The arrow is clipped
+// to the box interior so it only ever shows inside the frame. Two exact Phosphor
+// sub-paths (the rounded square + the inner arrow), animated whole so artwork is frozen.
 const SQUARE =
   "M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208Z";
 const ARROW =
@@ -23,7 +23,7 @@ const scroll: Variants = {
     x: [-46, 0, 46],
     scale: [0.4, 1, 0.4],
     opacity: [0, 1, 0],
-    transition: { duration: 1.15, ease: "easeInOut", times: [0, 0.5, 1], repeat: Infinity, repeatDelay: 0.05 },
+    transition: SCROLL_LOOP,
   },
 };
 

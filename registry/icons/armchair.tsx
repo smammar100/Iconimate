@@ -16,12 +16,15 @@ const CHAIR =
 /** Grounded at the chair's feet so the squash compresses downward, like sitting. */
 const FEET = { transformBox: "view-box" as const, originX: 0.5, originY: 0.82 };
 
+// ANTICIPATION: a hair of lift/narrow before the weight lands, so the squash
+// reads as a deliberate sit rather than an instant compression. FOLLOW-THROUGH:
+// the trailing 0.98→1.02 recoil settles the cushion.
 const puff: Variants = {
   normal: { scaleX: 1, scaleY: 1, transition: RETURN_TRANSITION },
   animate: {
-    scaleY: [1, 0.85, 1.07, 0.98, 1],
-    scaleX: [1, 1.09, 0.96, 1.01, 1],
-    transition: { duration: 0.6, ease: "easeOut", times: [0, 0.3, 0.6, 0.82, 1] },
+    scaleY: [1, 1.04, 0.85, 1.07, 0.98, 1],
+    scaleX: [1, 0.98, 1.09, 0.96, 1.01, 1],
+    transition: { duration: 0.66, ease: "easeOut", times: [0, 0.12, 0.38, 0.64, 0.84, 1] },
   },
 };
 

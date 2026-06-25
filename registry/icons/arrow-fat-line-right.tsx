@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { PLUNGE_KEYS, PLUNGE_TRANSITION, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // PLUNGE — anchored at the left edge, the fat arrow coils then elongates rightward,
@@ -20,9 +20,10 @@ const ANCHOR = { transformBox: "view-box" as const, originX: 32 / 256, originY: 
 const plunge: Variants = {
   normal: { scaleX: 1, transition: RETURN_TRANSITION },
   animate: {
-    // rest → coil (anticipation) → plunge right (peak 1.07, tip at the edge) → recoil → settle
-    scaleX: [1, 0.86, 1.07, 0.97, 1.02, 1],
-    transition: { duration: 0.9, ease: "easeInOut", times: [0, 0.18, 0.48, 0.68, 0.84, 1] },
+    // Squash & stretch + anticipation + follow-through: coil → plunge (tip-leading,
+    // capped at the edge) → recoil → settle. Shared plunge signature; tail-anchored.
+    scaleX: [...PLUNGE_KEYS],
+    transition: PLUNGE_TRANSITION,
   },
 };
 

@@ -17,7 +17,10 @@ const TAIL = { x: 0.5, y: 40 / 256 };
 const squash: Variants = {
   normal: { scaleY: 1, transition: RETURN_TRANSITION },
   animate: {
-    // rest → squash → stretch past rest (overshoot) → bounce → small overshoot → rest
+    // Squash & stretch + anticipation (the deep 0.5 wind-up) + follow-through (the
+    // diminishing 1.12 → 0.93 → 1.04 overshoot bounce): rest → squash → stretch past
+    // rest → bounce → small overshoot → settle. Deeper than the shared squashStretch()
+    // on purpose — an arrow's length reads as elastic, so the recoil is exaggerated.
     scaleY: [1, 0.5, 1.12, 0.93, 1.04, 1],
     transition: { duration: 0.8, ease: "easeInOut", times: [0, 0.26, 0.5, 0.68, 0.85, 1] },
   },

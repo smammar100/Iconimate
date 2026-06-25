@@ -25,6 +25,16 @@ const OUTER_ARC =
 // Artboard centre — the arcs are concentric here, so it's the pivot for the ping.
 const ORIGIN = { transformBox: "view-box" as const, originX: 0.5, originY: 0.5 };
 
+// Secondary action: the mic gives a subtle synchronized pulse as it "sends" each
+// ping, so the figure reads as the source of the broadcast rather than inert.
+const figurePulse: Variants = {
+  normal: { scale: 1, transition: RETURN_TRANSITION },
+  animate: {
+    scale: [1, 1.05, 1, 1.05, 1],
+    transition: { duration: 1.1, ease: "easeInOut", times: [0, 0.25, 0.5, 0.75, 1] },
+  },
+};
+
 const wave = (i: number): Variants => ({
   normal: { scale: 1, opacity: 1, transition: RETURN_TRANSITION },
   animate: {
@@ -55,7 +65,7 @@ export const ApplePodcastsLogoIcon = forwardRef<IconHandle, IconProps>(function 
       >
         <motion.path d={INNER_ARC} variants={reduced ? undefined : wave(0)} style={ORIGIN} />
         <motion.path d={OUTER_ARC} variants={reduced ? undefined : wave(1)} style={ORIGIN} />
-        <path d={FIGURE} />
+        <motion.path d={FIGURE} variants={reduced ? undefined : figurePulse} style={ORIGIN} />
       </motion.svg>
     </div>
   );

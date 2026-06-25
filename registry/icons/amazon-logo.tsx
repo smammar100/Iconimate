@@ -18,8 +18,9 @@ const AMAZON_PIVOT = { x: 0.5, y: 0.8 };
 const wobble: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
   animate: {
-    rotate: [0, -9, 7, -4, 2, 0],
-    transition: { duration: 0.8, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.45 },
+    // Anticipation (+3 counter-lean) winds up before the damped bounce decays back to rest.
+    rotate: [0, 3, -9, 7, -4, 2, 0],
+    transition: { duration: 0.85, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.45 },
   },
 };
 

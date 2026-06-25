@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants, type Transition } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { RETURN_TRANSITION, squashStretch } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // DROP (from the right) — a horizontal take on the align-bottom drop: on hover the
@@ -25,13 +25,37 @@ const FALL_BOUNCE: Transition = {
 };
 // Fly in from the right (+190) to the baseline (0), rebound right to +34, etc.
 const BOUNCE_X = [190, 0, 34, 0, 12, 0, 4, 0];
+// Both blocks land left-edge-first against the left baseline, so squash is anchored at
+// their shared left edge (x≈64/256).
+const WALL_ANCHOR = { transformBox: "view-box" as const, originX: 64 / 256, originY: 0.5 };
+// Squash on impact: the block compresses the instant it meets the wall, then stretches
+// off the rebound and settles. Flat through the flight; the squash rides the bounce on
+// scaleX, sourced from the shared squashStretch() vocabulary.
+const [, SQ, ST] = squashStretch();
+const SQUASH_X = [1, SQ, ST, 0.97, 1.01, 1];
+const SQUASH_TRANSITION: Transition = {
+  duration: 0.95,
+  times: [0, 0.46, 0.6, 0.74, 0.86, 1],
+  ease: "easeOut",
+};
 const dropTop: Variants = {
-  normal: { x: 0, transition: RETURN_TRANSITION },
-  animate: { x: BOUNCE_X, transition: FALL_BOUNCE },
+  normal: { x: 0, scaleX: 1, transition: RETURN_TRANSITION },
+  animate: {
+    x: BOUNCE_X,
+    scaleX: SQUASH_X,
+    transition: { x: FALL_BOUNCE, scaleX: SQUASH_TRANSITION },
+  },
 };
 const dropBottom: Variants = {
-  normal: { x: 0, transition: RETURN_TRANSITION },
-  animate: { x: BOUNCE_X, transition: { ...FALL_BOUNCE, delay: 0.1 } },
+  normal: { x: 0, scaleX: 1, transition: RETURN_TRANSITION },
+  animate: {
+    x: BOUNCE_X,
+    scaleX: SQUASH_X,
+    transition: {
+      x: { ...FALL_BOUNCE, delay: 0.1 },
+      scaleX: { ...SQUASH_TRANSITION, delay: 0.1 },
+    },
+  },
 };
 
 export const AlignLeftIcon = forwardRef<IconHandle, IconProps>(function AlignLeftIcon(
@@ -53,8 +77,8 @@ export const AlignLeftIcon = forwardRef<IconHandle, IconProps>(function AlignLef
         style={{ overflow: "visible" }}
       >
         <path d={BASELINE} />
-        <motion.path variants={reduced ? undefined : dropTop} d={BLOCK_TOP} />
-        <motion.path variants={reduced ? undefined : dropBottom} d={BLOCK_BOTTOM} />
+        <motion.path variants={reduced ? undefined : dropTop} style={WALL_ANCHOR} d={BLOCK_TOP} />
+        <motion.path variants={reduced ? undefined : dropBottom} style={WALL_ANCHOR} d={BLOCK_BOTTOM} />
       </motion.svg>
     </div>
   );

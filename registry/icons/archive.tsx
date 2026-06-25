@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { OVERSHOOT_BACK, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // STASH — the full deposit: the lid lifts and tilts open on a left-edge hinge, a
@@ -21,9 +21,6 @@ const BOX_BOTTOM = { transformBox: "view-box" as const, originX: 0.5, originY: 0
 // Hinge at the lid's lower-left corner, so a small rotation reads as it swinging open.
 const LID_HINGE = { transformBox: "view-box" as const, originX: 0.0625, originY: 0.406 };
 
-/** Back-out overshoot — spring-like snap as the label lands. */
-const OVERSHOOT = [0.34, 1.56, 0.64, 1] as const;
-
 const lid: Variants = {
   normal: { y: 0, rotate: 0, transition: RETURN_TRANSITION },
   animate: {
@@ -37,7 +34,7 @@ const label: Variants = {
   animate: {
     y: [-26, -26, 0, 0],
     opacity: [0, 0, 1, 1],
-    transition: { duration: 1.2, times: [0, 0.3, 0.58, 1], ease: OVERSHOOT },
+    transition: { duration: 1.2, times: [0, 0.3, 0.58, 1], ease: OVERSHOOT_BACK },
   },
 };
 const box: Variants = {

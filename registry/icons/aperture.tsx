@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { OVERSHOOT_BACK, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // IRIS — the blades ratchet one notch (60°, the glyph's symmetry step) and scale
@@ -16,12 +16,10 @@ const APERTURE =
 // Aperture centre as a view-box fraction — the pivot for the turn.
 const ORIGIN = { transformBox: "view-box" as const, originX: 0.5, originY: 0.5 };
 
-// Back-out overshoot — a spring-like snap as the iris lands on its notch.
-const OVERSHOOT = [0.34, 1.56, 0.64, 1] as const;
-
 const iris: Variants = {
   normal: { rotate: 0, scale: 1, transition: RETURN_TRANSITION },
-  animate: { rotate: 60, scale: 1.06, transition: { duration: 0.6, ease: OVERSHOOT } },
+  // Back-out overshoot (shared OVERSHOOT_BACK) — a spring-like snap onto the notch.
+  animate: { rotate: 60, scale: 1.06, transition: { duration: 0.6, ease: OVERSHOOT_BACK } },
 };
 
 export const ApertureIcon = forwardRef<IconHandle, IconProps>(function ApertureIcon(

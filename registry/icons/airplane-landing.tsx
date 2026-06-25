@@ -18,11 +18,14 @@ const arrival: Variants = {
   normal: { x: 0, y: 0, rotate: 0, opacity: 1, transition: RETURN_TRANSITION },
   animate: {
     x: [-220, 0],
-    y: [-150, 0],
-    rotate: [4, 0],
+    // Follow-through: the craft settles onto the runway with a small weight-transfer
+    // dip and nose-up rebound before coming to rest, rather than stopping dead.
+    y: [-150, 3, 0],
+    rotate: [4, -1.5, 0],
     opacity: [0, 1],
     transition: {
-      duration: 1.15,
+      duration: 1.2,
+      times: [0, 0.82, 1],
       ease: ARRIVE, // fast approach, smooth deceleration into rest
       opacity: { duration: 0.3, ease: "easeOut" },
     },

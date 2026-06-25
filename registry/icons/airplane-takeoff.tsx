@@ -18,15 +18,18 @@ const RUNWAY = "M176,216a8,8,0,0,1-8,8H24a8,8,0,0,1,0-16H168A8,8,0,0,1,176,216Z"
 const departure: Variants = {
   normal: { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1, transition: RETURN_TRANSITION },
   animate: {
-    x: [0, 230],
-    y: [0, -160],
-    rotate: [0, -5],
-    scale: [1, 0.78],
+    // Anticipation: a brief crouch (rock back & nose-down) before the plane lunges up
+    // its heading and climbs clean out of frame, shrinking and fading into the distance.
+    x: [0, -10, 230],
+    y: [0, 4, -160],
+    rotate: [0, 3, -5],
+    scale: [1, 0.97, 0.78],
     opacity: [1, 1, 0],
     transition: {
-      duration: 1.15,
+      duration: 1.22,
+      times: [0, 0.12, 1],
       ease: [0.5, 0, 0.85, 0.4], // accelerate away
-      opacity: { duration: 1.15, times: [0, 0.55, 1], ease: "easeIn" },
+      opacity: { duration: 1.22, times: [0, 0.55, 1], ease: "easeIn" },
     },
   },
 };

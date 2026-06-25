@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { ARRIVE, DUR, RETURN_TRANSITION, SWEEP } from "@/lib/motion-tokens";
+import { DUR, OVERSHOOT_BACK, RETURN_TRANSITION, SWEEP } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // DRAW — the angle constructs itself: the two rays are traced like a pen from the
@@ -37,9 +37,11 @@ const rays: Variants = {
 const arc: Variants = {
   normal: { scale: 1, opacity: 1, transition: RETURN_TRANSITION },
   animate: {
+    // Exaggeration: the arc snaps in past full size then settles (follow-through) as
+    // the rays land, giving the measurement a confident "clicks into place" pop.
     scale: [0, 1],
     opacity: [0, 1],
-    transition: { duration: DUR.base, ease: ARRIVE, delay: DRAW_DUR - 0.05 },
+    transition: { duration: DUR.slow, ease: OVERSHOOT_BACK, delay: DRAW_DUR - 0.05 },
   },
 };
 

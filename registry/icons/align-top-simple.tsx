@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants, type Transition } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { RETURN_TRANSITION, squashStretch } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // DROP (from the bottom) — matches align-top: on hover the block flies up from below,
@@ -22,9 +22,26 @@ const FALL_BOUNCE: Transition = {
 };
 // Fly up from below (+190) to the baseline (0), rebound down to +34, etc.
 const BOUNCE_Y = [190, 0, 34, 0, 12, 0, 4, 0];
+// The block lands top-edge-first against the top baseline, so squash is anchored at
+// its top edge (y≈56/256).
+const TOP_ANCHOR = { transformBox: "view-box" as const, originX: 0.5, originY: 56 / 256 };
+// Squash on impact: the block compresses the instant it meets the baseline, then
+// stretches off the rebound and settles. Flat through the flight; the squash rides
+// the bounce on scaleY, sourced from the shared squashStretch() vocabulary.
+const [, SQ, ST] = squashStretch();
+const SQUASH_Y = [1, SQ, ST, 0.97, 1.01, 1];
+const SQUASH_TRANSITION: Transition = {
+  duration: 0.95,
+  times: [0, 0.46, 0.6, 0.74, 0.86, 1],
+  ease: "easeOut",
+};
 const drop: Variants = {
-  normal: { y: 0, transition: RETURN_TRANSITION },
-  animate: { y: BOUNCE_Y, transition: FALL_BOUNCE },
+  normal: { y: 0, scaleY: 1, transition: RETURN_TRANSITION },
+  animate: {
+    y: BOUNCE_Y,
+    scaleY: SQUASH_Y,
+    transition: { y: FALL_BOUNCE, scaleY: SQUASH_TRANSITION },
+  },
 };
 
 export const AlignTopSimpleIcon = forwardRef<IconHandle, IconProps>(function AlignTopSimpleIcon(
@@ -46,7 +63,7 @@ export const AlignTopSimpleIcon = forwardRef<IconHandle, IconProps>(function Ali
         style={{ overflow: "visible" }}
       >
         <path d={BASELINE} />
-        <motion.path variants={reduced ? undefined : drop} d={BLOCK} />
+        <motion.path variants={reduced ? undefined : drop} style={TOP_ANCHOR} d={BLOCK} />
       </motion.svg>
     </div>
   );

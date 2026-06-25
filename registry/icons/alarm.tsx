@@ -17,8 +17,10 @@ const ALARM_PIVOT = { x: 0.5, y: 0.531 };
 const ring: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
   animate: {
-    rotate: [0, -12, 12, -9, 9, -5, 5, 0],
-    transition: { duration: 0.7, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.45 },
+    // Anticipation: a small +4 wind-up cocks the clock before it rattles, then the
+    // shake decays through diminishing amplitude (follow-through) back to rest.
+    rotate: [0, 4, -12, 12, -9, 9, -5, 5, 0],
+    transition: { duration: 0.72, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.45 },
   },
 };
 

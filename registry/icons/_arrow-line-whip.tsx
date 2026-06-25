@@ -7,7 +7,11 @@ import { RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // Shared WHIP engine for the arrow-line family. Two flavors, both with the line
-// recoiling — bowing away on impact like a trampoline, then wobbling back to flat:
+// recoiling — bowing away on impact like a trampoline, then wobbling back to flat.
+// Principles: SQUASH & STRETCH (the arrow collapses into / lunges from its line),
+// ANTICIPATION (the SHOOT mode winds back toward the line before lunging out),
+// OVERLAPPING ACTION (the line reacts a beat AFTER the arrow lands, then wobbles),
+// FOLLOW-THROUGH (the elastic settle). Reduced-motion: variants gate to undefined.
 //
 //  • SQUASH (straight arrows whose head points at the line): the arrow collapses
 //    perpendicular into its line (scaleY / scaleX, anchored on the line) and whips

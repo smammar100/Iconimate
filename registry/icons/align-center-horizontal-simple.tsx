@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants, type Transition } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { RETURN_TRANSITION, squashStretch } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // DROP — on hover only the block falls in from above, hits its rest line and rebounds
@@ -23,9 +23,25 @@ const FALL_BOUNCE: Transition = {
   ease: ["easeIn", "easeOut", "easeIn", "easeOut", "easeIn", "easeOut", "easeIn"],
 };
 const BOUNCE_Y = [-190, 0, -34, 0, -12, 0, -4, 0];
+// Squash on impact (anchored at the block's leading bottom edge): it compresses the
+// instant it meets its rest line, then stretches off the rebound and settles. Flat
+// through the fall; the squash rides the bounce on scaleY, sourced from the shared
+// squashStretch() vocabulary.
+const [, SQ, ST] = squashStretch();
+const SQUASH_Y = [1, SQ, ST, 0.97, 1.01, 1];
+const SQUASH_TRANSITION: Transition = {
+  duration: 0.95,
+  times: [0, 0.46, 0.6, 0.74, 0.86, 1],
+  ease: "easeOut",
+};
+const BLOCK_ANCHOR = { transformBox: "view-box" as const, originX: 0.5, originY: 176 / 256 };
 const drop: Variants = {
-  normal: { y: 0, transition: RETURN_TRANSITION },
-  animate: { y: BOUNCE_Y, transition: FALL_BOUNCE },
+  normal: { y: 0, scaleY: 1, transition: RETURN_TRANSITION },
+  animate: {
+    y: BOUNCE_Y,
+    scaleY: SQUASH_Y,
+    transition: { y: FALL_BOUNCE, scaleY: SQUASH_TRANSITION },
+  },
 };
 
 export const AlignCenterHorizontalSimpleIcon = forwardRef<IconHandle, IconProps>(
@@ -45,7 +61,7 @@ export const AlignCenterHorizontalSimpleIcon = forwardRef<IconHandle, IconProps>
           style={{ overflow: "visible" }}
         >
           <path d={AXIS} />
-          <motion.g variants={reduced ? undefined : drop}>
+          <motion.g variants={reduced ? undefined : drop} style={BLOCK_ANCHOR}>
             <path d={BLOCK_OUTER} />
             <path d={BLOCK_INNER} fill="var(--surface)" />
           </motion.g>

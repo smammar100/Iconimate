@@ -17,6 +17,8 @@ const ARROW =
 // of arrow-arc-left). Draws from the LEFT.
 const SPINE = "M32,184A96,96,0,0,1,196,116L232,92L232,152L172,152";
 
+// Straight-ahead (the stroke is traced frame-by-frame as it draws) + arcs (the spine
+// IS the arc, so the reveal follows the curve) + slow-in/out (easeInOut on the trace).
 const draw: Variants = {
   normal: { pathLength: 1, opacity: 1, transition: RETURN_TRANSITION },
   animate: { pathLength: [0, 1], opacity: 1, transition: { duration: 0.9, ease: "easeInOut" } },

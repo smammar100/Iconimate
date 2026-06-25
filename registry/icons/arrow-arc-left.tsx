@@ -16,6 +16,8 @@ const ARROW =
 // Reveal spine: right end → along the arc → through the arrowhead's two arms.
 const SPINE = "M224,184A96,96,0,0,0,60,116L24,92L24,152L84,152";
 
+// Straight-ahead (the stroke is traced frame-by-frame as it draws) + arcs (the spine
+// IS the arc, so the reveal follows the curve) + slow-in/out (easeInOut on the trace).
 const draw: Variants = {
   normal: { pathLength: 1, opacity: 1, transition: RETURN_TRANSITION },
   animate: { pathLength: [0, 1], opacity: 1, transition: { duration: 0.9, ease: "easeInOut" } },

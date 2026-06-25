@@ -2,6 +2,7 @@
 
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef } from "react";
 import { animate, useMotionValue, useMotionValueEvent, useReducedMotion } from "motion/react";
+import { SNAP_DRAW_SPRING, SNAP_RETURN } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // SNAP — the arrow draws itself in a single fast, bouncy stroke. The centerline
@@ -78,12 +79,12 @@ export const ArrowBendUpLeftIcon = forwardRef<IconHandle, IconProps>(
       if (reduced) return;
       anim.current?.stop();
       progress.set(0);
-      anim.current = animate(progress, 1, { type: "spring", stiffness: 70, damping: 7, mass: 1 });
+      anim.current = animate(progress, 1, SNAP_DRAW_SPRING);
     }, [reduced, progress]);
 
     const stop = useCallback(() => {
       anim.current?.stop();
-      animate(progress, 1, { duration: 0.3, ease: "easeOut" });
+      animate(progress, 1, SNAP_RETURN);
     }, [progress]);
 
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);

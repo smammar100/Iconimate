@@ -11,7 +11,9 @@ import type { IconHandle, IconProps } from "@/lib/icon";
 // whole acorn swings as one unit rather than cap-and-nut separately.
 const rock: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
-  animate: { rotate: [0, 6, -4.5, 2.5, -1, 0], transition: { duration: 0.9, ease: "easeInOut" } },
+  // Anticipation: a tiny counter-lean (-2) winds up before the acorn topples the
+  // other way, then the swing decays through diminishing amplitude (follow-through).
+  animate: { rotate: [0, -2, 6, -4.5, 2.5, -1, 0], transition: { duration: 0.95, ease: "easeInOut" } },
 };
 
 export const AcornIcon = forwardRef<IconHandle, IconProps>(function AcornIcon(

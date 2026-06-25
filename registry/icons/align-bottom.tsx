@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants, type Transition } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { RETURN_TRANSITION, squashStretch } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // DROP — on hover the two blocks fall in from above, hit the baseline and bounce
@@ -26,13 +26,35 @@ const FALL_BOUNCE: Transition = {
   ease: ["easeIn", "easeOut", "easeIn", "easeOut", "easeIn", "easeOut", "easeIn"],
 };
 const BOUNCE_Y = [-190, 0, -34, 0, -12, 0, -4, 0];
+// Squash on impact (anchored at the landed bottom edge via ORIGIN): the block
+// compresses the instant it meets the baseline, then stretches off the rebound and
+// settles. Flat through the fall; the squash keyframes ride the bounce on scaleY,
+// sourced from the shared squashStretch() vocabulary.
+const [, SQ, ST] = squashStretch();
+const SQUASH_Y = [1, SQ, ST, 0.97, 1.01, 1];
+const SQUASH_TRANSITION: Transition = {
+  duration: 0.95,
+  times: [0, 0.46, 0.6, 0.74, 0.86, 1],
+  ease: "easeOut",
+};
 const dropLeft: Variants = {
-  normal: { y: 0, transition: RETURN_TRANSITION },
-  animate: { y: BOUNCE_Y, transition: FALL_BOUNCE },
+  normal: { y: 0, scaleY: 1, transition: RETURN_TRANSITION },
+  animate: {
+    y: BOUNCE_Y,
+    scaleY: SQUASH_Y,
+    transition: { y: FALL_BOUNCE, scaleY: SQUASH_TRANSITION },
+  },
 };
 const dropRight: Variants = {
-  normal: { y: 0, transition: RETURN_TRANSITION },
-  animate: { y: BOUNCE_Y, transition: { ...FALL_BOUNCE, delay: 0.1 } },
+  normal: { y: 0, scaleY: 1, transition: RETURN_TRANSITION },
+  animate: {
+    y: BOUNCE_Y,
+    scaleY: SQUASH_Y,
+    transition: {
+      y: { ...FALL_BOUNCE, delay: 0.1 },
+      scaleY: { ...SQUASH_TRANSITION, delay: 0.1 },
+    },
+  },
 };
 
 export const AlignBottomIcon = forwardRef<IconHandle, IconProps>(function AlignBottomIcon(

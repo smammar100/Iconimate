@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION, SWEEP } from "@/lib/motion-tokens";
+import { OVERSHOOT_BACK, RETURN_TRANSITION, SWEEP } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // DRAW — the logo traces its own outline on while the fill rises in behind it, then
@@ -17,10 +17,18 @@ const DRAW_DUR = 0.875;
 
 // The fill rises in over the back half of the draw.
 const fillReveal: Variants = {
-  normal: { opacity: 1, transition: RETURN_TRANSITION },
+  normal: { opacity: 1, scale: 1, transition: RETURN_TRANSITION },
   animate: {
     opacity: [0, 0, 1],
-    transition: { duration: DRAW_DUR, ease: "easeIn", times: [0, 0.5, 1] },
+    // Follow-through: as the fill takes over the glyph gives a small settle pop
+    // (overshoot back to rest), so the draw lands with a bit of weight.
+    scale: [1, 1, 1.06, 1],
+    transition: {
+      duration: DRAW_DUR,
+      ease: "easeIn",
+      times: [0, 0.5, 1],
+      scale: { duration: DRAW_DUR, ease: OVERSHOOT_BACK, times: [0, 0.5, 0.8, 1] },
+    },
   },
 };
 
@@ -53,7 +61,11 @@ export const AppStoreLogoIcon = forwardRef<IconHandle, IconProps>(function AppSt
         animate={controls}
         style={{ overflow: "visible" }}
       >
-        <motion.path d={LOGO} variants={reduced ? undefined : fillReveal} />
+        <motion.path
+          d={LOGO}
+          variants={reduced ? undefined : fillReveal}
+          style={{ transformBox: "view-box", originX: 0.5, originY: 0.5 }}
+        />
         <motion.path
           d={LOGO}
           fill="none"

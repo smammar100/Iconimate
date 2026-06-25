@@ -3,7 +3,7 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { OVERSHOOT_BACK, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // WIND — the arrow winds back a few degrees (clockwise anticipation), then whips
@@ -15,8 +15,10 @@ const GLYPH =
 const wind: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
   animate: {
+    // Anticipation (the +28° wind-back), follow-through + slow-in/out via OVERSHOOT_BACK
+    // (the spin eases past -360° then settles — exaggeration on the landing).
     rotate: [0, 28, -360],
-    transition: { duration: 0.9, ease: [0.34, 1.56, 0.64, 1], times: [0, 0.22, 1] },
+    transition: { duration: 0.9, ease: OVERSHOOT_BACK, times: [0, 0.22, 1] },
   },
 };
 

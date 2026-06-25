@@ -3,19 +3,21 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { ARRIVE, RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { ARRIVE, RETURN_TRANSITION, popIn } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
-// One confident turn, paired with an anticipation dip and a pop. The dip→peak→rest scale needs
-// three keyframes, so it's a tween (springs cap at 2 keyframes).
+// One confident turn, paired with an anticipation dip and an overshoot pop — the
+// scale arc comes straight from the shared `popIn()` (wind-up dip → peak → settle)
+// so the twinkle speaks the set's dialect. Rotate runs alongside on its own tween.
+const pop = popIn({ peak: 1.18, duration: 0.6 });
 const twinkle: Variants = {
   normal: { rotate: 0, scale: 1, transition: RETURN_TRANSITION },
   animate: {
     rotate: [0, 360],
-    scale: [1, 0.8, 1.18, 1],
+    scale: pop.scale,
     transition: {
       rotate: { duration: 0.7, ease: ARRIVE },
-      scale: { duration: 0.6, ease: ARRIVE, times: [0, 0.3, 0.65, 1] },
+      scale: pop.transition,
     },
   },
 };

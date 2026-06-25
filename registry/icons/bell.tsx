@@ -3,11 +3,14 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { RETURN_TRANSITION, staged } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
-// The shell rocks; the ringer swings wider and in opposition — that contrast reads as "ringing".
-// Diminishing-amplitude keyframes carry the decay, so this is a tween (springs cap at 2 keyframes).
+// The shell rocks; the ringer swings wider, in opposition, and lags slightly behind —
+// that contrast plus the trailing clapper reads as "ringing". Diminishing-amplitude
+// keyframes carry the decay, so this is a tween (springs cap at 2 keyframes).
+// Principles: follow-through (decay), overlapping action (clapper lags the shell via
+// staged()), exaggeration (the ringer swings wider than the shell).
 const shell: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
   animate: { rotate: [0, 12, -9, 5, -2, 0], transition: { duration: 0.9, ease: "easeInOut" } },
@@ -15,7 +18,8 @@ const shell: Variants = {
 
 const ringer: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
-  animate: { rotate: [0, -18, 14, -8, 3, 0], transition: { duration: 0.9, ease: "easeInOut" } },
+  // Lags the shell by one stagger step so the clapper trails the bell body.
+  animate: { rotate: [0, -18, 14, -8, 3, 0], transition: { duration: 0.9, ease: "easeInOut", delay: staged(1, 0.05) } },
 };
 
 export const BellIcon = forwardRef<IconHandle, IconProps>(function BellIcon(
