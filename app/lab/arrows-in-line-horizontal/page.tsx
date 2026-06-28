@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
-import { motion, type Variants } from "motion/react";
+import { motion, type Transition, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { ARRIVE, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
@@ -60,7 +60,7 @@ function makeIcon(leftV: Variants, rightV: Variants, lineV: Variants) {
 /* ── 1. WHIP  (requested) — the arrows fly out to both edges, off-frame, then rush back
    in and strike the line; the line jiggles a beat after impact and settles. Squash &
    stretch + Overlapping action + Follow-through. ─────────────────────────────────── */
-const WHIP_AT = { duration: 1.1, times: [0, 0.28, 0.44, 0.64, 1], ease: ["easeIn", "linear", "easeOut", "easeOut"] } as const;
+const WHIP_AT: Transition = { duration: 1.1, times: [0, 0.28, 0.44, 0.64, 1], ease: ["easeIn", "linear", "easeOut", "easeOut"] };
 const leftWhip: Variants = {
   normal: { x: 0, transition: RETURN_TRANSITION },
   animate: { x: [0, -OFF, -OFF, 12, 0], transition: WHIP_AT },
@@ -80,7 +80,7 @@ const WhipIcon = makeIcon(leftWhip, rightWhip, lineWhip);
 
 /* ── 2. CONVERGE — the arrows glide in from both edges to the line and stop; the line
    gives a single gentle bow. Slow in & out. ──────────────────────────────────────── */
-const CONV_AT = { duration: 0.95, times: [0, 0.3, 0.46, 1], ease: ["easeIn", "linear", ARRIVE] } as const;
+const CONV_AT: Transition = { duration: 0.95, times: [0, 0.3, 0.46, 1], ease: ["easeIn", "linear", ARRIVE] };
 const leftConv: Variants = { normal: { x: 0, transition: RETURN_TRANSITION }, animate: { x: [0, -OFF, -OFF, 0], transition: CONV_AT } };
 const rightConv: Variants = { normal: { x: 0, transition: RETURN_TRANSITION }, animate: { x: [0, OFF, OFF, 0], transition: CONV_AT } };
 const lineConv: Variants = {
@@ -110,7 +110,7 @@ const StaggerIcon = makeIcon(leftStag, rightStag, lineStag);
 
 /* ── 4. RECOIL — the arrows pull back outward (anticipation), then snap in at the line;
    the line jiggles. Anticipation + Follow-through. ───────────────────────────────── */
-const REC_AT = { duration: 0.85, times: [0, 0.32, 0.62, 1], ease: ["easeOut", "easeIn", "easeOut"] } as const;
+const REC_AT: Transition = { duration: 0.85, times: [0, 0.32, 0.62, 1], ease: ["easeOut", "easeIn", "easeOut"] };
 const leftRec: Variants = { normal: { x: 0, transition: RETURN_TRANSITION }, animate: { x: [0, -24, 14, 0], transition: REC_AT } };
 const rightRec: Variants = { normal: { x: 0, transition: RETURN_TRANSITION }, animate: { x: [0, 24, -14, 0], transition: REC_AT } };
 const lineRec: Variants = {

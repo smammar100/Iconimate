@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, useImperativeHandle } from "react";
-import { motion, type Variants } from "motion/react";
+import { motion, type Transition, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
@@ -15,14 +15,13 @@ import type { IconHandle, IconProps } from "@/lib/icon";
 const CENTER = { transformBox: "view-box" as const, originX: 0.5, originY: 0.5 };
 
 export function makeArrowsRubberBand(glyph: string, axis: "x" | "y") {
-  const key = axis === "x" ? "scaleX" : "scaleY";
-  const rubberBand: Variants = {
-    normal: { [key]: 1, transition: RETURN_TRANSITION },
-    animate: {
-      [key]: [1, 1.32, 0.9, 1.1, 0.97, 1],
-      transition: { duration: 0.95, times: [0, 0.25, 0.5, 0.7, 0.86, 1], ease: "easeOut" },
-    },
-  };
+  const KEYS = [1, 1.32, 0.9, 1.1, 0.97, 1];
+  const T: Transition = { duration: 0.95, times: [0, 0.25, 0.5, 0.7, 0.86, 1], ease: "easeOut" };
+  // Literal scaleX/scaleY keys (not a computed key) so the object types as a Variant.
+  const rubberBand: Variants =
+    axis === "x"
+      ? { normal: { scaleX: 1, transition: RETURN_TRANSITION }, animate: { scaleX: KEYS, transition: T } }
+      : { normal: { scaleY: 1, transition: RETURN_TRANSITION }, animate: { scaleY: KEYS, transition: T } };
   return forwardRef<IconHandle, IconProps>(function ArrowsRubberBandIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);

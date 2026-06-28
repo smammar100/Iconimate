@@ -1,7 +1,7 @@
 "use client";
 
 import { forwardRef, useImperativeHandle } from "react";
-import { motion, type Variants } from "motion/react";
+import { motion, type Transition, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
@@ -15,21 +15,20 @@ import type { IconHandle, IconProps } from "@/lib/icon";
 
 // Travel far enough that each arrow fully clears the bounding box before it returns.
 const H = 240;
-const TRANSITION = {
+const TRANSITION: Transition = {
   duration: 1.0,
   times: [0, 0.32, 0.46, 0.8, 1],
   ease: ["easeIn", "linear", "easeOut", "easeInOut"],
-} as const;
+};
 
 export function makeArrowsBounce(pathPos: string, pathNeg: string, axis: "x" | "y") {
-  const pos: Variants = {
-    normal: { [axis]: 0, transition: RETURN_TRANSITION },
-    animate: { [axis]: [0, -H, -H, 16, 0], transition: TRANSITION },
-  };
-  const neg: Variants = {
-    normal: { [axis]: 0, transition: RETURN_TRANSITION },
-    animate: { [axis]: [0, H, H, -16, 0], transition: TRANSITION },
-  };
+  // Literal x/y keys (not a computed key) so the object types as a motion Variant.
+  const mk = (kf: number[]): Variants =>
+    axis === "x"
+      ? { normal: { x: 0, transition: RETURN_TRANSITION }, animate: { x: kf, transition: TRANSITION } }
+      : { normal: { y: 0, transition: RETURN_TRANSITION }, animate: { y: kf, transition: TRANSITION } };
+  const pos = mk([0, -H, -H, 16, 0]);
+  const neg = mk([0, H, H, -16, 0]);
   return forwardRef<IconHandle, IconProps>(function ArrowsBounceIcon({ size = 28, style, ...props }, ref) {
     const { controls, reduced, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);

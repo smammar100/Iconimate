@@ -33,14 +33,13 @@ export function makeArrowsLineWhip(axis: "x" | "y", arrowNeg: string, arrowPos: 
     times: [0, 0.28, 0.44, 0.64, 1],
     ease: ["easeIn", "linear", "easeOut", "easeOut"],
   };
-  const negV: Variants = {
-    normal: { [axis]: 0, transition: RETURN_TRANSITION },
-    animate: { [axis]: [0, -OFF, -OFF, IMP, 0], transition: ARROW_T },
-  };
-  const posV: Variants = {
-    normal: { [axis]: 0, transition: RETURN_TRANSITION },
-    animate: { [axis]: [0, OFF, OFF, -IMP, 0], transition: ARROW_T },
-  };
+  // Literal x/y keys (not a computed key) so the object types as a motion Variant.
+  const mk = (kf: number[]): Variants =>
+    axis === "x"
+      ? { normal: { x: 0, transition: RETURN_TRANSITION }, animate: { x: kf, transition: ARROW_T } }
+      : { normal: { y: 0, transition: RETURN_TRANSITION }, animate: { y: kf, transition: ARROW_T } };
+  const negV = mk([0, -OFF, -OFF, IMP, 0]);
+  const posV = mk([0, OFF, OFF, -IMP, 0]);
   const lineV: Variants = {
     normal: { d: flat, transition: RETURN_TRANSITION },
     animate: {
