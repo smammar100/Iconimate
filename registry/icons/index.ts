@@ -118,9 +118,35 @@ import { ArrowSquareRightIcon } from "./arrow-square-right";
 import { ArrowSquareUpIcon } from "./arrow-square-up";
 import { ArrowSquareUpLeftIcon } from "./arrow-square-up-left";
 import { ArrowSquareUpRightIcon } from "./arrow-square-up-right";
+import { ArrowUDownLeftIcon } from "./arrow-u-down-left";
+import { ArrowUDownRightIcon } from "./arrow-u-down-right";
+import { ArrowULeftDownIcon } from "./arrow-u-left-down";
+import { ArrowULeftUpIcon } from "./arrow-u-left-up";
+import { ArrowURightDownIcon } from "./arrow-u-right-down";
+import { ArrowURightUpIcon } from "./arrow-u-right-up";
+import { ArrowUUpLeftIcon } from "./arrow-u-up-left";
+import { ArrowUUpRightIcon } from "./arrow-u-up-right";
 import { ArrowUpIcon } from "./arrow-up";
 import { ArrowUpLeftIcon } from "./arrow-up-left";
 import { ArrowUpRightIcon } from "./arrow-up-right";
+import { ArrowsClockwiseIcon } from "./arrows-clockwise";
+import { ArrowsCounterClockwiseIcon } from "./arrows-counter-clockwise";
+import { ArrowsDownUpIcon } from "./arrows-down-up";
+import { ArrowsHorizontalIcon } from "./arrows-horizontal";
+import { ArrowsInIcon } from "./arrows-in";
+import { ArrowsInCardinalIcon } from "./arrows-in-cardinal";
+import { ArrowsInLineHorizontalIcon } from "./arrows-in-line-horizontal";
+import { ArrowsInLineVerticalIcon } from "./arrows-in-line-vertical";
+import { ArrowsInSimpleIcon } from "./arrows-in-simple";
+import { ArrowsLeftRightIcon } from "./arrows-left-right";
+import { ArrowsMergeIcon } from "./arrows-merge";
+import { ArrowsOutIcon } from "./arrows-out";
+import { ArrowsOutCardinalIcon } from "./arrows-out-cardinal";
+import { ArrowsOutLineHorizontalIcon } from "./arrows-out-line-horizontal";
+import { ArrowsOutLineVerticalIcon } from "./arrows-out-line-vertical";
+import { ArrowsOutSimpleIcon } from "./arrows-out-simple";
+import { ArrowsSplitIcon } from "./arrows-split";
+import { ArrowsVerticalIcon } from "./arrows-vertical";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -250,9 +276,35 @@ export const icons: IconEntry[] = [
   { slug: "arrow-square-up", name: "Arrow Square Up", keywords: ["square", "up", "box", "upload", "north", "scroll"], Component: ArrowSquareUpIcon },
   { slug: "arrow-square-up-left", name: "Arrow Square Up-Left", keywords: ["square", "up", "left", "box", "diagonal", "northwest", "scroll"], Component: ArrowSquareUpLeftIcon },
   { slug: "arrow-square-up-right", name: "Arrow Square Up-Right", keywords: ["square", "up", "right", "box", "diagonal", "northeast", "external", "scroll"], Component: ArrowSquareUpRightIcon },
+  { slug: "arrow-u-down-left", name: "Arrow U Down-Left", keywords: ["u-turn", "down", "left", "return", "reroute", "back", "undo", "reverse", "turn"], Component: ArrowUDownLeftIcon },
+  { slug: "arrow-u-down-right", name: "Arrow U Down-Right", keywords: ["u-turn", "down", "right", "return", "reroute", "redo", "reverse", "turn"], Component: ArrowUDownRightIcon },
+  { slug: "arrow-u-left-down", name: "Arrow U Left-Down", keywords: ["u-turn", "left", "down", "return", "reroute", "reverse", "turn"], Component: ArrowULeftDownIcon },
+  { slug: "arrow-u-left-up", name: "Arrow U Left-Up", keywords: ["u-turn", "left", "up", "return", "reroute", "reverse", "turn"], Component: ArrowULeftUpIcon },
+  { slug: "arrow-u-right-down", name: "Arrow U Right-Down", keywords: ["u-turn", "right", "down", "return", "reroute", "reverse", "turn"], Component: ArrowURightDownIcon },
+  { slug: "arrow-u-right-up", name: "Arrow U Right-Up", keywords: ["u-turn", "right", "up", "return", "reroute", "reverse", "turn"], Component: ArrowURightUpIcon },
+  { slug: "arrow-u-up-left", name: "Arrow U Up-Left", keywords: ["u-turn", "up", "left", "return", "reroute", "reverse", "turn"], Component: ArrowUUpLeftIcon },
+  { slug: "arrow-u-up-right", name: "Arrow U Up-Right", keywords: ["u-turn", "up", "right", "return", "reroute", "reverse", "turn"], Component: ArrowUUpRightIcon },
   { slug: "arrow-up", name: "Arrow Up", keywords: ["up", "upload", "ascend", "north", "top", "rise"], Component: ArrowUpIcon },
   { slug: "arrow-up-left", name: "Arrow Up-Left", keywords: ["up", "left", "diagonal", "northwest", "ascend"], Component: ArrowUpLeftIcon },
   { slug: "arrow-up-right", name: "Arrow Up-Right", keywords: ["up", "right", "diagonal", "northeast", "ascend", "external"], Component: ArrowUpRightIcon },
+  { slug: "arrows-clockwise", name: "Arrows Clockwise", keywords: ["refresh", "sync", "reload", "rotate", "clockwise", "update", "restart", "spin", "arrows"], Component: ArrowsClockwiseIcon },
+  { slug: "arrows-counter-clockwise", name: "Arrows Counter-Clockwise", keywords: ["refresh", "sync", "reload", "rotate", "counter-clockwise", "anticlockwise", "undo", "restart", "spin", "arrows"], Component: ArrowsCounterClockwiseIcon },
+  { slug: "arrows-down-up", name: "Arrows Down-Up", keywords: ["sort", "swap", "transfer", "exchange", "up", "down", "vertical", "reorder", "arrows"], Component: ArrowsDownUpIcon },
+  { slug: "arrows-horizontal", name: "Arrows Horizontal", keywords: ["resize", "expand", "width", "horizontal", "stretch", "double", "left", "right", "scale", "arrows"], Component: ArrowsHorizontalIcon },
+  { slug: "arrows-in", name: "Arrows In", keywords: ["minimize", "collapse", "shrink", "exit fullscreen", "contract", "in", "corners", "arrows"], Component: ArrowsInIcon },
+  { slug: "arrows-in-cardinal", name: "Arrows In Cardinal", keywords: ["minimize", "collapse", "shrink", "contract", "center", "cardinal", "compress", "in", "arrows"], Component: ArrowsInCardinalIcon },
+  { slug: "arrows-in-line-horizontal", name: "Arrows In Line Horizontal", keywords: ["collapse", "merge", "join", "horizontal", "center", "line", "align", "in", "arrows"], Component: ArrowsInLineHorizontalIcon },
+  { slug: "arrows-in-line-vertical", name: "Arrows In Line Vertical", keywords: ["collapse", "merge", "join", "vertical", "center", "line", "align", "in", "arrows"], Component: ArrowsInLineVerticalIcon },
+  { slug: "arrows-in-simple", name: "Arrows In Simple", keywords: ["minimize", "collapse", "shrink", "exit fullscreen", "contract", "in", "simple", "arrows"], Component: ArrowsInSimpleIcon },
+  { slug: "arrows-left-right", name: "Arrows Left-Right", keywords: ["swap", "transfer", "exchange", "left", "right", "horizontal", "compare", "switch", "arrows"], Component: ArrowsLeftRightIcon },
+  { slug: "arrows-merge", name: "Arrows Merge", keywords: ["merge", "combine", "join", "funnel", "converge", "collapse", "down", "arrows"], Component: ArrowsMergeIcon },
+  { slug: "arrows-out", name: "Arrows Out", keywords: ["maximize", "expand", "fullscreen", "enlarge", "grow", "out", "corners", "arrows"], Component: ArrowsOutIcon },
+  { slug: "arrows-out-cardinal", name: "Arrows Out Cardinal", keywords: ["maximize", "expand", "move", "drag", "pan", "cardinal", "out", "arrows"], Component: ArrowsOutCardinalIcon },
+  { slug: "arrows-out-line-horizontal", name: "Arrows Out Line Horizontal", keywords: ["expand", "split", "spread", "horizontal", "center", "line", "out", "arrows"], Component: ArrowsOutLineHorizontalIcon },
+  { slug: "arrows-out-line-vertical", name: "Arrows Out Line Vertical", keywords: ["expand", "split", "spread", "vertical", "center", "line", "out", "arrows"], Component: ArrowsOutLineVerticalIcon },
+  { slug: "arrows-out-simple", name: "Arrows Out Simple", keywords: ["maximize", "expand", "fullscreen", "enlarge", "grow", "out", "simple", "arrows"], Component: ArrowsOutSimpleIcon },
+  { slug: "arrows-split", name: "Arrows Split", keywords: ["split", "branch", "diverge", "fork", "separate", "distribute", "down", "arrows"], Component: ArrowsSplitIcon },
+  { slug: "arrows-vertical", name: "Arrows Vertical", keywords: ["resize", "expand", "height", "vertical", "stretch", "double", "up", "down", "scale", "arrows"], Component: ArrowsVerticalIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -393,7 +445,33 @@ export {
   ArrowSquareUpIcon,
   ArrowSquareUpLeftIcon,
   ArrowSquareUpRightIcon,
+  ArrowUDownLeftIcon,
+  ArrowUDownRightIcon,
+  ArrowULeftDownIcon,
+  ArrowULeftUpIcon,
+  ArrowURightDownIcon,
+  ArrowURightUpIcon,
+  ArrowUUpLeftIcon,
+  ArrowUUpRightIcon,
   ArrowUpIcon,
   ArrowUpLeftIcon,
   ArrowUpRightIcon,
+  ArrowsClockwiseIcon,
+  ArrowsCounterClockwiseIcon,
+  ArrowsDownUpIcon,
+  ArrowsHorizontalIcon,
+  ArrowsInIcon,
+  ArrowsInCardinalIcon,
+  ArrowsInLineHorizontalIcon,
+  ArrowsInLineVerticalIcon,
+  ArrowsInSimpleIcon,
+  ArrowsLeftRightIcon,
+  ArrowsMergeIcon,
+  ArrowsOutIcon,
+  ArrowsOutCardinalIcon,
+  ArrowsOutLineHorizontalIcon,
+  ArrowsOutLineVerticalIcon,
+  ArrowsOutSimpleIcon,
+  ArrowsSplitIcon,
+  ArrowsVerticalIcon,
 };
