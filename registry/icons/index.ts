@@ -52,6 +52,9 @@ import { ApplePodcastsLogoIcon } from "./apple-podcasts-logo";
 import { ApproximateEqualsIcon } from "./approximate-equals";
 import { ArchiveIcon } from "./archive";
 import { ArmchairIcon } from "./armchair";
+import { ArticleIcon } from "./article";
+import { ArticleMediumIcon } from "./article-medium";
+import { ArticleNyTimesIcon } from "./article-ny-times";
 import { ArrowArcLeftIcon } from "./arrow-arc-left";
 import { ArrowArcRightIcon } from "./arrow-arc-right";
 import { ArrowBendDoubleUpLeftIcon } from "./arrow-bend-double-up-left";
@@ -147,6 +150,13 @@ import { ArrowsOutLineVerticalIcon } from "./arrows-out-line-vertical";
 import { ArrowsOutSimpleIcon } from "./arrows-out-simple";
 import { ArrowsSplitIcon } from "./arrows-split";
 import { ArrowsVerticalIcon } from "./arrows-vertical";
+import { AsclepiusIcon } from "./asclepius";
+import { AsteriskIcon } from "./asterisk";
+import { AsteriskSimpleIcon } from "./asterisk-simple";
+import { AtIcon } from "./at";
+import { AtomIcon } from "./atom";
+import { AvocadoIcon } from "./avocado";
+import { AxeIcon } from "./axe";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -210,6 +220,9 @@ export const icons: IconEntry[] = [
   { slug: "approximate-equals", name: "Approximate Equals", keywords: ["approximately", "equal", "almost", "roughly", "math", "tilde", "wave", "≈"], Component: ApproximateEqualsIcon },
   { slug: "archive", name: "Archive", keywords: ["box", "storage", "store", "save", "file", "inbox", "lid", "stash"], Component: ArchiveIcon },
   { slug: "armchair", name: "Armchair", keywords: ["chair", "seat", "sofa", "couch", "furniture", "lounge", "cushion", "puff"], Component: ArmchairIcon },
+  { slug: "article", name: "Article", keywords: ["document", "page", "text", "post", "blog", "news", "read", "write", "lines", "paragraph"], Component: ArticleIcon },
+  { slug: "article-medium", name: "Article Medium", keywords: ["document", "page", "text", "post", "blog", "medium", "publish", "drop cap", "masthead", "serif", "m"], Component: ArticleMediumIcon },
+  { slug: "article-ny-times", name: "Article NY Times", keywords: ["document", "page", "text", "post", "news", "newspaper", "nyt", "new york times", "publish", "drop cap", "masthead", "serif", "t"], Component: ArticleNyTimesIcon },
   { slug: "arrow-arc-left", name: "Arrow Arc Left", keywords: ["undo", "back", "rewind", "refresh", "rotate", "counter-clockwise", "arc", "return"], Component: ArrowArcLeftIcon },
   { slug: "arrow-arc-right", name: "Arrow Arc Right", keywords: ["redo", "forward", "refresh", "rotate", "clockwise", "arc", "reload"], Component: ArrowArcRightIcon },
   { slug: "arrow-bend-double-up-left", name: "Arrow Bend Double Up-Left", keywords: ["reply", "reply all", "return", "back", "undo", "double", "bend", "turn"], Component: ArrowBendDoubleUpLeftIcon },
@@ -305,6 +318,13 @@ export const icons: IconEntry[] = [
   { slug: "arrows-out-simple", name: "Arrows Out Simple", keywords: ["maximize", "expand", "fullscreen", "enlarge", "grow", "out", "simple", "arrows"], Component: ArrowsOutSimpleIcon },
   { slug: "arrows-split", name: "Arrows Split", keywords: ["split", "branch", "diverge", "fork", "separate", "distribute", "down", "arrows"], Component: ArrowsSplitIcon },
   { slug: "arrows-vertical", name: "Arrows Vertical", keywords: ["resize", "expand", "height", "vertical", "stretch", "double", "up", "down", "scale", "arrows"], Component: ArrowsVerticalIcon },
+  { slug: "asclepius", name: "Asclepius", keywords: ["medical", "medicine", "health", "healthcare", "rod", "staff", "serpent", "snake", "caduceus", "pharmacy", "doctor"], Component: AsclepiusIcon },
+  { slug: "asterisk", name: "Asterisk", keywords: ["star", "footnote", "required", "wildcard", "snowflake", "spokes", "burst", "sparkle"], Component: AsteriskIcon },
+  { slug: "asterisk-simple", name: "Asterisk Simple", keywords: ["star", "footnote", "required", "wildcard", "snowflake", "spokes", "five", "burst", "sparkle"], Component: AsteriskSimpleIcon },
+  { slug: "at", name: "At", keywords: ["email", "mention", "handle", "username", "address", "spin", "online"], Component: AtIcon },
+  { slug: "atom", name: "Atom", keywords: ["science", "physics", "nucleus", "orbit", "electron", "molecule", "react", "spin", "energy"], Component: AtomIcon },
+  { slug: "avocado", name: "Avocado", keywords: ["fruit", "food", "guac", "guacamole", "pit", "stone", "healthy", "keto", "drop", "bounce"], Component: AvocadoIcon },
+  { slug: "axe", name: "Axe", keywords: ["chop", "wood", "lumberjack", "tool", "hatchet", "cut", "weapon", "swing"], Component: AxeIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */

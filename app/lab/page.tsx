@@ -3,23 +3,25 @@
 import { useRef } from "react";
 import type { IconHandle } from "@/lib/icon";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
-import { ALIGN_CENTER_HORIZONTAL } from "./align-center-horizontal-icon";
-import { AlignCH1 } from "./variants/h1";
-import { AlignCH2 } from "./variants/h2";
-import { AlignCH3 } from "./variants/h3";
-import { AlignCH4 } from "./variants/h4";
-import { AlignCH5 } from "./variants/h5";
-import { AlignCH6 } from "./variants/h6";
-import { AlignCH7 } from "./variants/h7";
+import { AXE } from "./axe-icon";
+import { Axe1 } from "./variants/axe1";
+import { Axe2 } from "./variants/axe2";
+import { Axe3 } from "./variants/axe3";
+import { Axe4 } from "./variants/axe4";
+import { Axe5 } from "./variants/axe5";
+import { Axe6 } from "./variants/axe6";
+import { Axe7 } from "./variants/axe7";
+import { Axe8 } from "./variants/axe8";
 
 const VARIANTS = [
-  { n: 1, name: "Snap (spring)", C: AlignCH1 },
-  { n: 2, name: "Grow (spring)", C: AlignCH2 },
-  { n: 3, name: "Sway (loop)", C: AlignCH3 },
-  { n: 4, name: "Pulse (loop)", C: AlignCH4 },
-  { n: 5, name: "Wipe", C: AlignCH5 },
-  { n: 6, name: "Center wipe", C: AlignCH6 },
-  { n: 7, name: "Drop (bounce)", C: AlignCH7 },
+  { n: 1, name: "Pop (spring)", C: Axe1 },
+  { n: 2, name: "Swing in (from wound back)", C: Axe2 },
+  { n: 3, name: "Chop (wind-up + swing)", C: Axe3 },
+  { n: 4, name: "Chop + recoil (impact bounce)", C: Axe4 },
+  { n: 5, name: "Chop + spark (impact burst)", C: Axe5 },
+  { n: 6, name: "Chop loop + speed lines (from video)", C: Axe6 },
+  { n: 7, name: "Chop + trails + spark (random colour)", C: Axe7 },
+  { n: 8, name: "Chop, contained (v3 motion, in bounds)", C: Axe8 },
 ];
 
 export default function Lab() {
@@ -47,15 +49,16 @@ export default function Lab() {
         <header className="lab-head">
           <span className="lab-eyebrow">
             <span className="dc-eyebrow__dot" />
-            Prototype · align center horizontal simple · 7 candidates
+            Prototype · axe · 8 candidates
           </span>
-          <h1 className="lab-title">Find the center.</h1>
+          <h1 className="lab-title">Take a swing.</h1>
           <p className="lab-sub">
-            Seven takes on align-center-horizontal-simple — a spring snap into place, a
-            horizontal grow out of the center axis, a gentle balance sway, a breathing
-            pulse, a left-to-right wipe, a center-out wipe, and a drop-and-bounce. The exact Phosphor
-            glyph, animated whole so the artwork is pixel-identical. Hover any card to
-            preview, or click to replay.
+            Five takes on axe, each one better than the last — a springy pop, then a swing
+            into place from wound back, then a real chop with an anticipation wind-up, then
+            the chop with an impact recoil as the blade bites, and finally the full hit: a
+            chop with a starburst of sparks flying off the blade on contact. The whole
+            glyph swings as a rigid body, pivoting on the grip. Hover any card to preview,
+            or click to replay.
           </p>
           <div className="lab-toolbar">
             <button type="button" className="dc-btn" onClick={playAll}>
@@ -64,11 +67,11 @@ export default function Lab() {
             <div className="lab-source">
               <span className="lab-source__icon">
                 <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden>
-                  <path d={ALIGN_CENTER_HORIZONTAL} />
+                  <path d={AXE} />
                 </svg>
               </span>
               <span className="dc-mono" style={{ fontSize: 12.5 }}>
-                Phosphor align center horizontal simple · 256 grid
+                Phosphor axe · 256 grid
               </span>
             </div>
           </div>
