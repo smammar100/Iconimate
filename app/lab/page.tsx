@@ -3,25 +3,23 @@
 import { useRef } from "react";
 import type { IconHandle } from "@/lib/icon";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
-import { AXE } from "./axe-icon";
-import { Axe1 } from "./variants/axe1";
-import { Axe2 } from "./variants/axe2";
-import { Axe3 } from "./variants/axe3";
-import { Axe4 } from "./variants/axe4";
-import { Axe5 } from "./variants/axe5";
-import { Axe6 } from "./variants/axe6";
-import { Axe7 } from "./variants/axe7";
-import { Axe8 } from "./variants/axe8";
+import { BABY_CARRIAGE } from "./baby-carriage-icon";
+import { Bc1 } from "./variants/bc1";
+import { Bc2 } from "./variants/bc2";
+import { Bc3 } from "./variants/bc3";
+import { Bc4 } from "./variants/bc4";
+import { Bc5 } from "./variants/bc5";
+import { Bc6 } from "./variants/bc6";
+import { Bc7 } from "./variants/bc7";
 
 const VARIANTS = [
-  { n: 1, name: "Pop (spring)", C: Axe1 },
-  { n: 2, name: "Swing in (from wound back)", C: Axe2 },
-  { n: 3, name: "Chop (wind-up + swing)", C: Axe3 },
-  { n: 4, name: "Chop + recoil (impact bounce)", C: Axe4 },
-  { n: 5, name: "Chop + spark (impact burst)", C: Axe5 },
-  { n: 6, name: "Chop loop + speed lines (from video)", C: Axe6 },
-  { n: 7, name: "Chop + trails + spark (random colour)", C: Axe7 },
-  { n: 8, name: "Chop, contained (v3 motion, in bounds)", C: Axe8 },
+  { n: 1, name: "Pop (spring)", C: Bc1 },
+  { n: 2, name: "Roll in (push + settle)", C: Bc2 },
+  { n: 3, name: "Rock (soothe)", C: Bc3 },
+  { n: 4, name: "Bump ride (bounce + tilt)", C: Bc4 },
+  { n: 5, name: "Hood unfurl + bounce (from baby-stroller.mp4)", C: Bc5 },
+  { n: 6, name: "Hood breathe (from Stroller Lottie)", C: Bc6 },
+  { n: 7, name: "Suspension bounce (body drop + canopy pivot)", C: Bc7 },
 ];
 
 export default function Lab() {
@@ -49,16 +47,16 @@ export default function Lab() {
         <header className="lab-head">
           <span className="lab-eyebrow">
             <span className="dc-eyebrow__dot" />
-            Prototype · axe · 8 candidates
+            Prototype · baby-carriage · 7 candidates
           </span>
-          <h1 className="lab-title">Take a swing.</h1>
+          <h1 className="lab-title">Push along.</h1>
           <p className="lab-sub">
-            Five takes on axe, each one better than the last — a springy pop, then a swing
-            into place from wound back, then a real chop with an anticipation wind-up, then
-            the chop with an impact recoil as the blade bites, and finally the full hit: a
-            chop with a starburst of sparks flying off the blade on contact. The whole
-            glyph swings as a rigid body, pivoting on the grip. Hover any card to preview,
-            or click to replay.
+            Six takes on baby-carriage — a plain springy pop, a roll-in that arrives with
+            momentum, a soothing rock on the wheels, a bumpy ride that bounces and tilts on
+            its suspension, then the showpiece: the hood furling and unfurling as the pram
+            springs on its suspension (measured from baby-stroller.mp4). Last is the quiet
+            one: the body dead still while only the hood breathes — a subtle furl flutter
+            traced from the Stroller Lottie. Hover any card to preview, or click to replay.
           </p>
           <div className="lab-toolbar">
             <button type="button" className="dc-btn" onClick={playAll}>
@@ -67,11 +65,11 @@ export default function Lab() {
             <div className="lab-source">
               <span className="lab-source__icon">
                 <svg width="22" height="22" viewBox="0 0 256 256" fill="currentColor" aria-hidden>
-                  <path d={AXE} />
+                  <path d={BABY_CARRIAGE} />
                 </svg>
               </span>
               <span className="dc-mono" style={{ fontSize: 12.5 }}>
-                Phosphor axe · 256 grid
+                Phosphor baby-carriage · 256 grid
               </span>
             </div>
           </div>
