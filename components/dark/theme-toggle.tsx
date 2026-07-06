@@ -6,20 +6,18 @@ type Theme = "light" | "dark";
 
 /** Nav button that flips the document theme and persists the choice in a cookie. */
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const attr = document.documentElement.getAttribute("data-theme");
-    if (attr === "light" || attr === "dark") {
-      setTheme(attr);
-    } else {
-      setTheme(window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-    }
+    // The server always renders an explicit data-theme (light default), so the
+    // attribute is the single source of truth — no matchMedia guessing.
+    setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
   }, []);
 
   const toggle = () => {
     const next: Theme = theme === "dark" ? "light" : "dark";
     document.documentElement.setAttribute("data-theme", next);
+    document.documentElement.setAttribute("data-color-scheme", next);
     document.cookie = `iconimate-theme=${next};path=/;max-age=31536000;samesite=lax`;
     setTheme(next);
   };

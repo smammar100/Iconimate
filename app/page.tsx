@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { visibleIcons } from "@/registry/icons";
-import { DarkIconCard } from "@/components/dark/dark-icon-card";
+import { DarkIconCard, type IconAction } from "@/components/dark/dark-icon-card";
 import { CommandPalette } from "@/components/dark/command-palette";
 import { InteractiveHero } from "@/components/dark/interactive-hero";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
-import { installCommand } from "@/components/dark/icon-meta";
+import { fetchIconSource, installCommand, type PackageManager } from "@/components/dark/icon-meta";
 
 export default function Home() {
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -25,16 +26,31 @@ export default function Home() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const copy = useCallback(async (slug: string, name: string) => {
-    try {
-      await navigator.clipboard.writeText(installCommand(slug));
-    } catch {
-      /* clipboard unavailable */
-    }
-    setToast(name);
-    window.clearTimeout(toastTimer.current);
-    toastTimer.current = window.setTimeout(() => setToast(null), 1900);
-  }, []);
+  // One dispatcher for every distribution surface: cards, palette, hero tabs.
+  // "copy-cli" copies the shadcn install line; "copy-code" copies the icon's
+  // standalone .tsx source fetched from the registry item we serve at /r/.
+  const action = useCallback(
+    async (kind: IconAction, slug: string, name: string, pm: PackageManager = "npm") => {
+      let text: string;
+      let message: string;
+      try {
+        if (kind === "copy-code") {
+          text = await fetchIconSource(slug);
+          message = `Copied ${name} code`;
+        } else {
+          text = installCommand(slug, pm);
+          message = `Copied ${name}`;
+        }
+        await navigator.clipboard.writeText(text);
+      } catch {
+        message = `Couldn't copy ${name}`;
+      }
+      setToast(message);
+      window.clearTimeout(toastTimer.current);
+      toastTimer.current = window.setTimeout(() => setToast(null), 1900);
+    },
+    [],
+  );
 
   return (
     <main className="dc">
@@ -54,14 +70,17 @@ export default function Home() {
             <button type="button" className="dc-btn dc-btn--ghost" onClick={() => setPaletteOpen(true)}>
               <span className="dc-mono" style={{ fontSize: 12 }}>⌘K</span>
             </button>
-            <button type="button" className="dc-btn" onClick={() => copy("bell", "Bell")}>
+            <button type="button" className="dc-btn" onClick={() => action("copy-cli", "bell", "Bell")}>
               Get All Icons
             </button>
           </div>
         </nav>
 
         {/* hero — Figma Community-style hover interaction */}
-        <InteractiveHero onCopy={copy} onOpenSearch={() => setPaletteOpen(true)} />
+        <InteractiveHero
+          onCopyInstall={(pm) => action("copy-cli", "bell", "Bell", pm)}
+          onOpenSearch={() => setPaletteOpen(true)}
+        />
 
         {/* the set */}
         <section id="icons" className="dc-section" style={{ scrollMarginTop: 20 }}>
@@ -84,7 +103,7 @@ export default function Home() {
 
           <div className="dc-grid">
             {visibleIcons.map((entry) => (
-              <DarkIconCard key={entry.slug} entry={entry} onCopy={copy} />
+              <DarkIconCard key={entry.slug} entry={entry} onAction={action} />
             ))}
           </div>
         </section>
@@ -96,16 +115,29 @@ export default function Home() {
         </footer>
       </div>
 
-      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onCopy={copy} />
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onAction={action} />
 
-      {toast && (
-        <div className="dc-toast" role="status">
-          <span className="dc-toast__check">
-            <CheckGlyph />
-          </span>
-          Copied {toast}
-        </div>
-      )}
+      {/* Toast: rises 10px with a light spring settle; sinks + fades on dismiss.
+          x: "-50%" replaces the CSS translateX(-50%) centering, which Motion
+          would otherwise overwrite when it drives transform. */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div
+            key={toast}
+            className="dc-toast"
+            role="status"
+            initial={{ opacity: 0, x: "-50%", y: 10, scale: 0.97 }}
+            animate={{ opacity: 1, x: "-50%", y: 0, scale: 1 }}
+            exit={{ opacity: 0, x: "-50%", y: 6, scale: 0.98, transition: { duration: 0.16, ease: "easeOut" } }}
+            transition={{ type: "spring", visualDuration: 0.3, bounce: 0.25 }}
+          >
+            <span className="dc-toast__check">
+              <CheckGlyph />
+            </span>
+            {toast}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

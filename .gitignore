@@ -20,6 +20,10 @@
 # production
 /build
 
+# generated shadcn registry (rebuilt by scripts/build-registry.mjs on dev/build)
+/public/r/
+/generated/
+
 # misc
 .DS_Store
 *.pem

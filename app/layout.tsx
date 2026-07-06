@@ -26,17 +26,21 @@ export default async function RootLayout({
   // The saved theme is read from a cookie so it applies on the server (no flash, no client script).
   // Geist's documented theme here is Light, so first-time visitors default to light.
   const stored = (await cookies()).get("iconimate-theme")?.value;
-  const theme = stored === "light" || stored === "dark" ? stored : undefined;
+  // Resolve to an explicit theme so the app tokens AND S2's page.css agree
+  // from the first paint (S2 defaults to `color-scheme: light dark`, which
+  // would follow the OS and can disagree with our light default).
+  const theme = stored === "dark" ? "dark" : "light";
 
   return (
     <html
       lang="en"
       data-theme={theme}
+      data-color-scheme={theme}
       suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <body suppressHydrationWarning>
-        <AppProvider initialColorScheme={theme ?? "light"}>{children}</AppProvider>
+        <AppProvider initialColorScheme={theme}>{children}</AppProvider>
       </body>
     </html>
   );

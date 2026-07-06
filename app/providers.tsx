@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Provider } from "@react-spectrum/s2/Provider";
+import { MotionConfig } from "motion/react";
 
 type Scheme = "light" | "dark";
 
@@ -20,8 +21,9 @@ export function AppProvider({
   const [scheme, setScheme] = useState<Scheme>(initialColorScheme);
 
   useEffect(() => {
+    // Light is the documented default: only an explicit "dark" flips the scheme.
     const read = () =>
-      setScheme(document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark");
+      setScheme(document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
     read();
     const obs = new MutationObserver(read);
     obs.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
@@ -30,7 +32,8 @@ export function AppProvider({
 
   return (
     <Provider background="base" colorScheme={scheme} locale="en-US">
-      {children}
+      {/* All Motion-driven animation honors the OS reduced-motion setting. */}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </Provider>
   );
 }

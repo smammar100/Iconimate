@@ -42,10 +42,10 @@ Then open [http://localhost:3000](http://localhost:3000), browse the set, and hi
 Every icon is distributed through a [shadcn](https://ui.shadcn.com) style registry. Grab just the ones you need:
 
 ```bash
-npx shadcn@latest add iconimate.dev/r/android-logo.json
+npx shadcn@latest add https://iconimate.app/r/android-logo.json
 ```
 
-That drops a self contained component into your project, along with the shared `useHover` hook and motion tokens it depends on.
+That drops one self-contained component into your project — the hover controller and motion tokens are inlined, so the only dependency is `motion`.
 
 ## Usage
 
