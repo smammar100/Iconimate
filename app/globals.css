@@ -579,8 +579,18 @@ body {
 
 .dc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(152px, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr)); /* fixed 5 across */
   gap: 12px;
+}
+@media (max-width: 900px) {
+  .dc-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .dc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .dc-card {
   position: relative;
@@ -629,23 +639,40 @@ body {
 .dc-card:hover .dc-card__icon {
   color: var(--text-strong);
 }
-/* hover quick-actions — Copy .tsx / Copy CLI / Open in v0 (lucide-animated style) */
+/* hover quick-actions — Copy .tsx / Copy CLI / Open in v0 (lucide-animated style).
+   A compact vertical cluster, centered on the card's right edge and wrapped in a
+   subtle pill so it reads as one floating toolbar (absolute → never resizes the
+   card). Slides in slightly from the right on reveal. */
 .dc-card__actions {
-  display: inline-flex;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%) translateX(4px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 9px;
+  background: var(--background-100);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-2);
   opacity: 0;
-  transition: opacity 0.15s var(--ease);
+  pointer-events: none;
+  transition: opacity 0.15s var(--ease), transform 0.18s var(--ease);
 }
 .dc-card:hover .dc-card__actions,
 .dc-card:focus-within .dc-card__actions {
   opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) translateX(0);
 }
 .dc-card__action {
   display: inline-grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
   border: 1px solid transparent;
   background: transparent;

@@ -60,47 +60,47 @@ export function DarkIconCard({
         <span className="dc-card__icon">
           <Component ref={ref} size={30} style={{ pointerEvents: "none" }} />
         </span>
-        <span className="dc-card__actions">
-          <button
-            type="button"
-            className="dc-card__action"
-            aria-label={`Copy ${name} .tsx code`}
-            title="Copy .tsx code"
-            onClick={(e) => {
-              e.stopPropagation();
-              onAction("copy-code", slug, name);
-            }}
-          >
-            <CodeGlyph />
-          </button>
-          <button
-            type="button"
-            className="dc-card__action"
-            aria-label={`Copy ${name} shadcn CLI command`}
-            title="Copy shadcn CLI command"
-            onClick={(e) => {
-              e.stopPropagation();
-              onAction("copy-cli", slug, name);
-            }}
-          >
-            <TerminalGlyph />
-          </button>
-          <a
-            className="dc-card__action"
-            href={v0Url(slug)}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`Open ${name} in v0`}
-            title="Open in v0"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <V0Glyph />
-          </a>
-        </span>
       </span>
       <span>
         <span className="dc-card__name">{name}</span>
         <span className="dc-card__motion dc-mono">{motion}</span>
+      </span>
+      <span className="dc-card__actions">
+        <button
+          type="button"
+          className="dc-card__action"
+          aria-label={`Copy ${name} .tsx code`}
+          title="Copy .tsx code"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAction("copy-code", slug, name);
+          }}
+        >
+          <CodeGlyph />
+        </button>
+        <button
+          type="button"
+          className="dc-card__action"
+          aria-label={`Copy ${name} shadcn CLI command`}
+          title="Copy shadcn CLI command"
+          onClick={(e) => {
+            e.stopPropagation();
+            onAction("copy-cli", slug, name);
+          }}
+        >
+          <TerminalGlyph />
+        </button>
+        <a
+          className="dc-card__action"
+          href={v0Url(slug)}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={`Open ${name} in v0`}
+          title="Open in v0"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <V0Glyph />
+        </a>
       </span>
     </div>
   );
