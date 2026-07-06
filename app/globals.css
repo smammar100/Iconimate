@@ -163,8 +163,10 @@ body {
   --ui-font: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   --heading-font: var(--ui-font);
   --mono-font: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
-  /* Geist motion easing — short, physical */
-  --ease: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  /* Geist motion easing — CSS transitions here only ever animate color,
+     border, opacity and small lifts, so a clean ease-out (no overshoot) is
+     correct; spring physics live in Motion, not CSS. */
+  --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Wide-gamut accent for Display P3 screens (sRGB above is the fallback). */
@@ -426,19 +428,62 @@ body {
   margin-top: 32px;
   flex-wrap: wrap;
 }
+/* install block — pm tabs stacked over the command pill */
+.dc-install-block {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  max-width: 100%;
+}
+.dc-install__tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background: var(--background-200);
+}
+.dc-install__tab {
+  border: none;
+  background: transparent;
+  color: var(--text-faint);
+  font-family: var(--mono-font);
+  font-size: 12px;
+  line-height: 1;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.dc-install__tab:hover {
+  color: var(--text-strong);
+}
+.dc-install__tab.is-active {
+  background: var(--gray-1000);
+  color: var(--background-100);
+}
 .dc-install {
   display: inline-flex;
   align-items: center;
   gap: 12px;
   height: 46px;
+  max-width: 100%;
   padding: 0 8px 0 16px;
-  border-radius: 6px; /* Geist sm */
+  border-radius: 0 6px 6px 6px; /* squared where the tabs dock */
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-card);
   font-family: var(--mono-font);
   font-size: 13px;
   color: var(--text-dim);
+}
+.dc-install__cmd {
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none; /* long URL command scrolls quietly on narrow screens */
 }
 .dc-install__dollar {
   color: var(--text-faint);
@@ -552,10 +597,19 @@ body {
   text-align: left;
   font-family: inherit;
   appearance: none;
-  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease),
+    transform 0.15s var(--ease);
 }
+/* Hover: a 1px lift with one extra shadow step — depth answers the pointer. */
 .dc-card:hover {
   border-color: var(--border-2);
+  box-shadow: var(--shadow-3);
+  transform: translateY(-1px);
+}
+/* Press: settle back down, slightly faster than the lift. */
+.dc-card:active {
+  transform: translateY(0) scale(0.99);
+  transition-duration: 0.07s;
 }
 .dc-card:focus-visible {
   outline: none;
@@ -575,13 +629,35 @@ body {
 .dc-card:hover .dc-card__icon {
   color: var(--text-strong);
 }
-.dc-card__copy {
+/* hover quick-actions — Copy .tsx / Copy CLI / Open in v0 (lucide-animated style) */
+.dc-card__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   opacity: 0;
-  color: var(--text-faint);
-  transition: opacity 0.15s var(--ease), color 0.15s var(--ease);
+  transition: opacity 0.15s var(--ease);
 }
-.dc-card:hover .dc-card__copy {
+.dc-card:hover .dc-card__actions,
+.dc-card:focus-within .dc-card__actions {
   opacity: 1;
+}
+.dc-card__action {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-faint);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s var(--ease), border-color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.dc-card__action:hover {
+  color: var(--text-strong);
+  background: var(--gray-alpha-100);
+  border-color: var(--border);
 }
 .dc-card__name {
   display: block;
@@ -613,7 +689,6 @@ body {
   align-items: flex-start;
   justify-content: center;
   padding: 12vh 16px 16px;
-  animation: dc-overlay 0.14s var(--ease);
 }
 .dc-cmdk {
   width: min(620px, 96vw);
@@ -622,7 +697,6 @@ body {
   border-radius: 12px; /* Geist: menus & modals */
   box-shadow: var(--shadow-modal);
   overflow: hidden;
-  animation: dc-pop 0.16s var(--ease);
 }
 .dc-cmdk__input-row {
   display: flex;
@@ -778,7 +852,6 @@ body {
   font-family: var(--ui-font);
   font-size: 14px;
   letter-spacing: 0;
-  animation: dc-fade 0.16s var(--ease);
 }
 .dc-toast__check {
   color: var(--green); /* success = green; pair with the label text */
@@ -1019,34 +1092,14 @@ body {
   }
 }
 
-@keyframes dc-overlay {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes dc-pop {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes dc-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
+/* Surface entrances (palette, toast, hero scatter) are Motion springs; the
+   app-level MotionConfig honors prefers-reduced-motion for all of them. CSS
+   transitions here are color/opacity-only plus 1px lifts, which are safe. */
 @media (prefers-reduced-motion: reduce) {
-  .dc-cmdk-overlay,
-  .dc-cmdk,
-  .dc-toast {
-    animation: none;
+  .dc-card,
+  .dc-card:hover,
+  .dc-card:active {
+    transform: none;
+    transition: none;
   }
 }

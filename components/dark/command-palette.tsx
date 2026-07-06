@@ -1,9 +1,11 @@
 "use client";
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { AnimatePresence, motion as m } from "motion/react";
 import { visibleIcons, type IconEntry } from "@/registry/icons";
 import type { IconHandle } from "@/lib/icon";
 import { metaFor } from "./icon-meta";
+import type { IconAction } from "./dark-icon-card";
 
 const RECENT = [
   "airplane-tilt",
@@ -37,11 +39,11 @@ function RowIcon({ entry, active }: { entry: IconEntry; active: boolean }) {
 export function CommandPalette({
   open,
   onClose,
-  onCopy,
+  onAction,
 }: {
   open: boolean;
   onClose: () => void;
-  onCopy: (slug: string, name: string) => void;
+  onAction: (kind: IconAction, slug: string, name: string) => void;
 }) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
@@ -90,12 +92,10 @@ export function CommandPalette({
     rowRefs.current[active]?.scrollIntoView({ block: "nearest" });
   }, [active]);
 
-  if (!open) return null;
-
-  const copyActive = () => {
+  const copyActive = (kind: IconAction) => {
     const item = flat[active];
     if (!item) return;
-    onCopy(item.slug, item.name);
+    onAction(kind, item.slug, item.name);
     onClose();
   };
 
@@ -108,7 +108,8 @@ export function CommandPalette({
       setActive((a) => (flat.length ? (a - 1 + flat.length) % flat.length : 0));
     } else if (e.key === "Enter") {
       e.preventDefault();
-      copyActive();
+      // ⌘/Ctrl+Enter copies the standalone .tsx source; plain Enter the CLI line.
+      copyActive(e.metaKey || e.ctrlKey ? "copy-code" : "copy-cli");
     } else if (e.key === "Escape") {
       e.preventDefault();
       onClose();
@@ -119,18 +120,39 @@ export function CommandPalette({
     }
   };
 
+  /* ─────────────────────────────────────────────────────────
+   * PALETTE STORYBOARD
+   *
+   *   open    overlay fades in (140ms) while the panel drops in
+   *           from -8px at 97% scale and spring-settles to rest
+   *   close   panel shrinks back toward its origin as the
+   *           overlay fades — fast (120ms), no bounce
+   * ───────────────────────────────────────────────────────── */
   let idx = -1;
   return (
-    <div
+    <AnimatePresence>
+      {open && (
+    <m.div
       className="dc-cmdk-overlay"
       role="dialog"
       aria-modal="true"
       aria-label="Search icons"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.12, ease: "easeOut" } }}
+      transition={{ duration: 0.14, ease: "easeOut" }}
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="dc-cmdk" onKeyDown={onKeyDown}>
+      <m.div
+        className="dc-cmdk"
+        initial={{ opacity: 0, scale: 0.97, y: -8 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.98, y: -4, transition: { duration: 0.12, ease: "easeOut" } }}
+        transition={{ type: "spring", visualDuration: 0.25, bounce: 0.15 }}
+        onKeyDown={onKeyDown}
+      >
         <div className="dc-cmdk__input-row">
           <SearchGlyph />
           <input
@@ -176,7 +198,7 @@ export function CommandPalette({
                       className={`dc-cmdk__row${isActive ? " is-active" : ""}`}
                       onMouseMove={() => setActive(i)}
                       onClick={() => {
-                        onCopy(entry.slug, entry.name);
+                        onAction("copy-cli", entry.slug, entry.name);
                         onClose();
                       }}
                     >
@@ -199,14 +221,17 @@ export function CommandPalette({
           <span className="dc-cmdk__legend">
             <span>↑↓ navigate</span>
             <span>↵ copy install</span>
+            <span>⌘↵ copy code</span>
             <span>esc close</span>
           </span>
           <span>
             {flat.length} icon{flat.length === 1 ? "" : "s"}
           </span>
         </div>
-      </div>
-    </div>
+      </m.div>
+    </m.div>
+      )}
+    </AnimatePresence>
   );
 }
 

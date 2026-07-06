@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
-    "build": "next build --webpack",
+    "dev": "node scripts/build-registry.mjs && next dev --webpack",
+    "build": "node scripts/build-registry.mjs && next build --webpack",
+    "build:registry": "node scripts/build-registry.mjs",
     "start": "next start",
     "lint": "eslint"
   },

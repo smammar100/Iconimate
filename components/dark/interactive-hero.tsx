@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, type Variants } from "motion/react";
+import { motion, useReducedMotion, type Variants } from "motion/react";
 import { icons, visibleIcons, type IconEntry } from "@/registry/icons";
 import type { IconHandle } from "@/lib/icon";
-import { metaFor } from "./icon-meta";
+import { installCommand, metaFor, PACKAGE_MANAGERS, type PackageManager } from "./icon-meta";
 
 /**
  * The hero, rebuilt as the Figma-Community hover interaction. The heading carries
@@ -34,12 +34,26 @@ const SLOTS = [
   { left: "86%", top: "85%", rot: 6 },
 ];
 
-// Nothing motion: fade, don't slide. Opacity only, subtle ease-out, no spring.
+/* ─────────────────────────────────────────────────────────
+ * SCATTER STORYBOARD (per hovered phrase)
+ *
+ *    0ms   slot 1 pops: scale 0.5 → 1, spring settle (slight overshoot)
+ *  +45ms   each following slot pops, staggered outward
+ *          while shown, each icon plays its own animation
+ *  leave   all fade + shrink out together, fast (no stagger)
+ * ───────────────────────────────────────────────────────── */
+const DECOR = {
+  stagger: 0.045, // s between slots popping in
+  pop: { type: "spring", visualDuration: 0.35, bounce: 0.3 } as const, // entrance settle
+  exit: { duration: 0.14, ease: "easeOut" } as const, // leave together, quick
+};
+
 const decorV: Variants = {
-  hidden: { opacity: 0, transition: { duration: 0.15, ease: [0.25, 0.1, 0.25, 1] } },
+  hidden: { opacity: 0, scale: 0.5, transition: DECOR.exit },
   shown: (i: number) => ({
     opacity: 1,
-    transition: { delay: i * 0.03, duration: 0.22, ease: [0.25, 0.1, 0.25, 1] },
+    scale: 1,
+    transition: { delay: i * DECOR.stagger, ...DECOR.pop },
   }),
 };
 
@@ -83,18 +97,23 @@ function DecorIcon({
 }
 
 export function InteractiveHero({
-  onCopy,
+  onCopyInstall,
   onOpenSearch,
 }: {
-  onCopy: (slug: string, name: string) => void;
+  /** Copy the hero install command for the given package manager. */
+  onCopyInstall: (pm: PackageManager) => void;
   onOpenSearch: () => void;
 }) {
+  const [pm, setPm] = useState<PackageManager>("npm");
   const [active, setActive] = useState<PhraseKey | null>(null);
   const interacted = useRef(false);
+  const reduceMotion = useReducedMotion();
 
   // A gentle one-time auto-demo on load so the interaction is discoverable.
-  // Cancels the moment the visitor hovers a word themselves.
+  // Cancels the moment the visitor hovers a word themselves. Skipped under
+  // reduced motion — it exists only to show things moving.
   useEffect(() => {
+    if (reduceMotion) return;
     const seq: PhraseKey[] = ["animated", "motion", "magic"];
     const timers: number[] = [];
     seq.forEach((key, i) => {
@@ -102,7 +121,7 @@ export function InteractiveHero({
     });
     timers.push(window.setTimeout(() => !interacted.current && setActive(null), 700 + seq.length * 1100));
     return () => timers.forEach((t) => clearTimeout(t));
-  }, []);
+  }, [reduceMotion]);
 
   const set = (key: PhraseKey | null) => {
     interacted.current = true;
@@ -159,17 +178,33 @@ export function InteractiveHero({
           </p>
 
           <div className="dc-cta" style={{ justifyContent: "center" }}>
-            <span className="dc-install dc-mono">
-              <span className="dc-install__dollar">$</span>
-              shadcn add iconimate/bell
-              <button
-                type="button"
-                className="dc-install__copy"
-                aria-label="Copy install command"
-                onClick={() => onCopy("bell", "Bell")}
-              >
-                <CopyGlyph />
-              </button>
+            <span className="dc-install-block">
+              <span className="dc-install__tabs" role="tablist" aria-label="Package manager">
+                {PACKAGE_MANAGERS.map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    role="tab"
+                    aria-selected={pm === p}
+                    className={`dc-install__tab dc-mono${pm === p ? " is-active" : ""}`}
+                    onClick={() => setPm(p)}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </span>
+              <span className="dc-install dc-mono">
+                <span className="dc-install__dollar">$</span>
+                <span className="dc-install__cmd">{installCommand("bell", pm)}</span>
+                <button
+                  type="button"
+                  className="dc-install__copy"
+                  aria-label="Copy install command"
+                  onClick={() => onCopyInstall(pm)}
+                >
+                  <CopyGlyph />
+                </button>
+              </span>
             </span>
             <button
               type="button"
