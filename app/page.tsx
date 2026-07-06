@@ -79,7 +79,7 @@ export default function Home() {
 
       {/* hero — tile scatter (Fintech Web Template), icons animate on hover */}
       <HeroTiles
-        onBrowse={() => document.getElementById("icons")?.scrollIntoView({ behavior: "smooth" })}
+        onCopyInstall={(pm) => action("copy-cli", "bell", "Bell", pm)}
         onOpenSearch={() => setPaletteOpen(true)}
       />
 

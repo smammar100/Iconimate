@@ -986,18 +986,17 @@ body {
   width: 100%;
   padding: 24px 0 40px;
 }
+/* full-bleed: the scatter grids run to the screen edges (no shell padding) */
 .fh-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 24px;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 40px;
+  justify-content: space-between;
+  gap: 32px;
 }
 .fh-center {
-  flex: 1 1 440px;
-  max-width: 540px;
+  flex: 1 1 620px;
+  max-width: 720px;
   min-width: 320px;
   display: flex;
   flex-direction: column;
@@ -1008,19 +1007,21 @@ body {
 }
 .fh-title {
   font-family: var(--heading-font);
-  font-size: clamp(34px, 4.4vw, 56px);
+  /* sized so "Animated icons that / earn their motion" breaks as two lines */
+  font-size: clamp(36px, 4vw, 56px);
   line-height: 1.06;
   letter-spacing: -0.035em;
   font-weight: 600;
   color: var(--text-strong);
   margin: 0;
+  max-width: 640px;
 }
 .fh-sub {
   font-family: var(--ui-font);
   font-size: 18px;
   line-height: 1.55;
   color: var(--text-dim);
-  max-width: 460px;
+  max-width: 560px; /* two lines of subtext */
   margin: 0;
 }
 .fh-cta-row {
@@ -1055,8 +1056,8 @@ body {
   display: none;
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 8px;
-  flex: 1 1 300px;
-  max-width: 440px;
+  flex: 0 1 360px; /* side panels stay compact; the center lockup leads */
+  max-width: 380px;
   align-self: stretch;
   align-content: center;
 }
