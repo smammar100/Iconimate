@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { visibleIcons } from "@/registry/icons";
 import { DarkIconCard, type IconAction } from "@/components/dark/dark-icon-card";
 import { CommandPalette } from "@/components/dark/command-palette";
-import { InteractiveHero } from "@/components/dark/interactive-hero";
+import { HeroTiles } from "@/components/dark/hero-tiles";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
 import { fetchIconSource, installCommand, type PackageManager } from "@/components/dark/icon-meta";
 
@@ -75,13 +75,15 @@ export default function Home() {
             </button>
           </div>
         </nav>
+      </div>
 
-        {/* hero — Figma Community-style hover interaction */}
-        <InteractiveHero
-          onCopyInstall={(pm) => action("copy-cli", "bell", "Bell", pm)}
-          onOpenSearch={() => setPaletteOpen(true)}
-        />
+      {/* hero — tile scatter (Fintech Web Template), icons animate on hover */}
+      <HeroTiles
+        onBrowse={() => document.getElementById("icons")?.scrollIntoView({ behavior: "smooth" })}
+        onOpenSearch={() => setPaletteOpen(true)}
+      />
 
+      <div className="dc-shell">
         {/* the set */}
         <section id="icons" className="dc-section" style={{ scrollMarginTop: 20 }}>
           <div className="dc-section__head">

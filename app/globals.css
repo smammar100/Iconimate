@@ -979,6 +979,134 @@ body {
   }
 }
 
+/* ── Tile hero (Fintech Web Template adaptation) ─────────────────────────────
+   Centered headline flanked by two 6×6 icon-tile scatter grids. Full-bleed so
+   the grids have room to breathe; tokens are theme-aware (works in light+dark). */
+.fh {
+  width: 100%;
+  padding: 24px 0 40px;
+}
+.fh-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+.fh-center {
+  flex: 1 1 440px;
+  max-width: 540px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  padding: 32px 8px;
+}
+.fh-title {
+  font-family: var(--heading-font);
+  font-size: clamp(34px, 4.4vw, 56px);
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0;
+}
+.fh-sub {
+  font-family: var(--ui-font);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  max-width: 460px;
+  margin: 0;
+}
+.fh-cta-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+.fh-cta {
+  height: 56px;
+  padding: 0 28px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+.fh-kbd-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+/* the two scatter grids — hidden below the 3-column breakpoint to avoid an
+   awkward stack; the centered hero carries small screens on its own. */
+.fh-grid {
+  display: none;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  flex: 1 1 300px;
+  max-width: 440px;
+  align-self: stretch;
+  align-content: center;
+}
+.fh-tile {
+  aspect-ratio: 97 / 92;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+}
+.fh-tile--blank {
+  background: transparent;
+}
+.fh-tile--soft {
+  background: var(--surface-1);
+}
+.fh-tile--icon {
+  background: var(--surface-1);
+  color: var(--icon);
+  cursor: default;
+  transition: background 0.15s var(--ease), transform 0.18s var(--ease),
+    box-shadow 0.18s var(--ease), color 0.15s var(--ease);
+}
+.fh-tile--icon:hover {
+  background: var(--surface-3);
+  color: var(--text-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-3);
+}
+/* icons scale with the tile (55% of tile width), regardless of the size prop */
+.fh-tile--icon > div {
+  width: 55%;
+}
+.fh-tile--icon svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (min-width: 1040px) {
+  .fh-grid {
+    display: grid;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fh-tile--icon,
+  .fh-tile--icon:hover {
+    transform: none;
+    transition: none;
+  }
+}
+
 /* prototype lab */
 .lab-head {
   padding: 36px 0 8px;
