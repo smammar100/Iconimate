@@ -984,7 +984,8 @@ body {
    the grids have room to breathe; tokens are theme-aware (works in light+dark). */
 .fh {
   width: 100%;
-  padding: 24px 0 40px;
+  /* +20% section height over the 452px baseline (24/40 → 70/84 ≈ 542px) */
+  padding: 70px 0 84px;
 }
 /* full-bleed: the scatter grids run to the screen edges (no shell padding) */
 .fh-inner {
