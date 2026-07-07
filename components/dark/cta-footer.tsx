@@ -60,19 +60,6 @@ export function CtaFooter({ count }: { count: number }) {
           </a>
         </div>
       </div>
-
-      <div className="cta__foot">
-        <span>iconimate · v0.1.0 · {count} icons</span>
-        <span className="cta__foot-meta">
-          <a href={REPO_URL} target="_blank" rel="noreferrer">
-            GitHub
-          </a>
-          <span aria-hidden>·</span>
-          <span>⌘K search</span>
-          <span aria-hidden>·</span>
-          <span>drawn on the Phosphor 256 grid</span>
-        </span>
-      </div>
     </section>
   );
 }

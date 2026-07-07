@@ -10,6 +10,9 @@ import { CtaFooter } from "@/components/dark/cta-footer";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
 import { fetchIconSource, installCommand, type PackageManager } from "@/components/dark/icon-meta";
 
+const REPO_URL = "https://github.com/smammar100/Iconimate";
+const SPONSOR_URL = "https://github.com/sponsors/smammar100";
+
 export default function Home() {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
@@ -64,9 +67,12 @@ export default function Home() {
           </div>
           <div className="dc-nav-links">
             <ThemeToggle />
-            <button type="button" className="dc-btn" onClick={() => action("copy-cli", "bell", "Bell")}>
-              Get All Icons
-            </button>
+            <a className="dc-btn dc-btn--ghost" href={SPONSOR_URL} target="_blank" rel="noreferrer">
+              Support me
+            </a>
+            <a className="dc-btn" href={REPO_URL} target="_blank" rel="noreferrer">
+              Star on GitHub
+            </a>
           </div>
         </nav>
       </div>

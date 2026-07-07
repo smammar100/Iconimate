@@ -363,6 +363,11 @@ body {
   line-height: 20px;
   letter-spacing: 0;
   cursor: pointer;
+  /* center the label vertically & horizontally — needed now that these render
+     as <a> (a block flex-item) rather than <button> (auto-centers text). */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: opacity 0.15s var(--ease);
 }
 .dc-btn:hover {
@@ -379,6 +384,17 @@ body {
   opacity: 1;
   background: var(--gray-alpha-100);
   border-color: var(--border-2);
+  color: var(--text-strong);
+}
+/* Nav buttons render as <a>, so out-rank the global `.dc a { color: inherit }`
+   (0,1,1) with (0,2,1) selectors to keep their intended label colors. */
+.dc-nav-links a.dc-btn {
+  color: var(--background-100);
+}
+.dc-nav-links a.dc-btn--ghost {
+  color: var(--text);
+}
+.dc-nav-links a.dc-btn--ghost:hover {
   color: var(--text-strong);
 }
 .dc-kbd {
@@ -867,7 +883,7 @@ body {
 .cta {
   position: relative;
   overflow: hidden;
-  margin: 40px 0 32px;
+  margin: 40px 0 72px; /* breathing room below the slab before the page ends */
   border-radius: 24px;
   background:
     radial-gradient(120% 140% at 50% -20%, rgba(255, 255, 255, 0.08), transparent 60%),
@@ -908,7 +924,7 @@ body {
   align-items: center;
   text-align: center;
   gap: 18px;
-  padding: 64px 24px 40px;
+  padding: 72px 24px 72px; /* balanced now that the footer meta row is gone */
 }
 .cta__eyebrow {
   display: inline-flex;
@@ -970,22 +986,24 @@ body {
 .cta__btn:active {
   transform: translateY(1px);
 }
-.cta__btn--primary {
+/* `.cta .cta__btn--*` (0,2,0) wins over the global `.dc a { color: inherit }`
+   (0,1,1), so these anchor buttons keep their intended text colors. */
+.cta .cta__btn--primary {
   background: #fff;
   color: #0a0a0a;
   border: 1px solid #fff;
 }
-.cta__btn--primary:hover {
+.cta .cta__btn--primary:hover {
   background: rgba(255, 255, 255, 0.9);
 }
-.cta__btn--ghost {
-  background: rgba(255, 255, 255, 0.04);
+.cta .cta__btn--ghost {
+  background: rgba(255, 255, 255, 0.06);
   color: #ededed;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
-.cta__btn--ghost:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.28);
+.cta .cta__btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 .cta__kbd {
   font-family: var(--mono-font);
