@@ -401,6 +401,23 @@ body {
 .dc-nav-links a.dc-btn--ghost:hover {
   color: var(--text-strong);
 }
+/* Theme toggle — bare glyph, no fill or stroke; color answers hover. */
+.dc-theme-toggle {
+  width: 34px;
+  height: 40px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.15s var(--ease);
+}
+.dc-theme-toggle:hover {
+  color: var(--text-strong);
+}
+
 .dc-kbd {
   font-family: var(--mono-font);
   font-size: 11px;

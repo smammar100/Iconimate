@@ -25,10 +25,9 @@ export function ThemeToggle() {
   return (
     <button
       type="button"
-      className="dc-btn dc-btn--ghost"
+      className="dc-theme-toggle"
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       onClick={toggle}
-      style={{ width: 34, padding: 0, display: "grid", placeItems: "center" }}
     >
       {theme === "dark" ? <SunGlyph /> : <MoonGlyph />}
     </button>
