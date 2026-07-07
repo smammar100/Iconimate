@@ -273,6 +273,9 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+  /* real trailing space below the last section — a child margin here would
+     collapse through (no BFC), so the gap lives on the container as padding. */
+  padding-bottom: 72px;
 }
 .dc *,
 .dc *::before,
@@ -883,7 +886,7 @@ body {
 .cta {
   position: relative;
   overflow: hidden;
-  margin: 40px 0 72px; /* breathing room below the slab before the page ends */
+  margin: 40px 0 0; /* trailing space lives on .dc's padding-bottom (no collapse) */
   border-radius: 24px;
   background:
     radial-gradient(120% 140% at 50% -20%, rgba(255, 255, 255, 0.08), transparent 60%),
