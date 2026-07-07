@@ -274,7 +274,8 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
   /* real trailing space below the last section — a child margin here would
-     collapse through (no BFC), so the gap lives on the container as padding. */
+     collapse through (no BFC), so the gap lives on the container as padding.
+     No padding-top: the nav bar hugs the top of the page. */
   padding-bottom: 72px;
 }
 .dc *,
