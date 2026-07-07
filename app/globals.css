@@ -860,6 +860,222 @@ body {
   letter-spacing: 0;
 }
 
+/* ── Closing slab: CTA merged into the footer ──────────────────────────────
+   One dark rounded panel — CTA lockup, an infinite icon marquee (live product
+   demo), and the footer meta docked at the bottom. Fixed near-black surface so
+   it reads deliberately in both themes. */
+.cta {
+  position: relative;
+  overflow: hidden;
+  margin: 40px 0 32px;
+  border-radius: 24px;
+  background:
+    radial-gradient(120% 140% at 50% -20%, rgba(255, 255, 255, 0.08), transparent 60%),
+    linear-gradient(180deg, #161616 0%, #0a0a0a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.06) inset, 0 30px 60px -30px rgba(0, 0, 0, 0.5);
+  color: #ededed;
+}
+/* soft accent bloom behind the headline */
+.cta__glow {
+  position: absolute;
+  top: -30%;
+  left: 50%;
+  width: 620px;
+  height: 320px;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(110, 86, 247, 0.22), transparent 70%);
+  pointer-events: none;
+}
+.cta__top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  padding: 64px 24px 40px;
+}
+.cta__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(237, 237, 237, 0.7);
+  font-family: var(--ui-font);
+  font-size: 13px;
+}
+.cta__eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6e56f7;
+  box-shadow: 0 0 10px 1px rgba(110, 86, 247, 0.8);
+}
+.cta__title {
+  font-family: var(--heading-font);
+  font-size: clamp(30px, 3.6vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+  margin: 0;
+  color: #fff;
+}
+.cta__sub {
+  font-family: var(--ui-font);
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(237, 237, 237, 0.62);
+  max-width: 500px;
+  margin: 0;
+}
+.cta__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+.cta__btn {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-family: var(--ui-font);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.12s var(--ease), background 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.cta__btn:active {
+  transform: translateY(1px);
+}
+.cta__btn--primary {
+  background: #fff;
+  color: #0a0a0a;
+  border: 1px solid #fff;
+}
+.cta__btn--primary:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+.cta__btn--ghost {
+  background: rgba(255, 255, 255, 0.04);
+  color: #ededed;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.cta__btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.cta__kbd {
+  font-family: var(--mono-font);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(237, 237, 237, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+/* marquee — the icon set drifting past; pauses on hover */
+.cta-marquee {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  padding: 10px 0;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.cta-marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: max-content;
+  animation: cta-scroll 42s linear infinite;
+}
+.cta-marquee:hover .cta-marquee__track {
+  animation-play-state: paused;
+}
+.cta-marquee__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  color: rgba(237, 237, 237, 0.55);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: color 0.15s var(--ease), background 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.cta-marquee__icon:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.cta-marquee__fade {
+  display: none; /* mask handles the fade; kept for no-mask fallback hooks */
+}
+@keyframes cta-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.cta__foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+  padding: 20px 24px 24px;
+  color: rgba(237, 237, 237, 0.5);
+  font-family: var(--ui-font);
+  font-size: 13px;
+}
+.cta__foot-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cta__foot-meta a {
+  color: rgba(237, 237, 237, 0.72);
+  transition: color 0.15s var(--ease);
+}
+.cta__foot-meta a:hover {
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .cta__top {
+    padding: 44px 18px 32px;
+  }
+  .cta__foot {
+    justify-content: center;
+    text-align: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-marquee__track {
+    animation: none;
+  }
+}
+
 /* copy feedback — inline status, flat, no toast pill/shadow */
 .dc-toast {
   position: fixed;

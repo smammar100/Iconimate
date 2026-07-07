@@ -6,6 +6,7 @@ import { visibleIcons } from "@/registry/icons";
 import { DarkIconCard, type IconAction } from "@/components/dark/dark-icon-card";
 import { CommandPalette } from "@/components/dark/command-palette";
 import { HeroTiles } from "@/components/dark/hero-tiles";
+import { CtaFooter } from "@/components/dark/cta-footer";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
 import { fetchIconSource, installCommand, type PackageManager } from "@/components/dark/icon-meta";
 
@@ -103,11 +104,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* footer */}
-        <footer className="dc-footer">
-          <span>iconimate · v0.1.0 · {visibleIcons.length} icons</span>
-          <span>⌘K search · ↵ install · drawn on the Phosphor 256 grid</span>
-        </footer>
+        {/* closing slab — CTA merged into the footer */}
+        <CtaFooter
+          count={visibleIcons.length}
+          onGetAll={() => action("copy-cli", "bell", "Bell")}
+          onOpenSearch={() => setPaletteOpen(true)}
+        />
       </div>
 
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onAction={action} />
