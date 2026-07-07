@@ -105,11 +105,7 @@ export default function Home() {
         </section>
 
         {/* closing slab — CTA merged into the footer */}
-        <CtaFooter
-          count={visibleIcons.length}
-          onGetAll={() => action("copy-cli", "bell", "Bell")}
-          onOpenSearch={() => setPaletteOpen(true)}
-        />
+        <CtaFooter count={visibleIcons.length} />
       </div>
 
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onAction={action} />

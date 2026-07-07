@@ -876,16 +876,29 @@ body {
   box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.06) inset, 0 30px 60px -30px rgba(0, 0, 0, 0.5);
   color: #ededed;
 }
-/* soft accent bloom behind the headline */
-.cta__glow {
+/* PrismaticBurst WebGL canvas fills the slab; lighten blend adds its color
+   onto the dark base. Sits behind the scrim + content. */
+.cta__burst {
   position: absolute;
-  top: -30%;
-  left: 50%;
-  width: 620px;
-  height: 320px;
-  transform: translateX(-50%);
-  background: radial-gradient(closest-side, rgba(110, 86, 247, 0.22), transparent 70%);
+  inset: 0;
+  z-index: 0;
   pointer-events: none;
+}
+.prismatic-burst-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+/* radial scrim: darkens the center so the headline/buttons stay legible over
+   the burst, while the burst still glows at the edges. */
+.cta__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(75% 65% at 50% 46%, rgba(10, 10, 10, 0.78) 0%, rgba(10, 10, 10, 0.4) 55%, transparent 100%);
 }
 .cta__top {
   position: relative;
@@ -984,57 +997,6 @@ body {
   padding: 2px 5px;
 }
 
-/* marquee — the icon set drifting past; pauses on hover */
-.cta-marquee {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  padding: 10px 0;
-  margin-top: 8px;
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-.cta-marquee__track {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: max-content;
-  animation: cta-scroll 42s linear infinite;
-}
-.cta-marquee:hover .cta-marquee__track {
-  animation-play-state: paused;
-}
-.cta-marquee__icon {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
-  border-radius: 12px;
-  color: rgba(237, 237, 237, 0.55);
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: color 0.15s var(--ease), background 0.15s var(--ease), border-color 0.15s var(--ease);
-}
-.cta-marquee__icon:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.16);
-}
-.cta-marquee__fade {
-  display: none; /* mask handles the fade; kept for no-mask fallback hooks */
-}
-@keyframes cta-scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 .cta__foot {
   position: relative;
   z-index: 1;
@@ -1044,7 +1006,9 @@ body {
   gap: 12px 20px;
   flex-wrap: wrap;
   padding: 20px 24px 24px;
-  color: rgba(237, 237, 237, 0.5);
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(237, 237, 237, 0.55);
   font-family: var(--ui-font);
   font-size: 13px;
 }
@@ -1068,11 +1032,6 @@ body {
   .cta__foot {
     justify-content: center;
     text-align: center;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .cta-marquee__track {
-    animation: none;
   }
 }
 
