@@ -466,16 +466,16 @@ body {
   color: var(--background-100);
 }
 .dc-install {
+  position: relative; /* anchor for the hover border-beam */
   display: inline-flex;
   align-items: center;
   gap: 12px;
   height: 46px;
   max-width: 100%;
   padding: 0 8px 0 16px;
-  border-radius: 0 6px 6px 6px; /* squared where the tabs dock */
+  border-radius: 10px; /* tabs are centered now — all four corners round */
   background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border); /* single clean 1px stroke, no shadow ring */
   font-family: var(--mono-font);
   font-size: 13px;
   color: var(--text-dim);

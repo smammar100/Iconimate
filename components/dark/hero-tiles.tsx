@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
+import { BorderBeam } from "border-beam";
 import { visibleIcons, type IconEntry } from "@/registry/icons";
 import type { IconHandle } from "@/lib/icon";
 import { installCommand, metaFor, PACKAGE_MANAGERS, type PackageManager } from "./icon-meta";
@@ -194,6 +195,10 @@ export function HeroTiles({
   onOpenSearch: () => void;
 }) {
   const [pm, setPm] = useState<PackageManager>("npm");
+  // Hover beam on the install field; theme is read from the document toggle at
+  // hover time so it matches the site theme (not just the OS preference).
+  const [beamOn, setBeamOn] = useState(false);
+  const [beamTheme, setBeamTheme] = useState<"dark" | "light">("light");
   const reduceMotion = useReducedMotion();
   const all = useTileIcons(24);
   const rightIcons = all.slice(0, 12);
@@ -251,18 +256,30 @@ export function HeroTiles({
                   </button>
                 ))}
               </span>
-              <span className="dc-install dc-mono">
-                <span className="dc-install__dollar">$</span>
-                <span className="dc-install__cmd">{installCommand("bell", pm)}</span>
-                <button
-                  type="button"
-                  className="dc-install__copy"
-                  aria-label="Copy install command"
-                  onClick={() => onCopyInstall(pm)}
-                >
-                  <CopyGlyph />
-                </button>
-              </span>
+              <BorderBeam
+                active={beamOn && !reduceMotion}
+                theme={beamTheme}
+                size="sm"
+                style={{ display: "inline-flex", maxWidth: "100%" }}
+                onMouseEnter={() => {
+                  setBeamTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
+                  setBeamOn(true);
+                }}
+                onMouseLeave={() => setBeamOn(false)}
+              >
+                <span className="dc-install dc-mono">
+                  <span className="dc-install__dollar">$</span>
+                  <span className="dc-install__cmd">{installCommand("bell", pm)}</span>
+                  <button
+                    type="button"
+                    className="dc-install__copy"
+                    aria-label="Copy install command"
+                    onClick={() => onCopyInstall(pm)}
+                  >
+                    <CopyGlyph />
+                  </button>
+                </span>
+              </BorderBeam>
             </span>
             <button type="button" className="fh-kbd-hint" onClick={onOpenSearch}>
               Press <span className="dc-kbd">⌘K</span> to search
