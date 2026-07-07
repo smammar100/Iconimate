@@ -62,14 +62,7 @@ export default function Home() {
             <span>Iconimate</span>
           </div>
           <div className="dc-nav-links">
-            <a href="#icons">Icons</a>
-            <a href="https://github.com" target="_blank" rel="noreferrer">
-              GitHub
-            </a>
             <ThemeToggle />
-            <button type="button" className="dc-btn dc-btn--ghost" onClick={() => setPaletteOpen(true)}>
-              <span className="dc-mono" style={{ fontSize: 12 }}>⌘K</span>
-            </button>
             <button type="button" className="dc-btn" onClick={() => action("copy-cli", "bell", "Bell")}>
               Get All Icons
             </button>
