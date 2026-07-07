@@ -538,7 +538,9 @@ body {
 
 /* section + grid */
 .dc-section {
-  padding: 48px 0 64px;
+  /* top gap comes entirely from the hero's 72px bottom padding; bottom 32px +
+     the CTA's 40px top margin = the same 72px rhythm. */
+  padding: 0 0 32px;
 }
 .dc-section__head {
   display: flex;
@@ -1181,8 +1183,8 @@ body {
    the grids have room to breathe; tokens are theme-aware (works in light+dark). */
 .fh {
   width: 100%;
-  /* +20% section height over the 452px baseline (24/40 → 70/84 ≈ 542px) */
-  padding: 70px 0 84px;
+  /* uniform 72px rhythm: nav→hero and hero→All Icons match the CTA's gaps */
+  padding: 72px 0;
 }
 /* full-bleed: the scatter grids run to the screen edges (no shell padding) */
 .fh-inner {
@@ -1442,7 +1444,7 @@ body {
     padding: 0 16px;
   }
   .dc-section {
-    padding: 36px 0 56px;
+    padding: 0 0 24px;
   }
 }
 
