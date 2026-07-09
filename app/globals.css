@@ -273,6 +273,10 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+  /* real trailing space below the last section — a child margin here would
+     collapse through (no BFC), so the gap lives on the container as padding.
+     No padding-top: the nav bar hugs the top of the page. */
+  padding-bottom: 72px;
 }
 .dc *,
 .dc *::before,
@@ -363,6 +367,11 @@ body {
   line-height: 20px;
   letter-spacing: 0;
   cursor: pointer;
+  /* center the label vertically & horizontally — needed now that these render
+     as <a> (a block flex-item) rather than <button> (auto-centers text). */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: opacity 0.15s var(--ease);
 }
 .dc-btn:hover {
@@ -381,6 +390,34 @@ body {
   border-color: var(--border-2);
   color: var(--text-strong);
 }
+/* Nav buttons render as <a>, so out-rank the global `.dc a { color: inherit }`
+   (0,1,1) with (0,2,1) selectors to keep their intended label colors. */
+.dc-nav-links a.dc-btn {
+  color: var(--background-100);
+}
+.dc-nav-links a.dc-btn--ghost {
+  color: var(--text);
+}
+.dc-nav-links a.dc-btn--ghost:hover {
+  color: var(--text-strong);
+}
+/* Theme toggle — bare glyph, no fill or stroke; color answers hover. */
+.dc-theme-toggle {
+  width: 34px;
+  height: 40px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.15s var(--ease);
+}
+.dc-theme-toggle:hover {
+  color: var(--text-strong);
+}
+
 .dc-kbd {
   font-family: var(--mono-font);
   font-size: 11px;
@@ -432,7 +469,7 @@ body {
 .dc-install-block {
   display: inline-flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center; /* tab strip sits centered above the command field */
   gap: 0;
   max-width: 100%;
 }
@@ -444,7 +481,7 @@ body {
   border: 1px solid var(--border);
   border-bottom: none;
   border-radius: 6px 6px 0 0;
-  background: var(--background-200);
+  background: var(--surface); /* same surface as the command field below */
 }
 .dc-install__tab {
   border: none;
@@ -466,16 +503,16 @@ body {
   color: var(--background-100);
 }
 .dc-install {
+  position: relative; /* anchor for the hover border-beam */
   display: inline-flex;
   align-items: center;
   gap: 12px;
   height: 46px;
   max-width: 100%;
   padding: 0 8px 0 16px;
-  border-radius: 0 6px 6px 6px; /* squared where the tabs dock */
+  border-radius: 10px; /* tabs are centered now — all four corners round */
   background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border); /* single clean 1px stroke, no shadow ring */
   font-family: var(--mono-font);
   font-size: 13px;
   color: var(--text-dim);
@@ -518,7 +555,9 @@ body {
 
 /* section + grid */
 .dc-section {
-  padding: 48px 0 64px;
+  /* top gap comes entirely from the hero's 72px bottom padding; bottom 32px +
+     the CTA's 40px top margin = the same 72px rhythm. */
+  padding: 0 0 32px;
 }
 .dc-section__head {
   display: flex;
@@ -579,8 +618,18 @@ body {
 
 .dc-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(152px, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr)); /* fixed 5 across */
   gap: 12px;
+}
+@media (max-width: 900px) {
+  .dc-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 560px) {
+  .dc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 .dc-card {
   position: relative;
@@ -629,23 +678,40 @@ body {
 .dc-card:hover .dc-card__icon {
   color: var(--text-strong);
 }
-/* hover quick-actions — Copy .tsx / Copy CLI / Open in v0 (lucide-animated style) */
+/* hover quick-actions — Copy .tsx / Copy CLI / Open in v0 (lucide-animated style).
+   A compact vertical cluster, centered on the card's right edge and wrapped in a
+   subtle pill so it reads as one floating toolbar (absolute → never resizes the
+   card). Slides in slightly from the right on reveal. */
 .dc-card__actions {
-  display: inline-flex;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%) translateX(4px);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 9px;
+  background: var(--background-100);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-2);
   opacity: 0;
-  transition: opacity 0.15s var(--ease);
+  pointer-events: none;
+  transition: opacity 0.15s var(--ease), transform 0.18s var(--ease);
 }
 .dc-card:hover .dc-card__actions,
 .dc-card:focus-within .dc-card__actions {
   opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) translateX(0);
 }
 .dc-card__action {
   display: inline-grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
   border: 1px solid transparent;
   background: transparent;
@@ -833,6 +899,183 @@ body {
   letter-spacing: 0;
 }
 
+/* ── Closing slab: CTA merged into the footer ──────────────────────────────
+   One dark rounded panel — CTA lockup, an infinite icon marquee (live product
+   demo), and the footer meta docked at the bottom. Fixed near-black surface so
+   it reads deliberately in both themes. */
+.cta {
+  position: relative;
+  overflow: hidden;
+  margin: 40px 0 0; /* trailing space lives on .dc's padding-bottom (no collapse) */
+  border-radius: 24px;
+  background:
+    radial-gradient(120% 140% at 50% -20%, rgba(255, 255, 255, 0.08), transparent 60%),
+    linear-gradient(180deg, #161616 0%, #0a0a0a 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.06) inset, 0 30px 60px -30px rgba(0, 0, 0, 0.5);
+  color: #ededed;
+}
+/* PrismaticBurst WebGL canvas fills the slab; lighten blend adds its color
+   onto the dark base. Sits behind the scrim + content. */
+.cta__burst {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.prismatic-burst-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+/* radial scrim: darkens the center so the headline/buttons stay legible over
+   the burst, while the burst still glows at the edges. */
+.cta__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(75% 65% at 50% 46%, rgba(10, 10, 10, 0.78) 0%, rgba(10, 10, 10, 0.4) 55%, transparent 100%);
+}
+.cta__top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+  padding: 72px 24px 72px; /* balanced now that the footer meta row is gone */
+}
+.cta__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(237, 237, 237, 0.7);
+  font-family: var(--ui-font);
+  font-size: 13px;
+}
+.cta__eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6e56f7;
+  box-shadow: 0 0 10px 1px rgba(110, 86, 247, 0.8);
+}
+.cta__title {
+  font-family: var(--heading-font);
+  font-size: clamp(30px, 3.6vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+  margin: 0;
+  color: #fff;
+}
+.cta__sub {
+  font-family: var(--ui-font);
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(237, 237, 237, 0.62);
+  max-width: 500px;
+  margin: 0;
+}
+.cta__actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 6px;
+}
+.cta__btn {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 8px;
+  font-family: var(--ui-font);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.12s var(--ease), background 0.15s var(--ease), border-color 0.15s var(--ease);
+}
+.cta__btn:active {
+  transform: translateY(1px);
+}
+/* `.cta .cta__btn--*` (0,2,0) wins over the global `.dc a { color: inherit }`
+   (0,1,1), so these anchor buttons keep their intended text colors. */
+.cta .cta__btn--primary {
+  background: #fff;
+  color: #0a0a0a;
+  border: 1px solid #fff;
+}
+.cta .cta__btn--primary:hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+.cta .cta__btn--ghost {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ededed;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.cta .cta__btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.cta__kbd {
+  font-family: var(--mono-font);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: rgba(237, 237, 237, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  padding: 2px 5px;
+}
+
+.cta__foot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  flex-wrap: wrap;
+  padding: 20px 24px 24px;
+  margin-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(237, 237, 237, 0.55);
+  font-family: var(--ui-font);
+  font-size: 13px;
+}
+.cta__foot-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.cta__foot-meta a {
+  color: rgba(237, 237, 237, 0.72);
+  transition: color 0.15s var(--ease);
+}
+.cta__foot-meta a:hover {
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .cta__top {
+    padding: 44px 18px 32px;
+  }
+  .cta__foot {
+    justify-content: center;
+    text-align: center;
+  }
+}
+
 /* copy feedback — inline status, flat, no toast pill/shadow */
 .dc-toast {
   position: fixed;
@@ -949,6 +1192,136 @@ body {
   .dc-ihero__stage {
     min-height: 0;
     padding: 20px 0;
+  }
+}
+
+/* ── Tile hero (Fintech Web Template adaptation) ─────────────────────────────
+   Centered headline flanked by two 6×6 icon-tile scatter grids. Full-bleed so
+   the grids have room to breathe; tokens are theme-aware (works in light+dark). */
+.fh {
+  width: 100%;
+  /* uniform 72px rhythm: nav→hero and hero→All Icons match the CTA's gaps */
+  padding: 72px 0;
+}
+/* full-bleed: the scatter grids run to the screen edges (no shell padding) */
+.fh-inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+}
+.fh-center {
+  flex: 1 1 620px;
+  max-width: 720px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+  padding: 32px 8px;
+}
+.fh-title {
+  font-family: var(--heading-font);
+  /* sized so "Animated icons that / earn their motion" breaks as two lines */
+  font-size: clamp(36px, 4vw, 56px);
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0;
+  max-width: 640px;
+}
+.fh-sub {
+  font-family: var(--ui-font);
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  max-width: 560px; /* two lines of subtext */
+  margin: 0;
+}
+.fh-cta-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 4px;
+}
+.fh-cta {
+  height: 56px;
+  padding: 0 28px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+.fh-kbd-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: var(--ui-font);
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+/* the two scatter grids — hidden below the 3-column breakpoint to avoid an
+   awkward stack; the centered hero carries small screens on its own. */
+.fh-grid {
+  display: none;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  flex: 0 1 360px; /* side panels stay compact; the center lockup leads */
+  max-width: 380px;
+  align-self: stretch;
+  align-content: center;
+}
+.fh-tile {
+  aspect-ratio: 97 / 92;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+}
+.fh-tile--blank {
+  background: transparent;
+}
+.fh-tile--soft {
+  background: var(--surface-1);
+}
+.fh-tile--icon {
+  background: var(--surface-1);
+  color: var(--icon);
+  cursor: default;
+  transition: background 0.15s var(--ease), transform 0.18s var(--ease),
+    box-shadow 0.18s var(--ease), color 0.15s var(--ease);
+}
+.fh-tile--icon:hover {
+  background: var(--surface-3);
+  color: var(--text-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-3);
+}
+/* icons scale with the tile (55% of tile width), regardless of the size prop */
+.fh-tile--icon > div {
+  width: 55%;
+}
+.fh-tile--icon svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (min-width: 1040px) {
+  .fh-grid {
+    display: grid;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fh-tile--icon,
+  .fh-tile--icon:hover {
+    transform: none;
+    transition: none;
   }
 }
 
@@ -1088,7 +1461,7 @@ body {
     padding: 0 16px;
   }
   .dc-section {
-    padding: 36px 0 56px;
+    padding: 0 0 24px;
   }
 }
 

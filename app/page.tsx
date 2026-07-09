@@ -5,9 +5,13 @@ import { AnimatePresence, motion } from "motion/react";
 import { visibleIcons } from "@/registry/icons";
 import { DarkIconCard, type IconAction } from "@/components/dark/dark-icon-card";
 import { CommandPalette } from "@/components/dark/command-palette";
-import { InteractiveHero } from "@/components/dark/interactive-hero";
+import { HeroTiles } from "@/components/dark/hero-tiles";
+import { CtaFooter } from "@/components/dark/cta-footer";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
 import { fetchIconSource, installCommand, type PackageManager } from "@/components/dark/icon-meta";
+
+const REPO_URL = "https://github.com/smammar100/Iconimate";
+const SPONSOR_URL = "https://github.com/sponsors/smammar100";
 
 export default function Home() {
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -62,26 +66,24 @@ export default function Home() {
             <span>Iconimate</span>
           </div>
           <div className="dc-nav-links">
-            <a href="#icons">Icons</a>
-            <a href="https://github.com" target="_blank" rel="noreferrer">
-              GitHub
-            </a>
             <ThemeToggle />
-            <button type="button" className="dc-btn dc-btn--ghost" onClick={() => setPaletteOpen(true)}>
-              <span className="dc-mono" style={{ fontSize: 12 }}>⌘K</span>
-            </button>
-            <button type="button" className="dc-btn" onClick={() => action("copy-cli", "bell", "Bell")}>
-              Get All Icons
-            </button>
+            <a className="dc-btn dc-btn--ghost" href={SPONSOR_URL} target="_blank" rel="noreferrer">
+              Support me
+            </a>
+            <a className="dc-btn" href={REPO_URL} target="_blank" rel="noreferrer">
+              Star on GitHub
+            </a>
           </div>
         </nav>
+      </div>
 
-        {/* hero — Figma Community-style hover interaction */}
-        <InteractiveHero
-          onCopyInstall={(pm) => action("copy-cli", "bell", "Bell", pm)}
-          onOpenSearch={() => setPaletteOpen(true)}
-        />
+      {/* hero — tile scatter (Fintech Web Template), icons animate on hover */}
+      <HeroTiles
+        onCopyInstall={(pm) => action("copy-cli", "bell", "Bell", pm)}
+        onOpenSearch={() => setPaletteOpen(true)}
+      />
 
+      <div className="dc-shell">
         {/* the set */}
         <section id="icons" className="dc-section" style={{ scrollMarginTop: 20 }}>
           <div className="dc-section__head">
@@ -108,11 +110,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* footer */}
-        <footer className="dc-footer">
-          <span>iconimate · v0.1.0 · {visibleIcons.length} icons</span>
-          <span>⌘K search · ↵ install · drawn on the Phosphor 256 grid</span>
-        </footer>
+        {/* closing slab — CTA merged into the footer */}
+        <CtaFooter count={visibleIcons.length} />
       </div>
 
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onAction={action} />
