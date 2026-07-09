@@ -32,8 +32,9 @@ export function AppProvider({
 
   return (
     <Provider background="base" colorScheme={scheme} locale="en-US">
-      {/* All Motion-driven animation honors the OS reduced-motion setting. */}
-      <MotionConfig reducedMotion="user">{children}</MotionConfig>
+      {/* Icon hover animations always play — Motion does not auto-disable them
+          under the OS reduced-motion setting. */}
+      <MotionConfig reducedMotion="never">{children}</MotionConfig>
     </Provider>
   );
 }

@@ -22,7 +22,7 @@ Each icon is:
 - **Drawn on the Phosphor 256 grid** so the whole set shares one visual language.
 - **Animated with [motion](https://motion.dev)** using a shared dialect of springs and easing curves, so nothing feels out of place.
 - **Hover and focus aware** out of the box, with an imperative handle for touch devices where `:hover` never fires.
-- **Reduced motion friendly**, falling back to a calm static glyph when the user asks for less movement.
+- **Small and legible**, with hover and focus motions kept short and subtle so they read at 24px.
 
 ## Quick start
 

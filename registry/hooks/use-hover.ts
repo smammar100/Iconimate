@@ -2,7 +2,7 @@
 
 import { useCallback } from "react";
 import type { DOMAttributes } from "react";
-import { useAnimation, useReducedMotion } from "motion/react";
+import { useAnimation } from "motion/react";
 
 /** The controls object returned by `useAnimation()` — derived to stay resilient to motion's type renames. */
 type AnimationControls = ReturnType<typeof useAnimation>;
@@ -30,7 +30,9 @@ export interface HoverController {
  */
 export function useHover(): HoverController {
   const controls = useAnimation();
-  const reduced = useReducedMotion() ?? false;
+  // Icons animate for everyone: we intentionally do not gate on the OS
+  // reduced-motion preference (the motions are small, hover/focus-triggered).
+  const reduced = false;
 
   const start = useCallback(() => {
     void controls.start("animate");
