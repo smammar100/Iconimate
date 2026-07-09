@@ -1,0 +1,39 @@
+name: Icon or feature request
+description: Suggest a new icon or an improvement to the set.
+title: "[Request]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Tell us about the icon or feature you would
+        like to see.
+  - type: textarea
+    id: request
+    attributes:
+      label: What would you like
+      description: Describe the icon or feature you are requesting.
+      placeholder: An animated shopping cart that rolls in from the left.
+    validations:
+      required: true
+  - type: textarea
+    id: motion
+    attributes:
+      label: Suggested motion
+      description: If this is an icon, how do you imagine it should animate?
+    validations:
+      required: false
+  - type: textarea
+    id: reference
+    attributes:
+      label: References
+      description: Links or images that show the shape or motion you have in mind.
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything else that would help us understand the request.
+    validations:
+      required: false
