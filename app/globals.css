@@ -1476,3 +1476,186 @@ body {
     transition: none;
   }
 }
+
+/* ── About + FAQ (SEO / GEO prose) ─────────────────────────────────────────
+   Crawlable, quotable content below the grid. Styled to sit quietly within the
+   Dark Command layout: text tokens only, generous measure, no new surfaces. */
+.dc-about {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 8px 0 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.dc-about__lead {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dc-about__title {
+  font-family: var(--heading-font);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+  margin: 0;
+}
+.dc-about__text {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  margin: 0;
+}
+.dc-about__text a {
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.dc-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dc-faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+}
+.dc-faq__item {
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+}
+.dc-faq__item:last-child {
+  border-bottom: 1px solid var(--border);
+}
+.dc-faq__q {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0 0 6px;
+}
+.dc-faq__a {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+/* ── Content pages (/docs, /compare) ───────────────────────────────────────*/
+.doc-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 40px 24px 96px;
+}
+.doc-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-dim);
+  text-decoration: none;
+  margin-bottom: 40px;
+}
+.doc-back:hover {
+  color: var(--text-strong);
+}
+.doc-prose h1 {
+  font-family: var(--heading-font);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--text-strong);
+  margin: 0 0 12px;
+}
+.doc-prose .doc-lead {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-dim);
+  margin: 0 0 40px;
+}
+.doc-prose h2 {
+  font-family: var(--heading-font);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-strong);
+  margin: 40px 0 12px;
+}
+.doc-prose h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 28px 0 8px;
+}
+.doc-prose p,
+.doc-prose li {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+.doc-prose p {
+  margin: 0 0 16px;
+}
+.doc-prose ul {
+  margin: 0 0 16px;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.doc-prose a {
+  color: var(--text-strong);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.doc-prose strong {
+  color: var(--text-strong);
+  font-weight: 600;
+}
+.doc-prose pre {
+  background: var(--background-200);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0 0 16px;
+}
+.doc-prose pre code {
+  font-family: var(--mono-font);
+  font-size: 13.5px;
+  color: var(--text);
+  white-space: pre;
+}
+.doc-prose :not(pre) > code {
+  font-family: var(--mono-font);
+  font-size: 13px;
+  background: var(--background-200);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 1px 5px;
+  color: var(--text);
+}
+.doc-table-wrap {
+  overflow-x: auto;
+  margin: 0 0 16px;
+}
+.doc-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+}
+.doc-prose th,
+.doc-prose td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-dim);
+  vertical-align: top;
+}
+.doc-prose th {
+  color: var(--text-strong);
+  font-weight: 600;
+}

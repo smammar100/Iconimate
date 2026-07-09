@@ -6,6 +6,8 @@ import { Analytics } from "@vercel/analytics/next";
 import "@react-spectrum/s2/page.css";
 import "./globals.css";
 import { AppProvider } from "./providers";
+import { StructuredData } from "@/components/seo/structured-data";
+import { SITE, SITE_NAME, TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
 
 /**
  * Vercel Geist typography: Geist Sans sets UI and prose, Geist Mono sets code,
@@ -13,10 +15,53 @@ import { AppProvider } from "./providers";
  * package, so this is the real design system — no substitutes.
  */
 
+const TITLE = `${SITE_NAME} — ${TAGLINE}`;
+
 export const metadata: Metadata = {
-  title: "Iconimate — Animated icons that earn their motion",
-  description:
-    "A hand-crafted, open-source set of animated SVG icons for React. Spring physics, anticipation, and settle frames — calibrated to read at 24px. Press ⌘K to search.",
+  metadataBase: new URL(SITE),
+  title: {
+    default: TITLE,
+    template: `%s · ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "animated react icons",
+    "animated svg icons",
+    "phosphor animated icons",
+    "react icon library",
+    "svg icon animation",
+    "shadcn icons",
+    "motion icons",
+    "open source icons",
+  ],
+  authors: [{ name: "Muhammad Ammar", url: "https://github.com/smammar100" }],
+  creator: "Muhammad Ammar",
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    url: SITE,
+    title: TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  category: "technology",
 };
 
 export default async function RootLayout({
@@ -42,6 +87,7 @@ export default async function RootLayout({
     >
       <body suppressHydrationWarning>
         <AppProvider initialColorScheme={theme}>{children}</AppProvider>
+        <StructuredData />
         <Analytics />
       </body>
     </html>
