@@ -8,7 +8,6 @@ import { CommandPalette } from "@/components/dark/command-palette";
 import { HeroTiles } from "@/components/dark/hero-tiles";
 import { CtaFooter } from "@/components/dark/cta-footer";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
-import { AboutFaq } from "@/components/seo/about-faq";
 import { fetchIconSource, installCommand, type PackageManager } from "@/components/dark/icon-meta";
 
 const REPO_URL = "https://github.com/smammar100/Iconimate";
@@ -106,9 +105,6 @@ export default function Home() {
             ))}
           </div>
         </section>
-
-        {/* crawlable prose + FAQ (mirrors the FAQPage JSON-LD) */}
-        <AboutFaq />
 
         {/* closing slab — CTA merged into the footer */}
         <CtaFooter count={visibleIcons.length} />
