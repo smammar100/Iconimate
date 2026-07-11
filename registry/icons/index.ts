@@ -169,6 +169,7 @@ import { BankIcon } from "./bank";
 import { BarbellIcon } from "./barbell";
 import { BarcodeIcon } from "./barcode";
 import { BarnIcon } from "./barn";
+import { BarricadeIcon } from "./barricade";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -349,6 +350,7 @@ export const icons: IconEntry[] = [
   { slug: "barbell", name: "Barbell", keywords: ["gym", "weight", "fitness", "lift", "workout", "exercise", "strength", "plates", "bounce", "drop"], Component: BarbellIcon },
   { slug: "barcode", name: "Barcode", keywords: ["scan", "scanner", "code", "product", "checkout", "retail", "sku", "label", "beep", "read"], Component: BarcodeIcon },
   { slug: "barn", name: "Barn", keywords: ["farm", "agriculture", "rural", "building", "stable", "hay", "country", "crossbuck", "door", "dance"], Component: BarnIcon },
+  { slug: "barricade", name: "Barricade", keywords: ["roadblock", "barrier", "construction", "road", "closed", "hazard", "stripes", "safety", "detour", "warning"], Component: BarricadeIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
