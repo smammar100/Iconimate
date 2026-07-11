@@ -51,13 +51,11 @@ export function useHover(): HoverController {
         // a variant the elements are already at resolves immediately.
         controls.set("normal");
         // If the cycle resolved instantly (no animatable elements mounted),
-        // pause before retrying instead of spinning a tight loop.
+        // pause before retrying instead of spinning a tight loop. Otherwise
+        // breathe for 30% of the cycle before replaying, so the loop reads
+        // as a rhythm rather than a frantic back-to-back repeat.
         const elapsed = performance.now() - t0;
-        if (elapsed < 100) {
-          window.setTimeout(run, 300);
-        } else {
-          run();
-        }
+        window.setTimeout(run, elapsed < 100 ? 300 : elapsed * 0.3);
       });
     };
     run();
