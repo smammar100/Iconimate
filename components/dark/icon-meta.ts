@@ -169,6 +169,7 @@ export const ICON_META: Record<string, IconMeta> = {
   barn: { motion: "barn dance", glow: "#F97316" },
   barricade: { motion: "gust", glow: "#FBBF24" },
   baseball: { motion: "strikeout", glow: "#F87171" },
+  "baseball-cap": { motion: "gust away", glow: "#60A5FA" },
   "arrows-left-right": { motion: "bounce", glow: "#2DD4BF" },
   "arrow-elbow-down-left": { motion: "draw", glow: "#34D399" },
   "arrow-elbow-down-right": { motion: "draw", glow: "#34D399" },

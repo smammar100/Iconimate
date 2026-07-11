@@ -178,6 +178,7 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "barn", name: "Barn", keywords: ["farm","agriculture","rural","building","stable","hay","country","crossbuck","door","dance"] },
   { slug: "barricade", name: "Barricade", keywords: ["roadblock","barrier","construction","road","closed","hazard","stripes","safety","detour","warning"] },
   { slug: "baseball", name: "Baseball", keywords: ["sport","ball","pitch","game","league","seams","strike","throw","spin","mitt"] },
+  { slug: "baseball-cap", name: "Baseball Cap", keywords: ["hat","cap","sport","team","wear","clothing","brim","wind","gust","fashion"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
