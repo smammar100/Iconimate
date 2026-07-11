@@ -36,15 +36,8 @@ const HERO = {
   ambientPlay: 1400, // ms an ambient play runs before gliding home
 };
 
-const centerV: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  shown: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * HERO.centerStagger, ...HERO.centerRise },
-  }),
-};
-
+// (The center lockup's rise is CSS — .fh-rise in globals.css — so the LCP text
+// paints without waiting for hydration. Only the decorative tiles use Motion.)
 const tileV: Variants = {
   hidden: { opacity: 0, scale: 0.4 },
   shown: (step: number) => ({
@@ -233,14 +226,16 @@ export function HeroTiles({
         <TileGrid pattern={LEFT_PATTERN} entries={leftIcons} side="left" register={register} />
 
         <div className="fh-center">
-          <motion.h1 className="fh-title" custom={0} variants={centerV} initial="hidden" animate="shown">
-            Animated icons that earn their motion
-          </motion.h1>
-          <motion.p className="fh-sub" custom={1} variants={centerV} initial="hidden" animate="shown">
+          {/* The center lockup is the page's LCP content, so its entrance is
+              pure CSS (fh-rise) — it paints and animates immediately at first
+              paint instead of waiting for JS hydration like Motion's
+              SSR-inlined `opacity: 0` would. */}
+          <h1 className="fh-title fh-rise">Animated icons that earn their motion</h1>
+          <p className="fh-sub fh-rise" style={{ animationDelay: "90ms" }}>
             Open-source React icons, hand-drawn on the Phosphor 256 grid and tuned to read at 24px.
             Hover any tile to watch it move.
-          </motion.p>
-          <motion.div className="fh-cta-row" custom={2} variants={centerV} initial="hidden" animate="shown">
+          </p>
+          <div className="fh-cta-row fh-rise" style={{ animationDelay: "180ms" }}>
             <span className="dc-install-block">
               <span className="dc-install__tabs" role="tablist" aria-label="Package manager">
                 {PACKAGE_MANAGERS.map((p) => (
@@ -284,7 +279,7 @@ export function HeroTiles({
             <button type="button" className="fh-kbd-hint" onClick={onOpenSearch}>
               Press <span className="dc-kbd">⌘K</span> to search
             </button>
-          </motion.div>
+          </div>
         </div>
 
         <TileGrid pattern={RIGHT_PATTERN} entries={rightIcons} side="right" register={register} />

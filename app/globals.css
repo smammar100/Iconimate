@@ -730,6 +730,11 @@ body {
 }
 .dc-card {
   position: relative;
+  /* Off-screen cards skip style/layout/paint entirely — with ~147 cards this
+     removes most of the initial layout cost. The intrinsic size reserves the
+     card's footprint so scrollbar/anchor behavior is unchanged. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 140px;
   border-radius: 6px; /* Geist: everyday surface */
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1332,6 +1337,32 @@ body {
   gap: 24px;
   padding: 32px 8px;
 }
+/* CSS entrance for the hero center lockup (title / sub / install row). This is
+   the page's LCP content, so the rise must not wait for JS: a CSS animation
+   paints and plays at first paint, long before hydration. Mirrors the old
+   Motion spring (14px rise, ~550ms, soft ease, 90ms stagger via inline
+   animation-delay). */
+.fh-rise {
+  opacity: 0;
+  animation: fh-rise 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes fh-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fh-rise {
+    opacity: 1;
+    animation: none;
+  }
+}
+
 .fh-title {
   font-family: var(--heading-font);
   /* sized so "Animated icons that / earn their motion" breaks as two lines */
