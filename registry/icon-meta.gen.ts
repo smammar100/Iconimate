@@ -175,6 +175,7 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "bank", name: "Bank", keywords: ["finance","money","temple","building","institution","deposit","savings","columns","dollar","construct"] },
   { slug: "barbell", name: "Barbell", keywords: ["gym","weight","fitness","lift","workout","exercise","strength","plates","bounce","drop"] },
   { slug: "barcode", name: "Barcode", keywords: ["scan","scanner","code","product","checkout","retail","sku","label","beep","read"] },
+  { slug: "barn", name: "Barn", keywords: ["farm","agriculture","rural","building","stable","hay","country","crossbuck","door","dance"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);

@@ -168,6 +168,7 @@ import { BandaidsIcon } from "./bandaids";
 import { BankIcon } from "./bank";
 import { BarbellIcon } from "./barbell";
 import { BarcodeIcon } from "./barcode";
+import { BarnIcon } from "./barn";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -347,6 +348,7 @@ export const icons: IconEntry[] = [
   { slug: "bank", name: "Bank", keywords: ["finance", "money", "temple", "building", "institution", "deposit", "savings", "columns", "dollar", "construct"], Component: BankIcon },
   { slug: "barbell", name: "Barbell", keywords: ["gym", "weight", "fitness", "lift", "workout", "exercise", "strength", "plates", "bounce", "drop"], Component: BarbellIcon },
   { slug: "barcode", name: "Barcode", keywords: ["scan", "scanner", "code", "product", "checkout", "retail", "sku", "label", "beep", "read"], Component: BarcodeIcon },
+  { slug: "barn", name: "Barn", keywords: ["farm", "agriculture", "rural", "building", "stable", "hay", "country", "crossbuck", "door", "dance"], Component: BarnIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
