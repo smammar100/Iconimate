@@ -8,12 +8,29 @@ import { CommandPalette } from "@/components/dark/command-palette";
 import { HeroTiles } from "@/components/dark/hero-tiles";
 import { CtaFooter } from "@/components/dark/cta-footer";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
+import { GithubStarButton } from "@/components/dark/github-star-button";
 import { fetchIconSource, installCommand, type PackageManager } from "@/components/dark/icon-meta";
 
-const REPO_URL = "https://github.com/smammar100/Iconimate";
+/* Desktop column count of .dc-grid — used to stagger each row's reveal from
+   its center. Narrower breakpoints use fewer columns; the center-out rhythm
+   there is approximate, which reads fine. */
+const GRID_COLUMNS = 5;
+
+/* Intro sequencing: the hero's own entrance (title rise + tile ripple in
+   HeroTiles) runs first; grid cards that are in view at load wait this long
+   before revealing. Rows revealed later by scrolling get no extra delay. */
+const HERO_INTRO_SECONDS = 1.1;
 
 export default function Home() {
   const [paletteOpen, setPaletteOpen] = useState(false);
+  // True while the hero entrance is playing; adds a hold to the grid reveal
+  // so the intro reads hero-first, grid-second.
+  const [heroIntro, setHeroIntro] = useState(true);
+
+  useEffect(() => {
+    const t = window.setTimeout(() => setHeroIntro(false), HERO_INTRO_SECONDS * 1000);
+    return () => window.clearTimeout(t);
+  }, []);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<number | undefined>(undefined);
 
@@ -66,9 +83,7 @@ export default function Home() {
           </div>
           <div className="dc-nav-links">
             <ThemeToggle />
-            <a className="dc-btn" href={REPO_URL} target="_blank" rel="noreferrer">
-              Star on GitHub
-            </a>
+            <GithubStarButton />
           </div>
         </nav>
       </div>
@@ -82,7 +97,18 @@ export default function Home() {
       <div className="dc-shell">
         {/* the set */}
         <section id="icons" className="dc-section" style={{ scrollMarginTop: 20 }}>
-          <div className="dc-section__head">
+          <motion.div
+            className="dc-section__head"
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+            transition={{
+              type: "spring",
+              visualDuration: 0.35,
+              bounce: 0.2,
+              delay: heroIntro ? HERO_INTRO_SECONDS : 0,
+            }}
+          >
             <div className="dc-section__title">
               All Icons <span className="dc-section__count">{visibleIcons.length}</span>
             </div>
@@ -97,17 +123,52 @@ export default function Home() {
               <span className="dc-searchbar__spacer" />
               <span className="dc-kbd">⌘K</span>
             </button>
-          </div>
+          </motion.div>
 
+          {/* Staggered reveal: each card enters as it scrolls into view — rise,
+              fade, and a tiny -2° swing — delayed outward from the center of
+              its row so every row blooms from the middle. */}
           <div className="dc-grid">
-            {visibleIcons.map((entry) => (
-              <DarkIconCard key={entry.slug} entry={entry} onAction={action} />
+            {visibleIcons.map((entry, i) => (
+              <motion.div
+                key={entry.slug}
+                /* single-track grid so the card stretches to the row height,
+                   exactly as it did as a direct .dc-grid child */
+                style={{ display: "grid" }}
+                initial={{ opacity: 0, y: 12, rotate: -2 }}
+                whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+                transition={{
+                  type: "spring",
+                  visualDuration: 0.35,
+                  bounce: 0.2,
+                  delay:
+                    (heroIntro ? HERO_INTRO_SECONDS : 0) +
+                    Math.abs((i % GRID_COLUMNS) - (GRID_COLUMNS - 1) / 2) * 0.05,
+                }}
+              >
+                <DarkIconCard entry={entry} onAction={action} />
+              </motion.div>
             ))}
           </div>
         </section>
 
         {/* closing slab — CTA merged into the footer */}
         <CtaFooter count={visibleIcons.length} />
+
+        {/* minimal site footer — copyright left, follow links right */}
+        <footer className="dc-footer">
+          <span className="dc-footer__copy">© {new Date().getFullYear()} Iconimate</span>
+          <nav className="dc-footer__links" aria-label="Follow me">
+            <a href="https://x.com/Ammar110_SM" target="_blank" rel="noreferrer">
+              X
+            </a>
+            <a href="https://www.linkedin.com/in/syedmammar/" target="_blank" rel="noreferrer">
+              LinkedIn
+            </a>
+            <a href="mailto:syed.m.ammar@hotmail.com">Email</a>
+          </nav>
+        </footer>
       </div>
 
       <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} onAction={action} />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import type { DOMAttributes } from "react";
 import { useAnimation } from "motion/react";
 
@@ -34,13 +34,47 @@ export function useHover(): HoverController {
   // reduced-motion preference (the motions are small, hover/focus-triggered).
   const reduced = false;
 
+  // True while the pointer (or focus) is on the icon — the loop below keys off
+  // it so the "animate" variant replays end-to-end until the user leaves.
+  const looping = useRef(false);
+
   const start = useCallback(() => {
-    void controls.start("animate");
+    if (looping.current) return; // already looping — don't stack replays
+    looping.current = true;
+    const run = () => {
+      if (!looping.current) return;
+      const t0 = performance.now();
+      void controls.start("animate").then(() => {
+        if (!looping.current) return;
+        // Snap back to "normal" (keyframes end where they start, so this is
+        // invisible) so the next start("animate") actually replays — starting
+        // a variant the elements are already at resolves immediately.
+        controls.set("normal");
+        // If the cycle resolved instantly (no animatable elements mounted),
+        // pause before retrying instead of spinning a tight loop.
+        const elapsed = performance.now() - t0;
+        if (elapsed < 100) {
+          window.setTimeout(run, 300);
+        } else {
+          run();
+        }
+      });
+    };
+    run();
   }, [controls]);
 
   const stop = useCallback(() => {
+    looping.current = false;
     void controls.start("normal");
   }, [controls]);
+
+  // Never leave a loop running after unmount.
+  useEffect(
+    () => () => {
+      looping.current = false;
+    },
+    [],
+  );
 
   return {
     controls,

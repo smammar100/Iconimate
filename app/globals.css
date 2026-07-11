@@ -401,6 +401,103 @@ body {
 .dc-nav-links a.dc-btn--ghost:hover {
   color: var(--text-strong);
 }
+/* Rainbow-glow variant — reserved for the "Star on GitHub" nav CTA. A dark
+   pill with a soft rainbow gradient blurred beneath the bottom edge, plus a
+   thin rainbow gradient border. */
+.dc-btn--rainbow {
+  position: relative;
+  gap: 8px;
+  border-radius: 8px;
+  background:
+    linear-gradient(var(--dc-rainbow-fill), var(--dc-rainbow-fill)) padding-box,
+    linear-gradient(
+        90deg,
+        hsl(0, 100%, 63%),
+        hsl(90, 100%, 63%),
+        hsl(210, 100%, 63%),
+        hsl(195, 100%, 63%),
+        hsl(270, 100%, 63%),
+        hsl(0, 100%, 63%)
+      )
+      border-box;
+  background-size:
+    100% 100%,
+    200% 100%;
+  border: 1.2px solid transparent;
+  color: var(--text-strong);
+  transition: transform 0.2s var(--ease);
+  animation: dc-rainbow-slide 2.5s linear infinite;
+  --dc-rainbow-fill: #121213;
+}
+:root:not([data-theme="dark"]) .dc-btn--rainbow {
+  --dc-rainbow-fill: #ffffff;
+}
+.dc-nav-links a.dc-btn--rainbow {
+  color: var(--text-strong);
+}
+.dc-btn--rainbow::before {
+  content: "";
+  position: absolute;
+  bottom: -14%;
+  left: 50%;
+  z-index: -1;
+  width: 37%;
+  height: 21%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    hsl(0, 100%, 63%),
+    hsl(90, 100%, 63%),
+    hsl(210, 100%, 63%),
+    hsl(195, 100%, 63%),
+    hsl(270, 100%, 63%),
+    hsl(0, 100%, 63%)
+  );
+  background-size: 200% 100%;
+  filter: blur(16px) saturate(1.4);
+  opacity: 0.85;
+  animation: dc-rainbow-slide 2.5s linear infinite;
+  transition: opacity 0.2s var(--ease), filter 0.2s var(--ease);
+}
+.dc-btn--rainbow:hover {
+  opacity: 1;
+  transform: scale(1.04);
+}
+.dc-btn--rainbow:hover::before {
+  opacity: 1;
+  filter: blur(18px) saturate(1.6);
+}
+.dc-btn--rainbow:active {
+  transform: scale(0.97);
+}
+@keyframes dc-rainbow-slide {
+  to {
+    background-position: 200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dc-btn--rainbow,
+  .dc-btn--rainbow::before {
+    animation: none;
+  }
+}
+.dc-btn--rainbow__stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+  color: var(--text-strong);
+  font-family: var(--mono-font);
+  font-variant-numeric: tabular-nums;
+}
+.dc-btn--rainbow__stars svg {
+  color: var(--text-dim);
+  transition: color 0.2s var(--ease);
+}
+.dc-btn--rainbow:hover .dc-btn--rainbow__stars svg {
+  color: hsl(48, 100%, 60%);
+}
 /* Theme toggle — bare glyph, no fill or stroke; color answers hover. */
 .dc-theme-toggle {
   width: 34px;
@@ -884,10 +981,11 @@ body {
   text-align: center;
 }
 
-/* footer */
+/* footer — one quiet row under the CTA slab: copyright left, follow links
+   right. Top padding mirrors the 72px gap between the grid and the slab
+   (section padding 32 + slab margin 40) so the slab floats evenly. */
 .dc-footer {
-  border-top: 1px solid var(--border);
-  padding: 24px 0 48px;
+  padding: 72px 0 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -897,6 +995,18 @@ body {
   font-family: var(--ui-font);
   font-size: 13px;
   letter-spacing: 0;
+}
+.dc-footer__links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.dc-footer__links a {
+  color: var(--text-faint);
+  transition: color 0.15s var(--ease);
+}
+.dc-footer__links a:hover {
+  color: var(--text-strong);
 }
 
 /* ── Closing slab: CTA merged into the footer ──────────────────────────────
