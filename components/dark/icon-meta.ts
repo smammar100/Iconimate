@@ -162,6 +162,7 @@ export const ICON_META: Record<string, IconMeta> = {
   bag: { motion: "lift + swing", glow: "#F472B6" },
   "bag-simple": { motion: "lift + swing", glow: "#F472B6" },
   balloon: { motion: "ascend + float", glow: "#38BDF8" },
+  bandaids: { motion: "check-up", glow: "#FB7185" },
   "arrows-left-right": { motion: "bounce", glow: "#2DD4BF" },
   "arrow-elbow-down-left": { motion: "draw", glow: "#34D399" },
   "arrow-elbow-down-right": { motion: "draw", glow: "#34D399" },
