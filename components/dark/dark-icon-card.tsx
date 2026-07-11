@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef } from "react";
-import type { IconEntry } from "@/registry/icons";
+import { Suspense, useRef } from "react";
+import type { IconMetaEntry } from "@/registry/icon-meta.gen";
+import { LAZY_ICONS } from "@/registry/lazy-icons.gen";
 import type { IconHandle } from "@/lib/icon";
 import { metaFor, v0Url } from "./icon-meta";
 
@@ -19,11 +20,14 @@ export function DarkIconCard({
   entry,
   onAction,
 }: {
-  entry: IconEntry;
+  entry: IconMetaEntry;
   onAction: (kind: IconAction, slug: string, name: string) => void;
 }) {
   const ref = useRef<IconHandle>(null);
-  const { Component, name, slug } = entry;
+  const { name, slug } = entry;
+  // Each icon is its own lazy chunk — hydrates progressively instead of one
+  // blocking registry bundle. Refs forward through React.lazy to IconHandle.
+  const Component = LAZY_ICONS[slug];
   const { motion } = metaFor(slug);
 
   const play = () => ref.current?.startAnimation();
@@ -58,7 +62,10 @@ export function DarkIconCard({
     >
       <span className="dc-card__top">
         <span className="dc-card__icon">
-          <Component ref={ref} size={30} style={{ pointerEvents: "none" }} />
+          {/* Fixed-size fallback so the lazy chunk landing never shifts layout. */}
+          <Suspense fallback={<span style={{ width: 30, height: 30, display: "inline-block" }} />}>
+            <Component ref={ref} size={30} style={{ pointerEvents: "none" }} />
+          </Suspense>
         </span>
       </span>
       <span>

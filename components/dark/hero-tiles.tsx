@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import { BorderBeam } from "border-beam";
-import { visibleIcons, type IconEntry } from "@/registry/icons";
+import { visibleIconMeta, type IconMetaEntry } from "@/registry/icon-meta.gen";
+import { LAZY_ICONS } from "@/registry/lazy-icons.gen";
 import type { IconHandle } from "@/lib/icon";
 import { installCommand, metaFor, PACKAGE_MANAGERS, type PackageManager } from "./icon-meta";
 
@@ -66,25 +67,25 @@ const LEFT_PATTERN = [
 ];
 
 // Curated tile icons — ONLY slugs from the visible (Phosphor 147) set. Any slug
-// that isn't in that set is skipped and back-filled from visibleIcons, so a
+// that isn't in that set is skipped and back-filled from visibleIconMeta, so a
 // filled tile is never empty and never shows a hidden/non-Phosphor icon.
 const CURATED = [
   "alarm", "anchor", "airplane", "alien", "ambulance", "address-book", "aperture", "archive", "armchair", "atom", "avocado", "axe",
   "acorn", "control-tower", "phone-book", "baby-carriage", "apple-logo", "android-logo", "amazon-logo", "asterisk", "at", "asclepius", "presentation", "angle",
 ];
 
-function useTileIcons(count: number): IconEntry[] {
+function useTileIcons(count: number): IconMetaEntry[] {
   return useMemo(() => {
     const seen = new Set<string>();
-    const out: IconEntry[] = [];
+    const out: IconMetaEntry[] = [];
     for (const slug of CURATED) {
-      const e = visibleIcons.find((i) => i.slug === slug);
+      const e = visibleIconMeta.find((i) => i.slug === slug);
       if (e && !seen.has(e.slug)) {
         seen.add(e.slug);
         out.push(e);
       }
     }
-    for (const e of visibleIcons) {
+    for (const e of visibleIconMeta) {
       if (out.length >= count) break;
       if (!seen.has(e.slug)) {
         seen.add(e.slug);
@@ -103,12 +104,13 @@ function IconTile({
   step,
   register,
 }: {
-  entry: IconEntry;
+  entry: IconMetaEntry;
   step: number;
   register: (h: IconHandle | null) => void;
 }) {
   const ref = useRef<IconHandle>(null);
-  const { Component, name, slug } = entry;
+  const { name, slug } = entry;
+  const Component = LAZY_ICONS[slug];
   const { glow } = metaFor(slug);
   const play = () => ref.current?.startAnimation();
   const rest = () => ref.current?.stopAnimation();
@@ -126,14 +128,16 @@ function IconTile({
       onFocus={play}
       onBlur={rest}
     >
-      <Component
-        ref={(h: IconHandle | null) => {
-          (ref as React.MutableRefObject<IconHandle | null>).current = h;
-          register(h);
-        }}
-        size={44}
-        style={{ pointerEvents: "none" }}
-      />
+      <Suspense fallback={<span style={{ width: 44, height: 44, display: "inline-block" }} />}>
+        <Component
+          ref={(h: IconHandle | null) => {
+            (ref as React.MutableRefObject<IconHandle | null>).current = h;
+            register(h);
+          }}
+          size={44}
+          style={{ pointerEvents: "none" }}
+        />
+      </Suspense>
     </motion.div>
   );
 }
@@ -148,7 +152,7 @@ function TileGrid({
   register,
 }: {
   pattern: string[];
-  entries: IconEntry[];
+  entries: IconMetaEntry[];
   side: "left" | "right";
   register: (h: IconHandle | null) => void;
 }) {

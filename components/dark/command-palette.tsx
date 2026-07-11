@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useId, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion as m } from "motion/react";
-import { visibleIcons, type IconEntry } from "@/registry/icons";
+import { visibleIconMeta, type IconMetaEntry } from "@/registry/icon-meta.gen";
+import { LAZY_ICONS } from "@/registry/lazy-icons.gen";
 import type { IconHandle } from "@/lib/icon";
 import { metaFor } from "./icon-meta";
 import type { IconAction } from "./dark-icon-card";
@@ -17,16 +18,18 @@ const RECENT = [
 ];
 
 /** Live preview: the active row's icon plays its animation; the rest sit still. */
-function RowIcon({ entry, active }: { entry: IconEntry; active: boolean }) {
+function RowIcon({ entry, active }: { entry: IconMetaEntry; active: boolean }) {
   const ref = useRef<IconHandle>(null);
   useEffect(() => {
     if (active) ref.current?.startAnimation();
     else ref.current?.stopAnimation();
   }, [active]);
-  const { Component } = entry;
+  const Component = LAZY_ICONS[entry.slug];
   return (
     <span className="dc-cmdk__row-icon">
-      <Component ref={ref} size={22} style={{ pointerEvents: "none" }} />
+      <Suspense fallback={<span style={{ width: 22, height: 22, display: "inline-block" }} />}>
+        <Component ref={ref} size={22} style={{ pointerEvents: "none" }} />
+      </Suspense>
     </span>
   );
 }
@@ -56,14 +59,14 @@ export function CommandPalette({
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) {
-      const recent = RECENT.map((s) => visibleIcons.find((i) => i.slug === s)).filter(Boolean) as IconEntry[];
-      const rest = visibleIcons.filter((i) => !RECENT.includes(i.slug));
+      const recent = RECENT.map((s) => visibleIconMeta.find((i) => i.slug === s)).filter(Boolean) as IconMetaEntry[];
+      const rest = visibleIconMeta.filter((i) => !RECENT.includes(i.slug));
       return [
         { label: "Recently Added", items: recent },
         { label: "All Icons", items: rest },
       ];
     }
-    const matches = visibleIcons.filter(
+    const matches = visibleIconMeta.filter(
       (i) =>
         i.name.toLowerCase().includes(q) ||
         i.slug.includes(q) ||

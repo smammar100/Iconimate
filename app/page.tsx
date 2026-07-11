@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { visibleIcons } from "@/registry/icons";
+import { visibleIconMeta } from "@/registry/icon-meta.gen";
 import { DarkIconCard, type IconAction } from "@/components/dark/dark-icon-card";
 import { CommandPalette } from "@/components/dark/command-palette";
 import { HeroTiles } from "@/components/dark/hero-tiles";
@@ -113,7 +113,7 @@ export default function Home() {
             }}
           >
             <div className="dc-section__title">
-              All Icons <span className="dc-section__count">{visibleIcons.length}</span>
+              All Icons <span className="dc-section__count">{visibleIconMeta.length}</span>
             </div>
             <button
               type="button"
@@ -132,7 +132,7 @@ export default function Home() {
               fade, and a tiny -2° swing — delayed outward from the center of
               its row so every row blooms from the middle. */}
           <div className="dc-grid">
-            {visibleIcons.map((entry, i) => (
+            {visibleIconMeta.map((entry, i) => (
               <motion.div
                 key={entry.slug}
                 /* single-track grid so the card stretches to the row height,
@@ -157,7 +157,7 @@ export default function Home() {
         </section>
 
         {/* closing slab — CTA merged into the footer */}
-        <CtaFooter count={visibleIcons.length} />
+        <CtaFooter count={visibleIconMeta.length} />
 
         {/* minimal site footer — copyright left, follow links right */}
         <footer className="dc-footer">
