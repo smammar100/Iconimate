@@ -12,6 +12,11 @@ import macros from "unplugin-parcel-macros";
  */
 const nextConfig: NextConfig = {
   transpilePackages: ["@react-spectrum/s2"],
+  // Rewrite barrel imports (e.g. `motion/react`) to direct deep imports so only
+  // the used exports are bundled — smaller initial JS, faster parse.
+  experimental: {
+    optimizePackageImports: ["motion"],
+  },
   webpack(config) {
     config.plugins.push(macros.webpack());
     return config;

@@ -1,7 +1,12 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useReducedMotion } from "motion/react";
-import PrismaticBurst from "./PrismaticBurst";
+
+// The burst is a WebGL effect (ogl) — heavy and purely decorative, and it lives
+// at the very bottom of the page. Load it client-side only and keep `ogl` out of
+// the initial bundle so it never blocks first paint / interactivity.
+const PrismaticBurst = dynamic(() => import("./PrismaticBurst"), { ssr: false });
 
 /**
  * The closing slab — a simple CTA merged into the footer, over an animated

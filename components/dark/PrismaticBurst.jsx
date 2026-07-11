@@ -319,36 +319,23 @@ const PrismaticBurst = ({
     };
     container.addEventListener('pointermove', onPointer, { passive: true });
 
-    let io = null;
-    if ('IntersectionObserver' in window) {
-      io = new IntersectionObserver(
-        entries => {
-          if (entries[0]) {
-            isVisibleRef.current = entries[0].isIntersecting;
-          }
-        },
-        { root: null, threshold: 0.01 }
-      );
-      io.observe(container);
-    }
-
-    const onVis = () => {};
-    document.addEventListener('visibilitychange', onVis);
-
     let raf = 0;
     let last = performance.now();
     let accumTime = 0;
+    // The loop parks itself whenever the burst is off-screen or the tab is
+    // hidden — no perpetual per-frame wake-up. It's restarted by the
+    // IntersectionObserver / visibilitychange handlers below.
+    let running = false;
 
     const update = now => {
       const dt = Math.max(0, now - last) * 0.001;
       last = now;
       const visible = isVisibleRef.current && !document.hidden;
-      if (!pausedRef.current) accumTime += dt;
-
       if (!visible) {
-        raf = requestAnimationFrame(update);
+        running = false; // park the loop; ensureRunning() revives it
         return;
       }
+      if (!pausedRef.current) accumTime += dt;
 
       const tau = 0.02 + Math.max(0, Math.min(1, hoverDampRef.current)) * 0.5;
       const alpha = 1 - Math.exp(-dt / tau);
@@ -363,6 +350,32 @@ const PrismaticBurst = ({
       renderer.render({ scene: meshRef.current });
       raf = requestAnimationFrame(update);
     };
+    const ensureRunning = () => {
+      if (running) return;
+      if (!(isVisibleRef.current && !document.hidden)) return;
+      running = true;
+      last = performance.now(); // reset so the parked gap isn't a giant dt
+      raf = requestAnimationFrame(update);
+    };
+
+    let io = null;
+    if ('IntersectionObserver' in window) {
+      io = new IntersectionObserver(
+        entries => {
+          if (entries[0]) {
+            isVisibleRef.current = entries[0].isIntersecting;
+            ensureRunning();
+          }
+        },
+        { root: null, threshold: 0.01 }
+      );
+      io.observe(container);
+    }
+
+    const onVis = () => ensureRunning();
+    document.addEventListener('visibilitychange', onVis);
+
+    running = true;
     raf = requestAnimationFrame(update);
 
     return () => {
