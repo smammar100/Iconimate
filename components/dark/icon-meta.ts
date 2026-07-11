@@ -170,6 +170,7 @@ export const ICON_META: Record<string, IconMeta> = {
   barricade: { motion: "gust", glow: "#FBBF24" },
   baseball: { motion: "strikeout", glow: "#F87171" },
   "baseball-cap": { motion: "gust away", glow: "#60A5FA" },
+  "baseball-helmet": { motion: "dizzy", glow: "#C084FC" },
   "arrows-left-right": { motion: "bounce", glow: "#2DD4BF" },
   "arrow-elbow-down-left": { motion: "draw", glow: "#34D399" },
   "arrow-elbow-down-right": { motion: "draw", glow: "#34D399" },

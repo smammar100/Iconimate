@@ -112,13 +112,15 @@ const CapSwooshTipIcon = forwardRef<IconHandle, IconProps>(
    The wind steals it: the cap flutters, rips up and away spinning, hangs
    flapping at the corner — then gets yanked back on elastically and slams
    down in a puff of dust. */
-const gaCap: Variants = {
-  normal: { x: 0, y: 0, rotate: 0, scaleY: 1, transition: { duration: 0 } },
+// Flight pivots at center + scales down slightly so every frame stays inside
+// the viewBox; the landing squash is a separate grounded group.
+const gaFlight: Variants = {
+  normal: { x: 0, y: 0, rotate: 0, scale: 1, transition: { duration: 0 } },
   animate: {
-    x: [0, 3, 34, 40, 36, 0, 0, 0],
-    y: [0, -4, -34, -40, -36, 0, 0, 0],
-    rotate: [0, -6, 24, 18, 26, 0, 0, 0],
-    scaleY: [1, 1, 1, 1, 1, 0.88, 1.05, 1],
+    x: [0, 2, 12, 16, 14, 0, 0, 0],
+    y: [0, -3, -14, -18, -16, 0, 0, 0],
+    rotate: [0, -5, 12, 9, 14, 0, 0, 0],
+    scale: [1, 1, 0.9, 0.88, 0.9, 1, 1, 1],
     transition: {
       duration: 1.5,
       ease: "easeInOut",
@@ -126,11 +128,18 @@ const gaCap: Variants = {
     },
   },
 };
+const gaLand: Variants = {
+  normal: { scaleY: 1, transition: { duration: 0 } },
+  animate: {
+    scaleY: [1, 1, 0.88, 1.05, 1],
+    transition: { duration: 1.5, ease: "easeOut", times: [0, 0.68, 0.76, 0.86, 1] },
+  },
+};
 const gaWind = (delay: number): Variants => ({
   normal: HIDDEN,
   animate: {
     opacity: [0, 1, 0],
-    x: [-30, 40],
+    x: [-16, 26],
     transition: { duration: 0.45, ease: "easeOut", times: [0, 0.4, 1], delay },
   },
 });
@@ -156,7 +165,7 @@ const CapGustIcon = forwardRef<IconHandle, IconProps>(
           {[[70, 0.02], [96, 0.12], [122, 0.22]].map(([y, d], i) => (
             <motion.path
               key={i}
-              d={`M14,${y}h44`}
+              d={`M24,${y}h40`}
               fill="none" stroke="currentColor" strokeWidth={9} strokeLinecap="round"
               variants={reduced ? undefined : gaWind(d as number)}
             />
@@ -171,7 +180,11 @@ const CapGustIcon = forwardRef<IconHandle, IconProps>(
               variants={reduced ? undefined : gaDust(dx as number, d as number)}
             />
           ))}
-          <motion.path d={CAP} variants={reduced ? undefined : gaCap} style={HEAD} />
+          <motion.g variants={reduced ? undefined : gaFlight} style={CENTER}>
+            <motion.g variants={reduced ? undefined : gaLand} style={HEAD}>
+              <path d={CAP} />
+            </motion.g>
+          </motion.g>
         </Svg>
       </div>
     );
