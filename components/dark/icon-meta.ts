@@ -157,6 +157,7 @@ export const ICON_META: Record<string, IconMeta> = {
   axe: { motion: "chop", glow: "#FF5C39" },
   baby: { motion: "giggle", glow: "#2BC4C4" },
   "baby-carriage": { motion: "suspension", glow: "#2BC4C4" },
+  backpack: { motion: "sway", glow: "#FF9F1C" },
   "arrows-left-right": { motion: "bounce", glow: "#2DD4BF" },
   "arrow-elbow-down-left": { motion: "draw", glow: "#34D399" },
   "arrow-elbow-down-right": { motion: "draw", glow: "#34D399" },

@@ -166,6 +166,7 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "axe", name: "Axe", keywords: ["chop","wood","lumberjack","tool","hatchet","cut","weapon","swing"] },
   { slug: "baby", name: "Baby", keywords: ["child","infant","kid","toddler","face","smile","giggle","blink","newborn"] },
   { slug: "baby-carriage", name: "Baby Carriage", keywords: ["pram","stroller","buggy","pushchair","infant","child","wheels","hood","canopy","suspension","bounce"] },
+  { slug: "backpack", name: "Backpack", keywords: ["bag","pack","rucksack","school","hike","travel","camping","carry","sway","hang"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);

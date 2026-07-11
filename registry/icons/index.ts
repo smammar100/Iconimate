@@ -159,6 +159,7 @@ import { AvocadoIcon } from "./avocado";
 import { AxeIcon } from "./axe";
 import { BabyIcon } from "./baby";
 import { BabyCarriageIcon } from "./baby-carriage";
+import { BackpackIcon } from "./backpack";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -329,6 +330,7 @@ export const icons: IconEntry[] = [
   { slug: "axe", name: "Axe", keywords: ["chop", "wood", "lumberjack", "tool", "hatchet", "cut", "weapon", "swing"], Component: AxeIcon },
   { slug: "baby", name: "Baby", keywords: ["child", "infant", "kid", "toddler", "face", "smile", "giggle", "blink", "newborn"], Component: BabyIcon },
   { slug: "baby-carriage", name: "Baby Carriage", keywords: ["pram", "stroller", "buggy", "pushchair", "infant", "child", "wheels", "hood", "canopy", "suspension", "bounce"], Component: BabyCarriageIcon },
+  { slug: "backpack", name: "Backpack", keywords: ["bag", "pack", "rucksack", "school", "hike", "travel", "camping", "carry", "sway", "hang"], Component: BackpackIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
