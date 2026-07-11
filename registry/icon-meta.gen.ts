@@ -177,6 +177,7 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "barcode", name: "Barcode", keywords: ["scan","scanner","code","product","checkout","retail","sku","label","beep","read"] },
   { slug: "barn", name: "Barn", keywords: ["farm","agriculture","rural","building","stable","hay","country","crossbuck","door","dance"] },
   { slug: "barricade", name: "Barricade", keywords: ["roadblock","barrier","construction","road","closed","hazard","stripes","safety","detour","warning"] },
+  { slug: "baseball", name: "Baseball", keywords: ["sport","ball","pitch","game","league","seams","strike","throw","spin","mitt"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
