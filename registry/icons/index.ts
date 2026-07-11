@@ -165,6 +165,7 @@ import { BagIcon } from "./bag";
 import { BagSimpleIcon } from "./bag-simple";
 import { BalloonIcon } from "./balloon";
 import { BandaidsIcon } from "./bandaids";
+import { BankIcon } from "./bank";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -341,6 +342,7 @@ export const icons: IconEntry[] = [
   { slug: "bag-simple", name: "Bag Simple", keywords: ["shopping", "purchase", "tote", "satchel", "handbag", "purse", "store", "buy", "carry", "simple", "lift", "swing"], Component: BagSimpleIcon },
   { slug: "balloon", name: "Balloon", keywords: ["hot air", "float", "fly", "ascend", "party", "celebration", "travel", "sky", "air", "drift", "rise"], Component: BalloonIcon },
   { slug: "bandaids", name: "Bandaids", keywords: ["band-aid", "plaster", "bandage", "heal", "health", "medical", "injury", "first aid", "cross", "patch", "care"], Component: BandaidsIcon },
+  { slug: "bank", name: "Bank", keywords: ["finance", "money", "temple", "building", "institution", "deposit", "savings", "columns", "dollar", "construct"], Component: BankIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */

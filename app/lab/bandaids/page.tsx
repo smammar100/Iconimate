@@ -252,7 +252,6 @@ const BandaidsRedressIcon = forwardRef<IconHandle, IconProps>(
             strokeWidth={10}
             strokeLinecap="round"
             variants={reduced ? undefined : rdSwoosh}
-            style={{ opacity: 0 }}
           />
           <motion.path
             d={SWOOSH_R}
@@ -261,14 +260,13 @@ const BandaidsRedressIcon = forwardRef<IconHandle, IconProps>(
             strokeWidth={10}
             strokeLinecap="round"
             variants={reduced ? undefined : rdSwoosh}
-            style={{ opacity: 0 }}
           />
           {/* Lone strip — hidden at rest, revealed while the cross is away. */}
           <motion.path
             d={STRIP}
             fillRule="evenodd"
             variants={reduced ? undefined : rdStrip}
-            style={{ ...CENTER, opacity: 0 }}
+            style={CENTER}
           />
           <motion.g variants={reduced ? undefined : rdCross} style={CENTER}>
             <path d={CROSS} />

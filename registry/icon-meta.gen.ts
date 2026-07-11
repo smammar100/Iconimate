@@ -172,6 +172,7 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "bag-simple", name: "Bag Simple", keywords: ["shopping","purchase","tote","satchel","handbag","purse","store","buy","carry","simple","lift","swing"] },
   { slug: "balloon", name: "Balloon", keywords: ["hot air","float","fly","ascend","party","celebration","travel","sky","air","drift","rise"] },
   { slug: "bandaids", name: "Bandaids", keywords: ["band-aid","plaster","bandage","heal","health","medical","injury","first aid","cross","patch","care"] },
+  { slug: "bank", name: "Bank", keywords: ["finance","money","temple","building","institution","deposit","savings","columns","dollar","construct"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);

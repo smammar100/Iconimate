@@ -262,7 +262,7 @@ const BagHeartIcon = forwardRef<IconHandle, IconProps>(
             <HandleStroke />
           </motion.g>
           {/* Heart rises from the bag mouth, next to the handle. Hidden at rest. */}
-          <motion.g variants={reduced ? undefined : heartPop} style={{ ...AT(176, 56), opacity: 0 }}>
+          <motion.g variants={reduced ? undefined : heartPop} style={AT(176, 56)}>
             <path d={HEART} transform="translate(176,56) scale(0.75)" />
           </motion.g>
         </Svg>
