@@ -165,6 +165,7 @@ export const ICON_META: Record<string, IconMeta> = {
   bandaids: { motion: "check-up", glow: "#FB7185" },
   bank: { motion: "construct + $", glow: "#EAB308" },
   barbell: { motion: "rubber drop", glow: "#A3E635" },
+  barcode: { motion: "beep", glow: "#818CF8" },
   "arrows-left-right": { motion: "bounce", glow: "#2DD4BF" },
   "arrow-elbow-down-left": { motion: "draw", glow: "#34D399" },
   "arrow-elbow-down-right": { motion: "draw", glow: "#34D399" },
