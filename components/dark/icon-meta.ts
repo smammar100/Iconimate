@@ -160,6 +160,7 @@ export const ICON_META: Record<string, IconMeta> = {
   backpack: { motion: "sway", glow: "#FF9F1C" },
   backspace: { motion: "nudge + strike", glow: "#F43F5E" },
   bag: { motion: "lift + swing", glow: "#F472B6" },
+  "bag-simple": { motion: "lift + swing", glow: "#F472B6" },
   "arrows-left-right": { motion: "bounce", glow: "#2DD4BF" },
   "arrow-elbow-down-left": { motion: "draw", glow: "#34D399" },
   "arrow-elbow-down-right": { motion: "draw", glow: "#34D399" },

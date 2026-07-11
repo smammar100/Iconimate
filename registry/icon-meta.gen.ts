@@ -169,6 +169,7 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "backpack", name: "Backpack", keywords: ["bag","pack","rucksack","school","hike","travel","camping","carry","sway","hang"] },
   { slug: "backspace", name: "Backspace", keywords: ["delete","erase","remove","key","keyboard","clear","undo","typing","caret","nudge","strike"] },
   { slug: "bag", name: "Bag", keywords: ["shopping","purchase","tote","satchel","handbag","purse","store","buy","carry","lift","swing"] },
+  { slug: "bag-simple", name: "Bag Simple", keywords: ["shopping","purchase","tote","satchel","handbag","purse","store","buy","carry","simple","lift","swing"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
