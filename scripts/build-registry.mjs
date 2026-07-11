@@ -118,7 +118,7 @@ const USE_HOVER_SNIPPET = USE_HOVER_SRC
 // Extra external imports each inlined section needs.
 const ICON_TYPES_IMPORTS = { react: [], reactType: ["HTMLAttributes"], motion: [], motionType: [] };
 const USE_HOVER_IMPORTS = {
-  react: ["useCallback"],
+  react: ["useCallback", "useEffect", "useRef"],
   reactType: ["DOMAttributes"],
   motion: ["useAnimation", "useReducedMotion"],
   motionType: [],
