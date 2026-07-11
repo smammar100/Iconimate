@@ -97,10 +97,13 @@ export default function Home() {
       <div className="dc-shell">
         {/* the set */}
         <section id="icons" className="dc-section" style={{ scrollMarginTop: 20 }}>
+          {/* Reveals animate position only (no opacity): opacity:0 would be
+              inlined in the SSR HTML and keep this text invisible until
+              hydration, tanking LCP. Painted-but-offset is invisible to LCP. */}
           <motion.div
             className="dc-section__head"
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ y: 12 }}
+            whileInView={{ y: 0 }}
             viewport={{ once: true, margin: "0px 0px -8% 0px" }}
             transition={{
               type: "spring",
@@ -135,8 +138,8 @@ export default function Home() {
                 /* single-track grid so the card stretches to the row height,
                    exactly as it did as a direct .dc-grid child */
                 style={{ display: "grid" }}
-                initial={{ opacity: 0, y: 12, rotate: -2 }}
-                whileInView={{ opacity: 1, y: 0, rotate: 0 }}
+                initial={{ y: 12, rotate: -2 }}
+                whileInView={{ y: 0, rotate: 0 }}
                 viewport={{ once: true, margin: "0px 0px -8% 0px" }}
                 transition={{
                   type: "spring",
