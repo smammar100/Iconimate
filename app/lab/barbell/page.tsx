@@ -242,6 +242,127 @@ const BarbellRackIcon = forwardRef<IconHandle, IconProps>(
   },
 );
 
+/* Asymmetric rod bend — independent left/right control points, for drops
+   where one side hits first. */
+const rod2 = (k1: number, k2: number) =>
+  `M104,120C120,${120 + k1},136,${120 + k2},152,120L152,136C136,${136 + k2},120,${136 + k1},104,136Z`;
+
+/* ── 6. DEAD DROP ────────────────────────────────────────────────────────────
+   From overhead: a long fall, a hard slam that bows the rod deep, then a
+   second smaller bounce before it rings itself straight. */
+const DEAD = 1.0;
+const deadPlates: Variants = {
+  normal: { y: 0, transition: RETURN_TRANSITION },
+  animate: {
+    y: [0, -18, 4, -6, 1.5, 0],
+    transition: { duration: DEAD, ease: "easeIn", times: [0, 0.18, 0.38, 0.56, 0.76, 1] },
+  },
+};
+const deadRod: Variants = {
+  normal: { y: 0, d: ROD_STRAIGHT, transition: RETURN_TRANSITION },
+  animate: {
+    y: [0, -18, 4, -6, 1.5, 0],
+    d: [ROD_STRAIGHT, rod(-4), rod(11), rod(-7), rod(4), ROD_STRAIGHT],
+    transition: { duration: DEAD, ease: "easeIn", times: [0, 0.18, 0.38, 0.56, 0.76, 1] },
+  },
+};
+
+const BarbellDeadDropIcon = forwardRef<IconHandle, IconProps>(
+  function BarbellDeadDropIcon({ size = 28, style, ...props }, ref) {
+    const { controls, reduced, start, stop, bind } = useHover();
+    useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
+    return (
+      <div {...props} {...bind} style={{ display: "inline-flex", overflow: "hidden", ...style }}>
+        <Svg size={size} controls={controls}>
+          <motion.path d={LEFT} fillRule="evenodd" variants={reduced ? undefined : deadPlates} />
+          <motion.path d={RIGHT} fillRule="evenodd" variants={reduced ? undefined : deadPlates} />
+          <motion.path d={ROD_STRAIGHT} variants={reduced ? undefined : deadRod} />
+        </Svg>
+      </div>
+    );
+  },
+);
+
+/* ── 7. SEESAW DROP ──────────────────────────────────────────────────────────
+   Dropped unevenly: the right side lands first — the rod bends asymmetrically
+   toward it — then the left catches up and the whole bar seesaws level. */
+const SEESAW = 1.1;
+const seesawLeft: Variants = {
+  normal: { y: 0, transition: RETURN_TRANSITION },
+  animate: {
+    y: [0, -12, -8, 2.5, -1, 0],
+    transition: { duration: SEESAW, ease: "easeInOut", times: [0, 0.2, 0.38, 0.56, 0.76, 1] },
+  },
+};
+const seesawRight: Variants = {
+  normal: { y: 0, transition: RETURN_TRANSITION },
+  animate: {
+    y: [0, -12, 2.5, -4, 1, 0],
+    transition: { duration: SEESAW, ease: "easeInOut", times: [0, 0.2, 0.38, 0.56, 0.76, 1] },
+  },
+};
+const seesawRod: Variants = {
+  normal: { d: ROD_STRAIGHT, transition: RETURN_TRANSITION },
+  animate: {
+    // right control dips first, then the bend rolls left as that side lands
+    d: [ROD_STRAIGHT, rod2(-3, -3), rod2(-4, 8), rod2(7, -3), rod2(-2, 2), ROD_STRAIGHT],
+    transition: { duration: SEESAW, ease: "easeInOut", times: [0, 0.2, 0.38, 0.56, 0.76, 1] },
+  },
+};
+
+const BarbellSeesawIcon = forwardRef<IconHandle, IconProps>(
+  function BarbellSeesawIcon({ size = 28, style, ...props }, ref) {
+    const { controls, reduced, start, stop, bind } = useHover();
+    useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
+    return (
+      <div {...props} {...bind} style={{ display: "inline-flex", overflow: "hidden", ...style }}>
+        <Svg size={size} controls={controls}>
+          <motion.path d={LEFT} fillRule="evenodd" variants={reduced ? undefined : seesawLeft} />
+          <motion.path d={RIGHT} fillRule="evenodd" variants={reduced ? undefined : seesawRight} />
+          <motion.path d={ROD_STRAIGHT} variants={reduced ? undefined : seesawRod} />
+        </Svg>
+      </div>
+    );
+  },
+);
+
+/* ── 8. RUBBER DROP ──────────────────────────────────────────────────────────
+   Bumper plates: a cartoonish double bounce — plates squash on every contact,
+   the rod flexing down at each landing and springing up between them. */
+const RUBBER = 1.2;
+const rubberPlates: Variants = {
+  normal: { y: 0, scaleY: 1, transition: RETURN_TRANSITION },
+  animate: {
+    y: [0, -14, 0, -7, 0, -2.5, 0],
+    scaleY: [1, 1.04, 0.88, 1.03, 0.94, 1.01, 1],
+    transition: { duration: RUBBER, ease: "easeInOut", times: [0, 0.16, 0.34, 0.52, 0.7, 0.86, 1] },
+  },
+};
+const rubberRod: Variants = {
+  normal: { y: 0, d: ROD_STRAIGHT, transition: RETURN_TRANSITION },
+  animate: {
+    y: [0, -14, 0, -7, 0, -2.5, 0],
+    d: [ROD_STRAIGHT, rod(-3), rod(8), rod(-5), rod(5), rod(-2), ROD_STRAIGHT],
+    transition: { duration: RUBBER, ease: "easeInOut", times: [0, 0.16, 0.34, 0.52, 0.7, 0.86, 1] },
+  },
+};
+
+const BarbellRubberIcon = forwardRef<IconHandle, IconProps>(
+  function BarbellRubberIcon({ size = 28, style, ...props }, ref) {
+    const { controls, reduced, start, stop, bind } = useHover();
+    useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
+    return (
+      <div {...props} {...bind} style={{ display: "inline-flex", overflow: "hidden", ...style }}>
+        <Svg size={size} controls={controls}>
+          <motion.path d={LEFT} fillRule="evenodd" variants={reduced ? undefined : rubberPlates} style={AT(56, 208)} />
+          <motion.path d={RIGHT} fillRule="evenodd" variants={reduced ? undefined : rubberPlates} style={AT(200, 208)} />
+          <motion.path d={ROD_STRAIGHT} variants={reduced ? undefined : rubberRod} />
+        </Svg>
+      </div>
+    );
+  },
+);
+
 /* ── Preview grid ──────────────────────────────────────────────────────────── */
 
 const VARIANTS: { name: string; blurb: string; Component: typeof BarbellLiftIcon }[] = [
@@ -250,6 +371,9 @@ const VARIANTS: { name: string; blurb: string; Component: typeof BarbellLiftIcon
   { name: "Reps", blurb: "Two presses, rod bending on every drive", Component: BarbellRepsIcon },
   { name: "Whip", blurb: "Oly-bar oscillation — decaying wave through the rod", Component: BarbellWhipIcon },
   { name: "Rack Up", blurb: "Plates slide on, rod dips under the new weight", Component: BarbellRackIcon },
+  { name: "Dead Drop", blurb: "Long fall, deep bow, second bounce, rings straight", Component: BarbellDeadDropIcon },
+  { name: "Seesaw Drop", blurb: "Right side lands first — asymmetric bend, seesaws level", Component: BarbellSeesawIcon },
+  { name: "Rubber Drop", blurb: "Bumper-plate double bounce, squash on every contact", Component: BarbellRubberIcon },
 ];
 
 export default function BarbellLabPage() {
