@@ -15,7 +15,7 @@ an advertised-but-unbuilt deep-link feature, two heavyweight architectural costs
 |------|-------|----------|--------|------------|--------|
 | 001 | Verification baseline: typecheck + generator tests + CI | P1 | M | — | **DONE** |
 | 002 | Reconcile the three icon counts | P1 | S | — | TODO |
-| 003 | Add `.gitattributes` (kill CRLF/LF churn) | P1 | S | — | TODO |
+| 003 | Add `.gitattributes` (kill CRLF/LF churn) | P1 | S | — | **DONE** |
 | 004 | Delete dead code | P1 | S | — | TODO |
 | 005 | Dependency patch bumps + clear PostCSS advisory | P2 | S | — | TODO |
 | 006 | Rewrite AGENTS.md with the real generator contract | P1 | S | — | TODO |
