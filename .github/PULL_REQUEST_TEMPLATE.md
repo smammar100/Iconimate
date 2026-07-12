@@ -16,7 +16,6 @@ Closes #
 
 ## Checklist
 
-- [ ] I read the [contributing guide](CONTRIBUTING.md).
 - [ ] `pnpm lint` passes with no errors.
 - [ ] `pnpm build` passes with no errors.
 - [ ] New or changed icons are drawn on the Phosphor 256 grid and read clearly
