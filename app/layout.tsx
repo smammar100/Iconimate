@@ -3,7 +3,6 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { cookies } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
-import "@react-spectrum/s2/page.css";
 import "./globals.css";
 import { AppProvider } from "./providers";
 import { StructuredData } from "@/components/seo/structured-data";
@@ -86,7 +85,7 @@ export default async function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
       <body suppressHydrationWarning>
-        <AppProvider initialColorScheme={theme}>{children}</AppProvider>
+        <AppProvider>{children}</AppProvider>
         <StructuredData />
         <Analytics />
       </body>
