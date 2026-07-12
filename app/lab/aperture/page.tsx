@@ -1,15 +1,11 @@
 "use client";
 
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { ARRIVE, DUR, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
+import { VariantGrid } from "@/app/lab/_shared/harness";
 
 /**
  * LAB — Aperture icon, 5 animation candidates.
@@ -131,76 +127,5 @@ const VARIANTS: { name: string; blurb: string; Component: typeof ApertureIrisIco
 ];
 
 export default function ApertureLabPage() {
-  const refs = useRef<(IconHandle | null)[]>([]);
-
-  // Auto-play every variant on a loop so the page is lively without hovering.
-  useEffect(() => {
-    const cycle = () => {
-      refs.current.forEach((h) => h?.startAnimation());
-      window.setTimeout(() => refs.current.forEach((h) => h?.stopAnimation()), 1500);
-    };
-    cycle();
-    const id = window.setInterval(cycle, 2700);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        color: "var(--text)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "64px 24px",
-        fontFamily: "var(--font-geist-sans, system-ui, sans-serif)",
-      }}
-    >
-      <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>Aperture — animation candidates</h1>
-      <p style={{ opacity: 0.55, fontSize: 14, marginTop: 8, marginBottom: 40 }}>
-        Hover or focus any tile. They also auto-cycle. Pick one to promote into the registry.
-      </p>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 16,
-          width: "100%",
-          maxWidth: 900,
-        }}
-      >
-        {VARIANTS.map(({ name, blurb, Component }, i) => (
-          <div
-            key={name}
-            tabIndex={0}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 14,
-              padding: "32px 16px 22px",
-              borderRadius: 16,
-              background: "var(--surface)",
-              border: "1px solid var(--border-2)",
-              outline: "none",
-            }}
-          >
-            <Component
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              size={56}
-              style={{ color: "var(--text-strong)" }}
-            />
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{name}</div>
-              <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>{blurb}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <VariantGrid title="Aperture" variants={VARIANTS} cycleMs={2700} playMs={1500} />;
 }

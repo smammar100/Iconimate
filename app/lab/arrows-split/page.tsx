@@ -1,10 +1,11 @@
 "use client";
 
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { ARRIVE, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
+import { VariantGrid } from "@/app/lab/_shared/harness";
 
 /**
  * LAB — Arrows Split (a stem branching into two downward arrows), 5 candidates.
@@ -94,77 +95,5 @@ const VARIANTS: { name: string; principle: string; blurb: string; Component: typ
 ];
 
 export default function ArrowsSplitLabPage() {
-  const refs = useRef<(IconHandle | null)[]>([]);
-  useEffect(() => {
-    const cycle = () => {
-      refs.current.forEach((h) => h?.startAnimation());
-      window.setTimeout(() => refs.current.forEach((h) => h?.stopAnimation()), 1700);
-    };
-    cycle();
-    const id = window.setInterval(cycle, 2900);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        color: "var(--text)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "64px 24px",
-        fontFamily: "var(--font-geist-sans, system-ui, sans-serif)",
-      }}
-    >
-      <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>Arrows Split — animation candidates</h1>
-      <p style={{ opacity: 0.55, fontSize: 14, marginTop: 8, marginBottom: 40, textAlign: "center", maxWidth: 640 }}>
-        Five takes on the split/diverge glyph, each built on a Disney motion principle. &ldquo;Spread&rdquo; is the
-        shipped motion. Hover, focus, or watch them auto-cycle. Pick one to promote.
-      </p>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 16,
-          width: "100%",
-          maxWidth: 800,
-        }}
-      >
-        {VARIANTS.map(({ name, principle, blurb, Component }, i) => (
-          <div
-            key={name}
-            tabIndex={0}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 14,
-              padding: "32px 16px 22px",
-              borderRadius: 16,
-              background: "var(--surface)",
-              border: "1px solid var(--border-2)",
-              outline: "none",
-            }}
-          >
-            <Component
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              size={56}
-              style={{ color: "var(--text-strong)" }}
-            />
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{name}</div>
-              <div style={{ fontSize: 11, opacity: 0.4, marginTop: 3, textTransform: "uppercase", letterSpacing: 0.4 }}>
-                {principle}
-              </div>
-              <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>{blurb}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <VariantGrid title="Arrows Split" variants={VARIANTS} cycleMs={2900} playMs={1700} />;
 }
