@@ -21,7 +21,7 @@ an advertised-but-unbuilt deep-link feature, two heavyweight architectural costs
 | 006 | Rewrite AGENTS.md with the real generator contract | P1 | S | — | **DONE** |
 | 007 | Implement `?icon=` deep links | P1 | M | — | **DONE** |
 | 008 | Remove React Spectrum S2; unblock Turbopack | P2 | M | 001 | **DONE** |
-| 009 | Static-render root layout (theme without `cookies()`) | P2 | M | 001, 008 | TODO |
+| 009 | Static-render root layout (theme without `cookies()`) | P2 | M | 001, 008 | **DONE** |
 | 010 | Replace 147 `whileInView` wrappers with one observer + CSS | P2 | M | 001 | TODO |
 | 011 | Harden the generator contract (structural read) | P3 | M | 001 | TODO |
 | 012 | Collapse 38 lab pages onto a shared harness | P3 | L | 001 | TODO |

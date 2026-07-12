@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { cookies } from "next/headers";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { AppProvider } from "./providers";
@@ -63,27 +62,33 @@ export const metadata: Metadata = {
   category: "technology",
 };
 
-export default async function RootLayout({
+// Blocking pre-hydration script: reads the persisted theme from the
+// `iconimate-theme` cookie (the same cookie the ThemeToggle writes) and applies
+// `data-theme`/`data-color-scheme` before first paint, so the page can be
+// statically prerendered with a `light` default yet show dark with no flash.
+// Default to light on any error/absence (matches the documented Geist default).
+const THEME_SCRIPT = `(function(){try{var m=document.cookie.match(/(?:^|; )iconimate-theme=([^;]+)/);var t=m&&decodeURIComponent(m[1])==="dark"?"dark":"light";var e=document.documentElement;e.setAttribute("data-theme",t);e.setAttribute("data-color-scheme",t);}catch(_){}})();`;
+
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // The saved theme is read from a cookie so it applies on the server (no flash, no client script).
-  // Geist's documented theme here is Light, so first-time visitors default to light.
-  const stored = (await cookies()).get("iconimate-theme")?.value;
-  // Resolve to an explicit theme so the app tokens AND S2's page.css agree
-  // from the first paint (S2 defaults to `color-scheme: light dark`, which
-  // would follow the OS and can disagree with our light default).
-  const theme = stored === "dark" ? "dark" : "light";
-
+  // No `await cookies()` here — that dynamic API would force the whole tree to
+  // render per-request. The layout ships a static `light` default; the inline
+  // script above corrects to dark before paint. suppressHydrationWarning covers
+  // the attribute mutation the script does before React hydrates.
   return (
     <html
       lang="en"
-      data-theme={theme}
-      data-color-scheme={theme}
+      data-theme="light"
+      data-color-scheme="light"
       suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body suppressHydrationWarning>
         <AppProvider>{children}</AppProvider>
         <StructuredData />
