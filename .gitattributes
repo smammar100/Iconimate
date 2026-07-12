@@ -1,0 +1,18 @@
+# Normalize all text files to LF in the repository; Git checks out native line
+# endings per platform. Kills the "LF will be replaced by CRLF" churn on Windows
+# and makes diffs deterministic across contributors. Overrides core.autocrlf.
+* text=auto eol=lf
+
+# Binary assets — never normalize, never touch bytes. (SVG/XML are text and are
+# intentionally left to the rule above.)
+*.webm binary
+*.mp4 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
