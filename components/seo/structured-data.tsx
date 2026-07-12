@@ -50,7 +50,15 @@ export function StructuredData() {
           key={i}
           type="application/ld+json"
           // JSON.stringify output is safe to inline; there is no user input here.
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(graph) }}
+          // Escape <, >, & so a future dynamic icon name containing "</script>"
+          // can't break out of the JSON-LD script tag (these escapes stay valid
+          // JSON). Defense-in-depth — the data is static today.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(graph)
+              .replace(/</g, "\\u003c")
+              .replace(/>/g, "\\u003e")
+              .replace(/&/g, "\\u0026"),
+          }}
         />
       ))}
     </>

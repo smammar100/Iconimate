@@ -34,6 +34,31 @@ export default function Home() {
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<number | undefined>(undefined);
 
+  // Deep link: /?icon=<slug> scrolls to the named card and plays it once the
+  // grid has revealed. The JSON-LD ItemList and /llms.txt advertise these URLs
+  // to crawlers/AI assistants; canonical stays `/` (no redirect, no new route).
+  // An unknown slug is a clean no-op, so the page behaves like plain `/`.
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("icon");
+    if (!slug || !visibleIconMeta.some((e) => e.slug === slug)) return;
+    // Two-pass scroll: the grid cards use content-visibility:auto (a 140px
+    // height estimate until rendered), so the first jump toward a far-down icon
+    // lands short as intervening cards resolve to their real heights. Scroll,
+    // let layout settle, then correct + focus (focus runs the hover play path).
+    const t1 = window.setTimeout(() => {
+      const cell = document.getElementById(`icon-${slug}`);
+      if (!cell) return;
+      cell.scrollIntoView({ block: "center", behavior: "instant" });
+      const t2 = window.setTimeout(() => {
+        cell.scrollIntoView({ block: "center", behavior: "instant" });
+        cell.querySelector<HTMLElement>(".dc-card")?.focus({ preventScroll: true });
+      }, 200);
+      timers.push(t2);
+    }, HERO_INTRO_SECONDS * 1000 + 600);
+    const timers = [t1];
+    return () => timers.forEach(window.clearTimeout);
+  }, []);
+
   // ⌘K / Ctrl+K opens the command palette from anywhere.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -135,6 +160,10 @@ export default function Home() {
             {visibleIconMeta.map((entry, i) => (
               <motion.div
                 key={entry.slug}
+                /* stable target for ?icon=<slug> deep links (see the mount
+                   effect above) — crawlers/AI assistants are handed these URLs
+                   in the JSON-LD ItemList and /llms.txt. */
+                id={`icon-${entry.slug}`}
                 /* single-track grid so the card stretches to the row height,
                    exactly as it did as a direct .dc-grid child */
                 style={{ display: "grid" }}
