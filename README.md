@@ -7,7 +7,7 @@
 Open source React icons, hand drawn on the Phosphor 256 grid and tuned to read at 24px.
 Hover any glyph and watch it come alive.
 
-`30 icons` &middot; `MIT licensed` &middot; `React 19` &middot; `Next.js 16` &middot; `motion`
+`162 icons` &middot; `MIT licensed` &middot; `React 19` &middot; `Next.js 16` &middot; `motion`
 
 </div>
 
@@ -82,7 +82,7 @@ Every icon accepts a `size` prop (defaults to 28, calibrated to read at 24) plus
 
 ## The set
 
-Thirty icons and counting, including:
+162 icons and counting, including:
 
 | Icon | Motion |
 | --- | --- |

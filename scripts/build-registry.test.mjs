@@ -104,6 +104,18 @@ test("loadMotionNames: motion map covers every registered icon (no silent gaps)"
   assert.deepEqual(missing, [], `slugs missing from icon-meta.ts motion map: ${missing.join(", ")}`);
 });
 
+/* ── SEO count parity (plan 002) ──────────────────────────────────────────── */
+
+test("lib/seo.ts ICON_COUNT derives from the live visible-icon list (no stale literal)", () => {
+  const seoSrc = read(join(ROOT, "lib", "seo.ts"));
+  assert.doesNotMatch(seoSrc, /ICON_COUNT\s*=\s*\d+/, "ICON_COUNT must not be a hardcoded number");
+  assert.match(
+    seoSrc,
+    /ICON_COUNT\s*=\s*visibleIconMeta\.length/,
+    "ICON_COUNT derives from visibleIconMeta.length",
+  );
+});
+
 /* ── Golden inlining contract ─────────────────────────────────────────────── */
 
 for (const slug of ["bell", "avocado", "arrow-elbow-down-left"]) {

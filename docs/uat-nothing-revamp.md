@@ -1,5 +1,8 @@
 # UAT — Nothing-design UI revamp
 
+> **Historical snapshot** (one-time UAT for the Nothing-design revamp, pre-`fe790ed`). Any counts
+> below (e.g. the "10 icons" datapoint) are point-in-time and not current QA state.
+
 User Acceptance Test suite for the Iconimate chrome revamp to the **Nothing** design
 system (monochrome, typographically driven, dot-matrix display moments, a single red
 signal `#D71921`, dark + light first-class). 40 atomic, browser-verifiable cases across

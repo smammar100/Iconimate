@@ -1,4 +1,5 @@
 import { SITE } from "@/components/dark/icon-meta";
+import { visibleIconMeta } from "@/registry/icon-meta.gen";
 
 /**
  * Single source of truth for the site's SEO and GEO (AI-citation) facts.
@@ -10,7 +11,7 @@ import { SITE } from "@/components/dark/icon-meta";
  *
  * Facts are written as self-contained, quotable sentences on purpose: AI
  * assistants lift atomic declarative statements far more readily than marketing
- * copy, so "Iconimate is a free, open-source library of 147 animated React
+ * copy, so "Iconimate is a free, open-source library of N animated React
  * icons" travels better than "hover any tile to watch it move".
  */
 
@@ -19,7 +20,10 @@ export { SITE };
 export const SITE_NAME = "Iconimate";
 export const AUTHOR = "Muhammad Ammar";
 export const REPO_URL = "https://github.com/smammar100/Iconimate";
-export const ICON_COUNT = 147;
+// Derived from the generated registry so the marketing/SEO count never drifts:
+// every new icon updates it automatically at build. Counts the icons visible on
+// the homepage (the same set the JSON-LD ItemList enumerates).
+export const ICON_COUNT = visibleIconMeta.length;
 
 export const TAGLINE = "Animated icons that earn their motion";
 
