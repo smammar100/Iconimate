@@ -273,12 +273,25 @@ export function buildStandalone(slug) {
 export function loadEntries() {
   const indexSrc = read(join(ICONS_DIR, "index.ts"));
   const entries = new Map(); // slug -> { name, keywords }
-  const re = /\{\s*slug:\s*"([^"]+)",\s*name:\s*"([^"]+)",\s*keywords:\s*\[([^\]]*)\]/g;
-  for (const m of indexSrc.matchAll(re)) {
-    entries.set(m[1], {
-      name: m[2],
-      keywords: [...m[3].matchAll(/"([^"]+)"/g)].map((k) => k[1]),
-    });
+  // Match each icon entry object — any `{ ... Component: XIcon ... }` block
+  // (keywords use [] not {}, so a brace-free body match is safe). Fields are
+  // then extracted INDEPENDENTLY, so entry field order no longer matters, and a
+  // string-valued `slug` distinguishes real entries from the `IconEntry`
+  // interface (whose `slug: string` has no quotes → skipped). A block that has a
+  // quoted slug but no name/keywords THROWS instead of silently degrading search.
+  const entryRe = /\{[^{}]*Component:\s*\w+[^{}]*\}/g;
+  for (const block of indexSrc.match(entryRe) ?? []) {
+    const slug = block.match(/\bslug:\s*"([^"]+)"/)?.[1];
+    if (!slug) continue; // e.g. the IconEntry interface (slug: string)
+    const name = block.match(/\bname:\s*"([^"]+)"/)?.[1];
+    const kw = block.match(/\bkeywords:\s*\[([^\]]*)\]/)?.[1];
+    if (name == null || kw == null) {
+      throw new Error(
+        `registry/icons/index.ts: entry for "${slug}" is missing name or keywords ` +
+          `(expected the { slug, name, keywords, Component } shape)`,
+      );
+    }
+    entries.set(slug, { name, keywords: [...kw.matchAll(/"([^"]+)"/g)].map((k) => k[1]) });
   }
   return entries;
 }
@@ -309,6 +322,16 @@ const motionNames = loadMotionNames();
 const missing = slugs.filter((s) => !entries.has(s));
 if (missing.length) {
   throw new Error(`icons missing from registry/icons/index.ts: ${missing.join(", ")}`);
+}
+
+// Parity: every registered icon must also have a motion/glow entry in
+// icon-meta.ts. Previously a drifted/missing entry silently dropped the
+// "(motion)" suffix from the icon's registry description; now it fails loudly.
+const missingMotion = [...entries.keys()].filter((s) => !motionNames.has(s));
+if (missingMotion.length) {
+  throw new Error(
+    `icons missing from components/dark/icon-meta.ts (motion/glow): ${missingMotion.join(", ")}`,
+  );
 }
 
 rmSync(OUT_DIR, { recursive: true, force: true });
