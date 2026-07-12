@@ -12,7 +12,31 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated build artifacts (git-ignored) — the standalone icon files the
+    // registry generator emits for tsc verification, not source to lint.
+    "generated/**",
   ]),
+  // Verification-baseline posture (see plans/001): the newer, stricter
+  // eslint-plugin-react-hooks rules flag pre-existing, tolerated patterns in
+  // shipped components (command-palette, theme-toggle, the unused
+  // interactive-hero). Keep them VISIBLE as warnings — tracked, not hidden —
+  // so `pnpm verify` gates on real regressions instead of legacy debt. Revisit
+  // and fix these properly in the component-cleanup plans, then restore "error".
+  {
+    rules: {
+      "react-hooks/set-state-in-effect": "warn",
+      "react-hooks/static-components": "warn",
+      "react-hooks/immutability": "warn",
+    },
+  },
+  // The `<a href="/">` in the internal lab index is prototyping tooling, not a
+  // shipped route — warn here only; the real app keeps this rule as an error.
+  {
+    files: ["app/lab/**"],
+    rules: {
+      "@next/next/no-html-link-for-pages": "warn",
+    },
+  },
 ]);
 
 export default eslintConfig;

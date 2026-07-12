@@ -7,7 +7,10 @@
     "build": "node scripts/build-registry.mjs && next build --webpack",
     "build:registry": "node scripts/build-registry.mjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit && tsc -p scripts/tsconfig.registry.json --noEmit",
+    "test": "node --test \"scripts/**/*.test.mjs\"",
+    "verify": "pnpm build:registry && pnpm typecheck && pnpm lint && pnpm test"
   },
   "dependencies": {
     "@react-spectrum/s2": "^1.4.0",

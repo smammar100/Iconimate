@@ -13,11 +13,11 @@
 
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from "node:fs";
 import { join, dirname, basename } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const ICONS_DIR = join(ROOT, "registry", "icons");
-const OUT_DIR = join(ROOT, "public", "r");
+export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+export const ICONS_DIR = join(ROOT, "registry", "icons");
+export const OUT_DIR = join(ROOT, "public", "r");
 const TSX_OUT_DIR = join(ROOT, "generated", "registry"); // for tsc verification only (gitignored)
 
 const SITE = "https://iconimate.app";
@@ -35,7 +35,7 @@ const USE_HOVER_SRC = read(join(ROOT, "registry", "hooks", "use-hover.ts"));
 // Split the file at export boundaries (line-wise — regex over the whole text can
 // backtrack across code), attaching each declaration's contiguous leading comment
 // block. Section-divider comment blocks separated by a blank line are dropped.
-function splitTokenDeclarations(src) {
+export function splitTokenDeclarations(src) {
   const lines = src.replace(/^import[^\n]*\n/gm, "").split("\n");
   const isComment = (l) => /^\s*(\/\/|\/\*|\*)/.test(l);
   const declLine = /^export (?:const|function|type) ([A-Za-z0-9_]+)/;
@@ -133,7 +133,7 @@ const IMPORT_RE = /^import\s+(type\s+)?\{([^}]*)\}\s+from\s+"([^"]+)";?\s*$/;
  * imports: { react:Set, reactType:Set, motion:Set, motionType:Set, tokens:Set, useHover:bool, factory:string|null }
  * body: the source minus "use client" and all import lines.
  */
-function parseSource(src, file) {
+export function parseSource(src, file) {
   const imports = {
     react: new Set(),
     reactType: new Set(),
@@ -181,7 +181,7 @@ function mergeImports(target, extra) {
 
 /* ── Assemble one standalone icon file ──────────────────────────────────── */
 
-function buildStandalone(slug) {
+export function buildStandalone(slug) {
   const iconSrc = read(join(ICONS_DIR, `${slug}.tsx`));
   const icon = parseSource(iconSrc, `${slug}.tsx`);
 
@@ -270,7 +270,7 @@ function buildStandalone(slug) {
 
 /* ── Metadata (names/keywords from the icons index, motion from icon-meta) ─ */
 
-function loadEntries() {
+export function loadEntries() {
   const indexSrc = read(join(ICONS_DIR, "index.ts"));
   const entries = new Map(); // slug -> { name, keywords }
   const re = /\{\s*slug:\s*"([^"]+)",\s*name:\s*"([^"]+)",\s*keywords:\s*\[([^\]]*)\]/g;
@@ -283,7 +283,7 @@ function loadEntries() {
   return entries;
 }
 
-function loadMotionNames() {
+export function loadMotionNames() {
   const metaSrc = read(join(ROOT, "components", "dark", "icon-meta.ts"));
   const map = new Map();
   const re = /^\s*"?([a-z0-9-]+)"?:\s*\{\s*motion:\s*"([^"]+)"/gm;
@@ -293,6 +293,10 @@ function loadMotionNames() {
 
 /* ── Main ───────────────────────────────────────────────────────────────── */
 
+// Wrapped so that importing this module (e.g. from the test suite) exposes the
+// pure helpers above without regenerating any files. The block only runs when
+// the script is executed directly (node scripts/build-registry.mjs).
+function main() {
 const slugs = readdirSync(ICONS_DIR)
   .filter((f) => f.endsWith(".tsx") && !f.startsWith("_"))
   .map((f) => basename(f, ".tsx"))
@@ -413,3 +417,9 @@ ${slugs
 writeFileSync(join(ROOT, "registry", "lazy-icons.gen.tsx"), lazyOut);
 
 console.log(`registry: ${items.length} icons -> public/r/ (+ registry.json, icon-meta.gen, lazy-icons.gen)`);
+}
+
+// Run the generator only when executed directly, not when imported for testing.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
+}
