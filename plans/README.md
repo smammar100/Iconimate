@@ -24,7 +24,7 @@ an advertised-but-unbuilt deep-link feature, two heavyweight architectural costs
 | 009 | Static-render root layout (theme without `cookies()`) | P2 | M | 001, 008 | **DONE** |
 | 010 | Replace 147 `whileInView` wrappers with one observer + CSS | P2 | M | 001 | **DONE** |
 | 011 | Harden the generator contract (structural read) | P3 | M | 001 | **DONE** |
-| 012 | Collapse 38 lab pages onto a shared harness | P3 | L | 001 | TODO |
+| 012 | Collapse 38 lab pages onto a shared harness (33/38; 5 edge-case pages left) | P3 | L | 001 | **DONE** |
 | 013 | (Spike) Linkable `?q=` search + per-icon canonical | P3 | M | 007 | TODO |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (one-line reason) | REJECTED (one-line rationale)
