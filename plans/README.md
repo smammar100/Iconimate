@@ -22,7 +22,7 @@ an advertised-but-unbuilt deep-link feature, two heavyweight architectural costs
 | 007 | Implement `?icon=` deep links | P1 | M | — | **DONE** |
 | 008 | Remove React Spectrum S2; unblock Turbopack | P2 | M | 001 | **DONE** |
 | 009 | Static-render root layout (theme without `cookies()`) | P2 | M | 001, 008 | **DONE** |
-| 010 | Replace 147 `whileInView` wrappers with one observer + CSS | P2 | M | 001 | TODO |
+| 010 | Replace 147 `whileInView` wrappers with one observer + CSS | P2 | M | 001 | **DONE** |
 | 011 | Harden the generator contract (structural read) | P3 | M | 001 | TODO |
 | 012 | Collapse 38 lab pages onto a shared harness | P3 | L | 001 | TODO |
 | 013 | (Spike) Linkable `?q=` search + per-icon canonical | P3 | M | 007 | TODO |

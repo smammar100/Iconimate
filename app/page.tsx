@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { visibleIconMeta } from "@/registry/icon-meta.gen";
 import { DarkIconCard, type IconAction } from "@/components/dark/dark-icon-card";
@@ -57,6 +57,27 @@ export default function Home() {
     }, HERO_INTRO_SECONDS * 1000 + 600);
     const timers = [t1];
     return () => timers.forEach(window.clearTimeout);
+  }, []);
+
+  // One shared IntersectionObserver drives every card's scroll reveal (replaces
+  // ~150 per-card Motion whileInView wrappers + their observers — the main
+  // mobile-hydration cost). It toggles data-revealed once; CSS animates the
+  // rise + swing (see globals.css). Reveal is position-only — never opacity —
+  // to keep the LCP guard: opacity:0 would hide SSR text until hydration.
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries, obs) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.setAttribute("data-revealed", "");
+            obs.unobserve(e.target);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px" },
+    );
+    document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+    return () => io.disconnect();
   }, []);
 
   // ⌘K / Ctrl+K opens the command palette from anywhere.
@@ -121,22 +142,21 @@ export default function Home() {
 
       <div className="dc-shell">
         {/* the set */}
-        <section id="icons" className="dc-section" style={{ scrollMarginTop: 20 }}>
+        {/* data-intro applies the hero-intro hold to whatever reveals while the
+            hero entrance is still playing; it clears after, so rows scrolled to
+            later reveal with no hold. The reveal itself is CSS-driven (see the
+            single IntersectionObserver above + .dc-grid reveal rules in
+            globals.css) — no per-card Motion wrapper / observer. */}
+        <section
+          id="icons"
+          className="dc-section"
+          style={{ scrollMarginTop: 20 }}
+          data-intro={heroIntro ? "" : undefined}
+        >
           {/* Reveals animate position only (no opacity): opacity:0 would be
               inlined in the SSR HTML and keep this text invisible until
               hydration, tanking LCP. Painted-but-offset is invisible to LCP. */}
-          <motion.div
-            className="dc-section__head"
-            initial={{ y: 12 }}
-            whileInView={{ y: 0 }}
-            viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-            transition={{
-              type: "spring",
-              visualDuration: 0.35,
-              bounce: 0.2,
-              delay: heroIntro ? HERO_INTRO_SECONDS : 0,
-            }}
-          >
+          <div className="dc-section__head" data-reveal>
             <div className="dc-section__title">
               All Icons <span className="dc-section__count">{visibleIconMeta.length}</span>
             </div>
@@ -151,36 +171,30 @@ export default function Home() {
               <span className="dc-searchbar__spacer" />
               <span className="dc-kbd">⌘K</span>
             </button>
-          </motion.div>
+          </div>
 
-          {/* Staggered reveal: each card enters as it scrolls into view — rise,
-              fade, and a tiny -2° swing — delayed outward from the center of
-              its row so every row blooms from the middle. */}
+          {/* Staggered reveal: each card rises with a tiny -2° swing as it
+              enters view, delayed outward from the center of its row (the
+              --stagger var) so every row blooms from the middle. */}
           <div className="dc-grid">
             {visibleIconMeta.map((entry, i) => (
-              <motion.div
+              <div
                 key={entry.slug}
-                /* stable target for ?icon=<slug> deep links (see the mount
-                   effect above) — crawlers/AI assistants are handed these URLs
-                   in the JSON-LD ItemList and /llms.txt. */
+                /* stable target for ?icon=<slug> deep links — crawlers/AI
+                   assistants are handed these URLs in the JSON-LD + /llms.txt. */
                 id={`icon-${entry.slug}`}
-                /* single-track grid so the card stretches to the row height,
-                   exactly as it did as a direct .dc-grid child */
-                style={{ display: "grid" }}
-                initial={{ y: 12, rotate: -2 }}
-                whileInView={{ y: 0, rotate: 0 }}
-                viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-                transition={{
-                  type: "spring",
-                  visualDuration: 0.35,
-                  bounce: 0.2,
-                  delay:
-                    (heroIntro ? HERO_INTRO_SECONDS : 0) +
-                    Math.abs((i % GRID_COLUMNS) - (GRID_COLUMNS - 1) / 2) * 0.05,
-                }}
+                data-reveal
+                /* single-track grid so the card stretches to the row height;
+                   --stagger = center-out delay for this column. */
+                style={
+                  {
+                    display: "grid",
+                    "--stagger": `${Math.abs((i % GRID_COLUMNS) - (GRID_COLUMNS - 1) / 2) * 0.05}s`,
+                  } as CSSProperties
+                }
               >
                 <DarkIconCard entry={entry} onAction={action} />
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>
