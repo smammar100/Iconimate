@@ -24,8 +24,11 @@ const eslintConfig = defineConfig([
   // and fix these properly in the component-cleanup plans, then restore "error".
   {
     rules: {
+      // Pre-existing tolerated patterns in shipped components (command-palette,
+      // theme-toggle). Kept visible-as-warnings; restore to "error" when the
+      // component-cleanup plans fix them. (static-components was cleared by
+      // plan 004's deletion of interactive-hero, so it stays a hard error.)
       "react-hooks/set-state-in-effect": "warn",
-      "react-hooks/static-components": "warn",
       "react-hooks/immutability": "warn",
     },
   },
