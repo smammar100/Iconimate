@@ -1,13 +1,11 @@
 "use client";
 
-import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { RETURN_TRANSITION, SWEEP } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
-
-/** Back-out overshoot — spring-like snap on multi-keyframe tweens. */
-const OVERSHOOT = [0.34, 1.56, 0.64, 1] as const;
+import { AT, OVERSHOOT, Svg, VariantGrid } from "@/app/lab/_shared/harness";
 
 /**
  * LAB — Bag icon, 5 animation candidates.
@@ -30,40 +28,9 @@ const HANDLE = "M88,96V64a40,40,0,0,1,80,0V96";
 const BAG =
   "M216,64H176a48,48,0,0,0-96,0H40A16,16,0,0,0,24,80V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V80A16,16,0,0,0,216,64ZM128,32a32,32,0,0,1,32,32H96A32,32,0,0,1,128,32Zm88,168H40V80H80V96a8,8,0,0,0,16,0V80h64V96a8,8,0,0,0,16,0V80h40Z";
 
-/* Transform origins (view-box fractions of 256). */
-const AT = (x: number, y: number) => ({
-  transformBox: "view-box" as const,
-  originX: x / 256,
-  originY: y / 256,
-});
 const GRIP = AT(128, 20); // top of the handle arch — where a hand would hold it
 const FLOOR = AT(128, 216); // bottom of the satchel
 const TAB_LINE = AT(128, 96); // where the handle's tabs end inside the body
-
-function Svg({
-  size,
-  controls,
-  children,
-}: {
-  size: number;
-  controls: ReturnType<typeof useHover>["controls"];
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      initial="normal"
-      animate={controls}
-      style={{ overflow: "visible" }}
-    >
-      {children}
-    </motion.svg>
-  );
-}
 
 function HandleStroke(props: React.ComponentProps<typeof motion.path>) {
   return (
@@ -365,77 +332,5 @@ const VARIANTS: { name: string; blurb: string; Component: typeof BagLiftIcon }[]
 ];
 
 export default function BagLabPage() {
-  const refs = useRef<(IconHandle | null)[]>([]);
-
-  // Auto-play every variant on a loop so the page is lively without hovering.
-  // Each remains fully hover/focus-interactive too.
-  useEffect(() => {
-    const cycle = () => {
-      refs.current.forEach((h) => h?.startAnimation());
-      window.setTimeout(() => refs.current.forEach((h) => h?.stopAnimation()), 1400);
-    };
-    cycle();
-    const id = window.setInterval(cycle, 2600);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        color: "var(--text)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "64px 24px",
-        fontFamily: "var(--font-geist-sans, system-ui, sans-serif)",
-      }}
-    >
-      <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>Bag — animation candidates</h1>
-      <p style={{ opacity: 0.55, fontSize: 14, marginTop: 8, marginBottom: 40 }}>
-        Hover or focus any tile. They also auto-cycle. Pick one to promote into the registry.
-      </p>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 16,
-          width: "100%",
-          maxWidth: 900,
-        }}
-      >
-        {VARIANTS.map(({ name, blurb, Component }, i) => (
-          <div
-            key={name}
-            tabIndex={0}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 14,
-              padding: "32px 16px 22px",
-              borderRadius: 16,
-              background: "var(--surface)",
-              border: "1px solid var(--border-2)",
-              outline: "none",
-            }}
-          >
-            <Component
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              size={56}
-              style={{ color: "var(--text-strong)" }}
-            />
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{name}</div>
-              <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>{blurb}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <VariantGrid title="Bag" variants={VARIANTS} cycleMs={2600} playMs={1400} />;
 }

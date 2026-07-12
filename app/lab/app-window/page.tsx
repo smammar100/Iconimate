@@ -1,15 +1,11 @@
 "use client";
 
-import {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { ARRIVE, DUR, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
+import { OVERSHOOT, Svg, VariantGrid } from "@/app/lab/_shared/harness";
 
 /**
  * LAB — App Window icon, 5 animation candidates.
@@ -27,34 +23,6 @@ const CENTER = { transformBox: "view-box" as const, originX: 0.5, originY: 0.5 }
 const CENTER_3D = { ...CENTER, transformPerspective: 620 };
 /** Pivot on the dots' own line (y≈84) so they blink in place. */
 const DOTS_ORIGIN = { transformBox: "view-box" as const, originX: 0.5, originY: 0.328 };
-
-/** Back-out overshoot — spring-like snap on tween transitions. */
-const OVERSHOOT = [0.34, 1.56, 0.64, 1] as const;
-
-function Svg({
-  size,
-  controls,
-  children,
-}: {
-  size: number;
-  controls: ReturnType<typeof useHover>["controls"];
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      initial="normal"
-      animate={controls}
-      style={{ overflow: "visible" }}
-    >
-      {children}
-    </motion.svg>
-  );
-}
 
 /* ── 1. BLINK — the two dots blink shut and open, like a pair of eyes. ──────── */
 const blink: Variants = {
@@ -207,76 +175,5 @@ const VARIANTS: { name: string; blurb: string; Component: typeof AppWindowBlinkI
 ];
 
 export default function AppWindowLabPage() {
-  const refs = useRef<(IconHandle | null)[]>([]);
-
-  // Auto-play every variant on a loop so the page is lively without hovering.
-  useEffect(() => {
-    const cycle = () => {
-      refs.current.forEach((h) => h?.startAnimation());
-      window.setTimeout(() => refs.current.forEach((h) => h?.stopAnimation()), 1600);
-    };
-    cycle();
-    const id = window.setInterval(cycle, 2800);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        color: "var(--text)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "64px 24px",
-        fontFamily: "var(--font-geist-sans, system-ui, sans-serif)",
-      }}
-    >
-      <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>App Window — animation candidates</h1>
-      <p style={{ opacity: 0.55, fontSize: 14, marginTop: 8, marginBottom: 40 }}>
-        Hover or focus any tile. They also auto-cycle. Pick one to promote into the registry.
-      </p>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 16,
-          width: "100%",
-          maxWidth: 900,
-        }}
-      >
-        {VARIANTS.map(({ name, blurb, Component }, i) => (
-          <div
-            key={name}
-            tabIndex={0}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 14,
-              padding: "32px 16px 22px",
-              borderRadius: 16,
-              background: "var(--surface)",
-              border: "1px solid var(--border-2)",
-              outline: "none",
-            }}
-          >
-            <Component
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              size={56}
-              style={{ color: "var(--text-strong)" }}
-            />
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{name}</div>
-              <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>{blurb}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <VariantGrid title="App Window" variants={VARIANTS} cycleMs={2800} playMs={1600} />;
 }

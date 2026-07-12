@@ -1,10 +1,11 @@
 "use client";
 
-import { forwardRef, useEffect, useId, useImperativeHandle, useRef } from "react";
+import { forwardRef, useId, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
+import { OVERSHOOT, Svg, VariantGrid } from "@/app/lab/_shared/harness";
 
 /**
  * LAB — Arrow Down, 5 animation candidates.
@@ -19,32 +20,6 @@ const ARROW_SPINE = "M128,36L128,224";
 // The tail (top of the shaft, y=40) — the anchor for the squash.
 const TAIL = { x: 0.5, y: 40 / 256 };
 const CENTER = { x: 0.5, y: 0.5 };
-const OVERSHOOT = [0.34, 1.56, 0.64, 1] as const;
-
-function Svg({
-  size,
-  controls,
-  children,
-}: {
-  size: number;
-  controls: ReturnType<typeof useHover>["controls"];
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      initial="normal"
-      animate={controls}
-      style={{ overflow: "visible" }}
-    >
-      {children}
-    </motion.svg>
-  );
-}
 
 /* ── 1. SPRING  (from the video) ──────────────────────────────────────────────
    Vertical squash with the tail anchored — the arrowhead retracts toward the
@@ -177,73 +152,5 @@ const VARIANTS: { name: string; blurb: string; Component: typeof SpringIcon }[] 
 ];
 
 export default function ArrowDownLabPage() {
-  const refs = useRef<(IconHandle | null)[]>([]);
-  useEffect(() => {
-    const cycle = () => {
-      refs.current.forEach((h) => h?.startAnimation());
-      window.setTimeout(() => refs.current.forEach((h) => h?.stopAnimation()), 1600);
-    };
-    cycle();
-    const id = window.setInterval(cycle, 2800);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        color: "var(--text)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "64px 24px",
-        fontFamily: "var(--font-geist-sans, system-ui, sans-serif)",
-      }}
-    >
-      <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>Arrow Down — animation candidates</h1>
-      <p style={{ opacity: 0.55, fontSize: 14, marginTop: 8, marginBottom: 40, textAlign: "center", maxWidth: 600 }}>
-        &ldquo;Spring&rdquo; reproduces the video. Hover, focus, or watch them auto-cycle. Pick one to promote.
-      </p>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 16,
-          width: "100%",
-          maxWidth: 800,
-        }}
-      >
-        {VARIANTS.map(({ name, blurb, Component }, i) => (
-          <div
-            key={name}
-            tabIndex={0}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 14,
-              padding: "32px 16px 22px",
-              borderRadius: 16,
-              background: "var(--surface)",
-              border: "1px solid var(--border-2)",
-              outline: "none",
-            }}
-          >
-            <Component
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              size={56}
-              style={{ color: "var(--text-strong)" }}
-            />
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{name}</div>
-              <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>{blurb}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <VariantGrid title="Arrow Down" variants={VARIANTS} cycleMs={2800} playMs={1600} />;
 }

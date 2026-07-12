@@ -13,6 +13,7 @@ import {
 import { useHover } from "@/hooks/use-hover";
 import { ARRIVE, RETURN_TRANSITION, SNAP_RETURN, SWEEP } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
+import { Svg, VariantGrid } from "@/app/lab/_shared/harness";
 
 /**
  * LAB — Arrow U Down-Left, 5 animation candidates.
@@ -27,31 +28,6 @@ const ARROW =
 // Tail (open top end of the shaft) and centre, in normalized view-box space.
 const TAIL = { x: 80 / 256, y: 56 / 256 };
 const CENTER = { x: 0.5, y: 0.5 };
-
-function Svg({
-  size,
-  controls,
-  children,
-}: {
-  size: number;
-  controls: ReturnType<typeof useHover>["controls"];
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      initial="normal"
-      animate={controls}
-      style={{ overflow: "visible" }}
-    >
-      {children}
-    </motion.svg>
-  );
-}
 
 /* ── 1. U-TURN  (shipped) ───────────────────────────────────────────────────────
    Anticipation + Follow-through + Slow in & out. Winds back up-right toward the
@@ -460,78 +436,5 @@ const VARIANTS: { name: string; principle: string; blurb: string; Component: typ
 ];
 
 export default function ArrowUDownLeftLabPage() {
-  const refs = useRef<(IconHandle | null)[]>([]);
-  useEffect(() => {
-    const cycle = () => {
-      refs.current.forEach((h) => h?.startAnimation());
-      window.setTimeout(() => refs.current.forEach((h) => h?.stopAnimation()), 3000);
-    };
-    cycle();
-    const id = window.setInterval(cycle, 4400);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        color: "var(--text)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "64px 24px",
-        fontFamily: "var(--font-geist-sans, system-ui, sans-serif)",
-      }}
-    >
-      <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>Arrow U Down-Left — animation candidates</h1>
-      <p style={{ opacity: 0.55, fontSize: 14, marginTop: 8, marginBottom: 40, textAlign: "center", maxWidth: 640 }}>
-        Fifteen takes on the U-turn arrow, each built on a Disney motion principle. The first five move the whole glyph;
-        the last ten trace the arrowhead along the path itself (after the reference clip). Hover, focus, or watch them
-        auto-cycle. Pick one to promote.
-      </p>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 16,
-          width: "100%",
-          maxWidth: 800,
-        }}
-      >
-        {VARIANTS.map(({ name, principle, blurb, Component }, i) => (
-          <div
-            key={name}
-            tabIndex={0}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 14,
-              padding: "32px 16px 22px",
-              borderRadius: 16,
-              background: "var(--surface)",
-              border: "1px solid var(--border-2)",
-              outline: "none",
-            }}
-          >
-            <Component
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              size={56}
-              style={{ color: "var(--text-strong)" }}
-            />
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{name}</div>
-              <div style={{ fontSize: 11, opacity: 0.4, marginTop: 3, textTransform: "uppercase", letterSpacing: 0.4 }}>
-                {principle}
-              </div>
-              <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>{blurb}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <VariantGrid title="Arrow U Down-Left" variants={VARIANTS} cycleMs={4400} playMs={3000} />;
 }

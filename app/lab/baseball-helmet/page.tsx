@@ -1,10 +1,11 @@
 "use client";
 
-import { forwardRef, useEffect, useId, useImperativeHandle, useRef } from "react";
+import { forwardRef, useId, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { ARRIVE, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
+import { AT, Svg, VariantGrid } from "@/app/lab/_shared/harness";
 
 /**
  * LAB — Baseball helmet icon, 5 animation candidates. Full choreography with
@@ -25,41 +26,11 @@ const BILL = "M200,120h48a8,8,0,0,1,0,16H200Z";
 const EAR =
   "M88,128a28,28,0,1,0,28,28A28,28,0,0,0,88,128Zm0,40a12,12,0,1,1,12-12A12,12,0,0,1,88,168Z";
 
-const AT = (x: number, y: number) => ({
-  transformBox: "view-box" as const,
-  originX: x / 256,
-  originY: y / 256,
-});
 const BASE = AT(128, 224); // where the helmet sits
 const BILL_ROOT = AT(200, 128); // the bill's hinge into the shell
 const EAR_EYE = AT(88, 156);
 
 const HIDDEN = { opacity: 0, transition: { duration: 0.1 } };
-
-function Svg({
-  size,
-  controls,
-  children,
-}: {
-  size: number;
-  controls: ReturnType<typeof useHover>["controls"];
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      initial="normal"
-      animate={controls}
-      style={{ overflow: "visible" }}
-    >
-      {children}
-    </motion.svg>
-  );
-}
 
 function Helmet({
   shell,
@@ -727,77 +698,5 @@ const VARIANTS: { name: string; blurb: string; Component: typeof HelmetBeanballI
 ];
 
 export default function BaseballHelmetLabPage() {
-  const refs = useRef<(IconHandle | null)[]>([]);
-
-  // Auto-play every variant on a loop so the page is lively without hovering.
-  // Each remains fully hover/focus-interactive too.
-  useEffect(() => {
-    const cycle = () => {
-      refs.current.forEach((h) => h?.startAnimation());
-      window.setTimeout(() => refs.current.forEach((h) => h?.stopAnimation()), 2300);
-    };
-    cycle();
-    const id = window.setInterval(cycle, 3600);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        color: "var(--text)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "64px 24px",
-        fontFamily: "var(--font-geist-sans, system-ui, sans-serif)",
-      }}
-    >
-      <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>Baseball Helmet — animation candidates</h1>
-      <p style={{ opacity: 0.55, fontSize: 14, marginTop: 8, marginBottom: 40 }}>
-        Hover or focus any tile. They also auto-cycle. Pick one to promote into the registry.
-      </p>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 16,
-          width: "100%",
-          maxWidth: 900,
-        }}
-      >
-        {VARIANTS.map(({ name, blurb, Component }, i) => (
-          <div
-            key={name}
-            tabIndex={0}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 14,
-              padding: "32px 16px 22px",
-              borderRadius: 16,
-              background: "var(--surface)",
-              border: "1px solid var(--border-2)",
-              outline: "none",
-            }}
-          >
-            <Component
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              size={56}
-              style={{ color: "var(--text-strong)" }}
-            />
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{name}</div>
-              <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>{blurb}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <VariantGrid title="Baseball Helmet" variants={VARIANTS} cycleMs={3600} playMs={2300} />;
 }

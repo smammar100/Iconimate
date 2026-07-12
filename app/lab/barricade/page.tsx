@@ -1,13 +1,11 @@
 "use client";
 
-import { forwardRef, useEffect, useId, useImperativeHandle, useRef } from "react";
+import { forwardRef, useId, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { RETURN_TRANSITION, SWEEP } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
-
-/** Back-out overshoot — spring-like snap on multi-keyframe tweens. */
-const OVERSHOOT = [0.34, 1.56, 0.64, 1] as const;
+import { AT, OVERSHOOT, Svg, VariantGrid } from "@/app/lab/_shared/harness";
 
 /**
  * LAB — Barricade icon, 5 animation candidates (escalating). In every one the
@@ -30,12 +28,6 @@ const LEG_L = "M64,168v32";
 const LEG_R = "M192,168v32";
 const MARCH_PERIOD = 72;
 
-/* Transform origins (view-box fractions of 256). */
-const AT = (x: number, y: number) => ({
-  transformBox: "view-box" as const,
-  originX: x / 256,
-  originY: y / 256,
-});
 const GROUND = AT(128, 208); // where the legs meet the road
 const BOARD_BASE = AT(128, 168); // bottom edge of the panel
 
@@ -47,31 +39,6 @@ const march: Variants = {
     transition: { duration: 1.1, ease: "linear" },
   },
 };
-
-function Svg({
-  size,
-  controls,
-  children,
-}: {
-  size: number;
-  controls: ReturnType<typeof useHover>["controls"];
-  children: React.ReactNode;
-}) {
-  return (
-    <motion.svg
-      xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
-      viewBox="0 0 256 256"
-      fill="currentColor"
-      initial="normal"
-      animate={controls}
-      style={{ overflow: "visible" }}
-    >
-      {children}
-    </motion.svg>
-  );
-}
 
 /** The striped board: frame + clipped marching stripes. */
 function Board({ animateStripes }: { animateStripes: boolean }) {
@@ -289,77 +256,5 @@ const VARIANTS: { name: string; blurb: string; Component: typeof BarricadeMarchI
 ];
 
 export default function BarricadeLabPage() {
-  const refs = useRef<(IconHandle | null)[]>([]);
-
-  // Auto-play every variant on a loop so the page is lively without hovering.
-  // Each remains fully hover/focus-interactive too.
-  useEffect(() => {
-    const cycle = () => {
-      refs.current.forEach((h) => h?.startAnimation());
-      window.setTimeout(() => refs.current.forEach((h) => h?.stopAnimation()), 2100);
-    };
-    cycle();
-    const id = window.setInterval(cycle, 3400);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "var(--bg)",
-        color: "var(--text)",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "64px 24px",
-        fontFamily: "var(--font-geist-sans, system-ui, sans-serif)",
-      }}
-    >
-      <h1 style={{ fontSize: 22, fontWeight: 600, margin: 0 }}>Barricade — animation candidates</h1>
-      <p style={{ opacity: 0.55, fontSize: 14, marginTop: 8, marginBottom: 40 }}>
-        Hover or focus any tile. They also auto-cycle. Pick one to promote into the registry.
-      </p>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-          gap: 16,
-          width: "100%",
-          maxWidth: 900,
-        }}
-      >
-        {VARIANTS.map(({ name, blurb, Component }, i) => (
-          <div
-            key={name}
-            tabIndex={0}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 14,
-              padding: "32px 16px 22px",
-              borderRadius: 16,
-              background: "var(--surface)",
-              border: "1px solid var(--border-2)",
-              outline: "none",
-            }}
-          >
-            <Component
-              ref={(el) => {
-                refs.current[i] = el;
-              }}
-              size={56}
-              style={{ color: "var(--text-strong)" }}
-            />
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontSize: 14, fontWeight: 600 }}>{name}</div>
-              <div style={{ fontSize: 12, opacity: 0.5, marginTop: 4 }}>{blurb}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </main>
-  );
+  return <VariantGrid title="Barricade" variants={VARIANTS} cycleMs={3400} playMs={2100} />;
 }
