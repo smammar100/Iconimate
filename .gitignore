@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.*
+# machine-local pnpm config (store/cache paths differ per machine)
+/.npmrc
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
