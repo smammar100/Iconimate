@@ -18,7 +18,7 @@ an advertised-but-unbuilt deep-link feature, two heavyweight architectural costs
 | 003 | Add `.gitattributes` (kill CRLF/LF churn) | P1 | S | — | **DONE** |
 | 004 | Delete dead code | P1 | S | — | **DONE** |
 | 005 | Dependency patch bumps + clear PostCSS advisory | P2 | S | — | TODO |
-| 006 | Rewrite AGENTS.md with the real generator contract | P1 | S | — | TODO |
+| 006 | Rewrite AGENTS.md with the real generator contract | P1 | S | — | **DONE** |
 | 007 | Implement `?icon=` deep links | P1 | M | — | TODO |
 | 008 | Remove React Spectrum S2; unblock Turbopack | P2 | M | 001 | TODO |
 | 009 | Static-render root layout (theme without `cookies()`) | P2 | M | 001, 008 | TODO |
