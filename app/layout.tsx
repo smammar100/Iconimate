@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { AppProvider } from "./providers";
 import { StructuredData } from "@/components/seo/structured-data";
-import { SITE, SITE_NAME, TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
+import { SITE, SITE_NAME, META_TITLE, META_DESCRIPTION } from "@/lib/seo";
 
 /**
  * Vercel Geist typography: Geist Sans sets UI and prose, Geist Mono sets code,
@@ -13,7 +13,7 @@ import { SITE, SITE_NAME, TAGLINE, SITE_DESCRIPTION } from "@/lib/seo";
  * package, so this is the real design system — no substitutes.
  */
 
-const TITLE = `${SITE_NAME} — ${TAGLINE}`;
+const TITLE = META_TITLE;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -21,16 +21,25 @@ export const metadata: Metadata = {
     default: TITLE,
     template: `%s · ${SITE_NAME}`,
   },
-  description: SITE_DESCRIPTION,
+  description: META_DESCRIPTION,
   applicationName: SITE_NAME,
+  // Google has ignored the keywords meta tag since 2009, so this ranks nothing;
+  // it is kept because some non-Google crawlers and AI indexers still read it,
+  // and it costs a few bytes. The terms that actually have to earn rankings
+  // live in the title, the description, and the on-page copy.
   keywords: [
+    "animated icon library",
+    "animated icons",
+    "icon animation",
+    "icon library",
+    "icon motion",
+    "motion icons",
     "animated react icons",
     "animated svg icons",
-    "phosphor animated icons",
     "react icon library",
     "svg icon animation",
+    "phosphor animated icons",
     "shadcn icons",
-    "motion icons",
     "open source icons",
   ],
   authors: [{ name: "Muhammad Ammar", url: "https://github.com/smammar100" }],
@@ -41,12 +50,12 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     url: SITE,
     title: TITLE,
-    description: SITE_DESCRIPTION,
+    description: META_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
-    description: SITE_DESCRIPTION,
+    description: META_DESCRIPTION,
   },
   robots: {
     index: true,

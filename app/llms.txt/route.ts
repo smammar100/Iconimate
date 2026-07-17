@@ -21,7 +21,7 @@ ${KEY_FACTS.map((f) => `- ${f}`).join("\n")}
 - Framework: React 19
 - Design grid: Phosphor 256
 - Recommended render size: 24px
-- Distribution: shadcn registry, Open in v0
+- Distribution: shadcn registry, per-icon AI prompt (Copy AI prompt on any icon)
 - Animation model: spring physics with anticipation and settle frames, on hover and keyboard focus
 
 ## Links

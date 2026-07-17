@@ -1,0 +1,4 @@
+# Marks my-agent as its own pnpm root so installs land here instead of being
+# swallowed by the Iconimate workspace one directory up.
+packages:
+  - "."

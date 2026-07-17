@@ -1,0 +1,5 @@
+# Marks studio-iconimate as its own pnpm root. Without this, the Iconimate
+# workspace file one level up captures the install and `pnpm install` here
+# silently no-ops, leaving node_modules empty.
+packages:
+  - "."

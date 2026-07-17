@@ -15,6 +15,12 @@ const eslintConfig = defineConfig([
     // Generated build artifacts (git-ignored) — the standalone icon files the
     // registry generator emits for tsc verification, not source to lint.
     "generated/**",
+    // Self-contained eve agent app with its own toolchain and lint config; its
+    // bundled build output under .eve/ is vendored code, not source to lint.
+    "my-agent/**",
+    // Standalone Sanity Studio: its own toolchain, eslint config, and tsconfig.
+    // Lint it from inside studio-iconimate/, not with the Next app's rules.
+    "studio-iconimate/**",
   ]),
   // Verification-baseline posture (see plans/001): the newer, stricter
   // eslint-plugin-react-hooks rules flag pre-existing, tolerated patterns in
