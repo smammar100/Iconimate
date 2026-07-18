@@ -155,7 +155,7 @@ export function Gallery({ icons }: { icons: IconView[] }) {
 
       {/* hero — tile scatter (Fintech Web Template), icons animate on hover */}
       <HeroTiles
-        onCopyInstall={(pm) => action("copy-cli", "bell", "Bell", pm)}
+        onCopyInstall={(pm, slug, name) => action("copy-cli", slug, name, pm)}
         onOpenSearch={() => setPaletteOpen(true)}
       />
 
@@ -227,6 +227,19 @@ export function Gallery({ icons }: { icons: IconView[] }) {
         {/* minimal site footer — copyright left, follow links right */}
         <footer className="dc-footer">
           <span className="dc-footer__copy">© {new Date().getFullYear()} Iconimate</span>
+          {/* Attribution: the two projects Iconimate is built on. Middle child of
+              the space-between row, so it sits centered between copy and links. */}
+          <span className="dc-footer__credit">
+            Crafted with{" "}
+            <a className="dc-footer__credit-link" href="https://github.com/motiondivision/motion" target="_blank" rel="noopener noreferrer">
+              Motion
+            </a>{" "}
+            &amp;{" "}
+            <a className="dc-footer__credit-link" href="https://github.com/phosphor-icons/core" target="_blank" rel="noopener noreferrer">
+              Phosphor
+            </a>{" "}
+            with <span className="dc-footer__credit-heart" aria-label="love" role="img">❤️</span>
+          </span>
           <nav className="dc-footer__links" aria-label="Follow me">
             <a href="https://x.com/Ammar110_SM" target="_blank" rel="noreferrer">
               X

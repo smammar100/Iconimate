@@ -171,6 +171,8 @@ export const ICON_META: Record<string, IconMeta> = {
   baseball: { motion: "strikeout", glow: "#F87171" },
   "baseball-cap": { motion: "gust away", glow: "#60A5FA" },
   "baseball-helmet": { motion: "dizzy", glow: "#C084FC" },
+  basket: { motion: "jostle", glow: "#F59E0B" },
+  basketball: { motion: "spin + bounce", glow: "#FB923C" },
   "arrows-left-right": { motion: "bounce", glow: "#2DD4BF" },
   "arrow-elbow-down-left": { motion: "draw", glow: "#34D399" },
   "arrow-elbow-down-right": { motion: "draw", glow: "#34D399" },
@@ -218,6 +220,20 @@ export function registryUrl(slug: string): string {
 /** The install line shown/copied for a given icon. */
 export function installCommand(slug: string, pm: PackageManager = "npm"): string {
   return `${PM_RUNNER[pm]} shadcn@latest add ${registryUrl(slug)}`;
+}
+
+/**
+ * The install line split around the icon slug: `before + slug + after` equals
+ * installCommand(slug, pm). Lets the hero animate only the slug while the rest of
+ * the command stays fixed. Derived from installCommand via a sentinel so the
+ * command format lives in exactly one place.
+ */
+export function installCommandParts(pm: PackageManager = "npm"): { before: string; after: string } {
+  // "%SLUG%" can never appear in a real slug (kebab-case a-z0-9) or the rest of
+  // the command, so the split lands exactly where the slug goes.
+  const SENTINEL = "%SLUG%";
+  const [before, after] = installCommand(SENTINEL, pm).split(SENTINEL);
+  return { before, after };
 }
 
 /** The icon's AI prompt — a self-contained brief (glyph, motion, and the

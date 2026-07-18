@@ -180,6 +180,8 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "baseball", name: "Baseball", keywords: ["sport","ball","pitch","game","league","seams","strike","throw","spin","mitt"] },
   { slug: "baseball-cap", name: "Baseball Cap", keywords: ["hat","cap","sport","team","wear","clothing","brim","wind","gust","fashion"] },
   { slug: "baseball-helmet", name: "Baseball Helmet", keywords: ["sport","batting","batter","protection","gear","safety","dizzy","stars","team","wear"] },
+  { slug: "basket", name: "Basket", keywords: ["shopping","cart","market","groceries","store","buy","purchase","checkout","shop","items","carry"] },
+  { slug: "basketball", name: "Basketball", keywords: ["sport","ball","hoop","dribble","spin","court","game","nba","team","play"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
