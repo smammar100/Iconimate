@@ -169,6 +169,8 @@ export const LAZY_ICONS: Record<string, LazyIcon> = {
   "baseball": lazy(() => import("./icons/baseball").then((m) => ({ default: m.BaseballIcon }))),
   "baseball-cap": lazy(() => import("./icons/baseball-cap").then((m) => ({ default: m.BaseballCapIcon }))),
   "baseball-helmet": lazy(() => import("./icons/baseball-helmet").then((m) => ({ default: m.BaseballHelmetIcon }))),
+  "basket": lazy(() => import("./icons/basket").then((m) => ({ default: m.BasketIcon }))),
+  "basketball": lazy(() => import("./icons/basketball").then((m) => ({ default: m.BasketballIcon }))),
   "bell": lazy(() => import("./icons/bell").then((m) => ({ default: m.BellIcon }))),
   "bolt": lazy(() => import("./icons/bolt").then((m) => ({ default: m.BoltIcon }))),
   "bookmark": lazy(() => import("./icons/bookmark").then((m) => ({ default: m.BookmarkIcon }))),

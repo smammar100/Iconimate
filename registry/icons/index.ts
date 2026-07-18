@@ -173,6 +173,8 @@ import { BarricadeIcon } from "./barricade";
 import { BaseballIcon } from "./baseball";
 import { BaseballCapIcon } from "./baseball-cap";
 import { BaseballHelmetIcon } from "./baseball-helmet";
+import { BasketIcon } from "./basket";
+import { BasketballIcon } from "./basketball";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -357,6 +359,8 @@ export const icons: IconEntry[] = [
   { slug: "baseball", name: "Baseball", keywords: ["sport", "ball", "pitch", "game", "league", "seams", "strike", "throw", "spin", "mitt"], Component: BaseballIcon },
   { slug: "baseball-cap", name: "Baseball Cap", keywords: ["hat", "cap", "sport", "team", "wear", "clothing", "brim", "wind", "gust", "fashion"], Component: BaseballCapIcon },
   { slug: "baseball-helmet", name: "Baseball Helmet", keywords: ["sport", "batting", "batter", "protection", "gear", "safety", "dizzy", "stars", "team", "wear"], Component: BaseballHelmetIcon },
+  { slug: "basket", name: "Basket", keywords: ["shopping", "cart", "market", "groceries", "store", "buy", "purchase", "checkout", "shop", "items", "carry"], Component: BasketIcon },
+  { slug: "basketball", name: "Basketball", keywords: ["sport", "ball", "hoop", "dribble", "spin", "court", "game", "nba", "team", "play"], Component: BasketballIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
