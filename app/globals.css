@@ -619,8 +619,18 @@ body {
   overflow-x: auto;
   scrollbar-width: none; /* long URL command scrolls quietly on narrow screens */
 }
-.dc-install__dollar {
-  color: var(--text-faint);
+/* The rotating slug: the outer span anchors it in the text run; the slot masks
+   the vertical roll and glides between slug widths (Motion animates width in ch)
+   so ".json" follows smoothly. Colour comes inline per icon (its glow). */
+.dc-install__slug {
+  display: inline-block;
+  vertical-align: bottom;
+}
+.dc-install__slug-slot {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
 }
 .dc-install__copy {
   display: inline-grid;
@@ -1053,6 +1063,29 @@ body {
   font-family: var(--ui-font);
   font-size: 13px;
   letter-spacing: 0;
+}
+/* "Crafted with Motion & Phosphor" attribution — the footer row's middle child,
+   centered by the space-between layout. Mono + chips so the two project names
+   read as quiet credits. */
+.dc-footer__credit {
+  font-family: var(--mono-font);
+}
+.dc-footer__credit-link {
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-strong);
+  text-decoration: none;
+  transition: border-color 0.15s var(--ease), color 0.15s var(--ease);
+}
+.dc-footer__credit-link:hover {
+  border-color: var(--text-dim);
+  color: var(--text);
+}
+.dc-footer__credit-heart {
+  /* Keep the emoji from inheriting the muted text colour. */
+  filter: saturate(1.1);
 }
 .dc-footer__links {
   display: flex;

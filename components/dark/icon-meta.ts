@@ -220,6 +220,20 @@ export function installCommand(slug: string, pm: PackageManager = "npm"): string
   return `${PM_RUNNER[pm]} shadcn@latest add ${registryUrl(slug)}`;
 }
 
+/**
+ * The install line split around the icon slug: `before + slug + after` equals
+ * installCommand(slug, pm). Lets the hero animate only the slug while the rest of
+ * the command stays fixed. Derived from installCommand via a sentinel so the
+ * command format lives in exactly one place.
+ */
+export function installCommandParts(pm: PackageManager = "npm"): { before: string; after: string } {
+  // "%SLUG%" can never appear in a real slug (kebab-case a-z0-9) or the rest of
+  // the command, so the split lands exactly where the slug goes.
+  const SENTINEL = "%SLUG%";
+  const [before, after] = installCommand(SENTINEL, pm).split(SENTINEL);
+  return { before, after };
+}
+
 /** The icon's AI prompt — a self-contained brief (glyph, motion, and the
  *  authoring contract) that an LLM can build the icon from.
  *

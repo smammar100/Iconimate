@@ -1,12 +1,19 @@
 "use client";
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { motion, useReducedMotion, type Variants } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 import { BorderBeam } from "border-beam";
-import { visibleIconMeta, type IconMetaEntry } from "@/registry/icon-meta.gen";
+import { iconMeta, visibleIconMeta, type IconMetaEntry } from "@/registry/icon-meta.gen";
 import { LAZY_ICONS } from "@/registry/lazy-icons.gen";
 import type { IconHandle } from "@/lib/icon";
-import { installCommand, metaFor, PACKAGE_MANAGERS, type PackageManager } from "./icon-meta";
+import { installCommandParts, metaFor, PACKAGE_MANAGERS, type PackageManager } from "./icon-meta";
+
+// The slug that rotates through the hero install command. A hand-picked set of
+// recognisable icons, validated against the registry so a rename can't leave a
+// dead command (falls back to the first visible icons if the list ever drifts).
+const INSTALL_ROTATION_SLUGS = [
+  "bell", "heart", "airplane", "alarm", "anchor", "camera", "axe", "bank", "acorn", "cloud",
+];
 
 /*
  * The tile hero — a centered headline flanked by two 6×6 scatter grids of icon
@@ -35,6 +42,7 @@ const HERO = {
   tilePop: { type: "spring", visualDuration: 0.5, bounce: 0.34 } as const,
   ambientEvery: 2600, // ms between ambient icon plays
   ambientPlay: 1400, // ms an ambient play runs before gliding home
+  installRotateEvery: 2400, // ms the install command holds on each icon slug
 };
 
 // (The center lockup's rise is CSS — .fh-rise in globals.css — so the LCP text
@@ -187,8 +195,8 @@ export function HeroTiles({
   onCopyInstall,
   onOpenSearch,
 }: {
-  /** Copy the hero install command for the given package manager. */
-  onCopyInstall: (pm: PackageManager) => void;
+  /** Copy the hero install command for the currently shown icon + package manager. */
+  onCopyInstall: (pm: PackageManager, slug: string, name: string) => void;
   onOpenSearch: () => void;
 }) {
   const [pm, setPm] = useState<PackageManager>("npm");
@@ -223,6 +231,37 @@ export function HeroTiles({
       window.clearTimeout(stopTimer);
     };
   }, [reduceMotion]);
+
+  // The install command's slug cycles through a curated set, so the CLI bar
+  // advertises the breadth of the library instead of one fixed icon. Validated
+  // against the registry so a removed icon can't leave a dead command.
+  const rotation = useMemo<IconMetaEntry[]>(() => {
+    const bySlug = new Map(iconMeta.map((e) => [e.slug, e]));
+    const picked = INSTALL_ROTATION_SLUGS.map((s) => bySlug.get(s)).filter(
+      (e): e is IconMetaEntry => Boolean(e),
+    );
+    return picked.length >= 3 ? picked : visibleIconMeta.slice(0, 8);
+  }, []);
+  const [rotIndex, setRotIndex] = useState(0);
+  const current = rotation[rotIndex % rotation.length];
+
+  // Advance the slug on an interval. Frozen under reduced motion (stays on the
+  // first icon), and paused while the field is hovered (beamOn) so you always
+  // copy exactly the icon you see — no swap can race the click.
+  useEffect(() => {
+    if (reduceMotion || beamOn || rotation.length < 2) return;
+    const id = window.setInterval(
+      () => setRotIndex((i) => (i + 1) % rotation.length),
+      HERO.installRotateEvery,
+    );
+    return () => window.clearInterval(id);
+  }, [reduceMotion, beamOn, rotation.length]);
+
+  const { before, after } = installCommandParts(pm);
+  // Reserve the widest slug's width up front (GeistMono, so 1 char = 1ch): the
+  // bar's size is then constant across the whole rotation — no width jitter on
+  // each swap, and no wrap on long pm prefixes shifting the hero vertically.
+  const slugCh = useMemo(() => Math.max(...rotation.map((e) => e.slug.length)), [rotation]);
 
   return (
     <section className="fh">
@@ -267,13 +306,49 @@ export function HeroTiles({
                 onMouseLeave={() => setBeamOn(false)}
               >
                 <span className="dc-install dc-mono">
-                  <span className="dc-install__dollar">$</span>
-                  <span className="dc-install__cmd">{installCommand("bell", pm)}</span>
+                  {/* The box is pinned to the widest command in the rotation
+                      (GeistMono: 1 char = 1ch), so nothing outside it ever moves
+                      — no width jitter per swap, no wrap shifting the hero
+                      vertically. Inside, the slug slot glides between slug
+                      widths so ".json" follows smoothly instead of snapping. */}
+                  <span
+                    className="dc-install__cmd"
+                    style={{ minWidth: `${before.length + slugCh + after.length}ch` }}
+                  >
+                    {before}
+                    {reduceMotion ? (
+                      current.slug
+                    ) : (
+                      <span className="dc-install__slug">
+                        <motion.span
+                          className="dc-install__slug-slot"
+                          animate={{ width: `${current.slug.length}ch` }}
+                          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                        >
+                          <AnimatePresence mode="wait" initial={false}>
+                            {/* Each name rolls up into place in its icon's own
+                                glow colour. */}
+                            <motion.span
+                              key={current.slug}
+                              initial={{ y: "0.9em", opacity: 0 }}
+                              animate={{ y: 0, opacity: 1 }}
+                              exit={{ y: "-0.9em", opacity: 0 }}
+                              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                              style={{ display: "inline-block", color: metaFor(current.slug).glow }}
+                            >
+                              {current.slug}
+                            </motion.span>
+                          </AnimatePresence>
+                        </motion.span>
+                      </span>
+                    )}
+                    {after}
+                  </span>
                   <button
                     type="button"
                     className="dc-install__copy"
-                    aria-label="Copy install command"
-                    onClick={() => onCopyInstall(pm)}
+                    aria-label={`Copy install command for ${current.name}`}
+                    onClick={() => onCopyInstall(pm, current.slug, current.name)}
                   >
                     <CopyGlyph />
                   </button>
