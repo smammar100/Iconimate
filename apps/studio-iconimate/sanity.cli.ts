@@ -3,7 +3,8 @@ import {fileURLToPath} from 'node:url'
 import {dirname, resolve} from 'node:path'
 
 const here = dirname(fileURLToPath(import.meta.url))
-const repo = resolve(here, '..')
+// This Studio lives at apps/studio-iconimate/, so the repo root is two up.
+const repo = resolve(here, '../..')
 
 export default defineCliConfig({
   api: {
@@ -22,7 +23,7 @@ export default defineCliConfig({
    * Lets the Studio render the real icon components from the app, so an editor
    * sees the actual motion instead of a name.
    *
-   * The icons live in ../registry/icons and import from a closed set of four
+   * The icons live in the repo's registry/icons and import from a closed set of four
    * module specifiers (the same allow-list the registry generator enforces).
    * They're plain React + motion — nothing Next-specific — so aliasing those
    * four specifiers to the repo's real files is all it takes to run them here.

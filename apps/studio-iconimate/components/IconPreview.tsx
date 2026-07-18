@@ -4,7 +4,7 @@ import {Suspense, lazy, useEffect, useRef, type ComponentType} from 'react'
  * Renders the real animated icon from the app, looping, so an editor recognises
  * an icon instantly instead of reading its name.
  *
- * The icon components are imported straight from ../registry/icons — the same
+ * The icon components are imported straight from the repo's registry/icons — the same
  * modules the website renders. Their four allowed import specifiers are aliased
  * to the repo in sanity.cli.ts, and they are plain React + motion, so they run
  * here unmodified. The mirrored `tsxSource` field is NOT used: it stays inert
@@ -21,13 +21,14 @@ interface IconHandle {
 type IconComponent = ComponentType<{size?: number; ref?: React.Ref<IconHandle>}>
 
 // Vite needs a statically analysable glob; the modules resolve lazily per icon.
-const ICON_MODULES = import.meta.glob('../../registry/icons/*.tsx')
+// Three up from apps/studio-iconimate/components/ reaches the repo's registry.
+const ICON_MODULES = import.meta.glob('../../../registry/icons/*.tsx')
 
 const cache = new Map<string, IconComponent>()
 
 function iconFor(slug: string): IconComponent | null {
   if (cache.has(slug)) return cache.get(slug)!
-  const load = ICON_MODULES[`../../registry/icons/${slug}.tsx`]
+  const load = ICON_MODULES[`../../../registry/icons/${slug}.tsx`]
   if (!load) return null
   const Comp = lazy(async () => {
     const mod = (await load()) as Record<string, unknown>
