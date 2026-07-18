@@ -33,5 +33,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "studio-iconimate", "my-agent"]
+  "exclude": ["node_modules", "apps"]
 }
