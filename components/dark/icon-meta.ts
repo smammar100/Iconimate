@@ -210,7 +210,7 @@ const PM_RUNNER: Record<PackageManager, string> = {
   bun: "bunx --bun",
 };
 
-/** Absolute URL of an icon's registry item (for copied commands + v0). */
+/** Absolute URL of an icon's registry item (for copied commands). */
 export function registryUrl(slug: string): string {
   return `${SITE}/r/${slug}.json`;
 }
@@ -220,9 +220,23 @@ export function installCommand(slug: string, pm: PackageManager = "npm"): string
   return `${PM_RUNNER[pm]} shadcn@latest add ${registryUrl(slug)}`;
 }
 
-/** "Open in v0" deep link — hands the registry item to v0.dev. */
-export function v0Url(slug: string): string {
-  return `https://v0.dev/chat/api/open?url=${encodeURIComponent(registryUrl(slug))}`;
+/** The icon's AI prompt — a self-contained brief (glyph, motion, and the
+ *  authoring contract) that an LLM can build the icon from.
+ *
+ *  This is the one thing the site reads from Sanity, and it goes through our own
+ *  route rather than Sanity directly: that keeps the fetch server-side, caches it
+ *  (ISR), and means a Sanity outage surfaces as one failed button instead of a
+ *  third-party request from every visitor's browser. Relative, like
+ *  fetchIconSource, so previews work on any deploy URL. */
+export async function fetchIconPrompt(slug: string): Promise<string> {
+  const res = await fetch(`/api/prompt/${slug}`);
+  if (!res.ok) {
+    const { error } = (await res.json().catch(() => ({}))) as { error?: string };
+    throw new Error(error ?? `prompt for ${slug} unavailable (${res.status})`);
+  }
+  const { prompt } = (await res.json()) as { prompt?: string };
+  if (!prompt) throw new Error(`no prompt for ${slug}`);
+  return prompt;
 }
 
 /** The icon's standalone .tsx source, fetched from the registry item we serve.

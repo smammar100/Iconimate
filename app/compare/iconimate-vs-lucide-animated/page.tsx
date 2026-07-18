@@ -49,7 +49,7 @@ export default function ComparePage() {
             </tr>
             <tr>
               <td>Distribution</td>
-              <td>shadcn registry, Open in v0</td>
+              <td>shadcn registry, per-icon AI prompt</td>
               <td>Varies (npm package or copy-paste)</td>
             </tr>
             <tr>

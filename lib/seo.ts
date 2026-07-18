@@ -25,7 +25,17 @@ export const REPO_URL = "https://github.com/smammar100/Iconimate";
 // the homepage (the same set the JSON-LD ItemList enumerates).
 export const ICON_COUNT = visibleIconMeta.length;
 
+/** Brand line. Drives the hero and the OG image, not the <title> — see META_TITLE. */
 export const TAGLINE = "Animated icons that earn their motion";
+
+/**
+ * The homepage <title>. Deliberately not `SITE_NAME — TAGLINE`: the tagline is
+ * brand voice and names no category, while the title is the single strongest
+ * on-page ranking signal, so it states what the product *is* in the words people
+ * search ("animated icon library", "react"). The tagline still leads the hero
+ * and the OG image, where voice matters more than matching a query.
+ */
+export const META_TITLE = `${SITE_NAME} — Animated Icon Library for React`;
 
 /** One-paragraph, quotable description of the project. */
 export const SITE_DESCRIPTION =
@@ -33,6 +43,18 @@ export const SITE_DESCRIPTION =
   "hand-drawn on the Phosphor 256 grid and tuned to read at 24px. Each icon " +
   "ships as a self-contained component you install through the shadcn registry, " +
   "with spring-physics motion that plays on hover and keyboard focus.";
+
+/**
+ * The <meta name="description"> / OG / Twitter description. Separate from
+ * SITE_DESCRIPTION because the two have different jobs: SITE_DESCRIPTION is a
+ * ~290-character quotable fact for llms.txt and JSON-LD, where length costs
+ * nothing, whereas Google truncates snippets near 155 characters — so the
+ * search-facing copy has to front-load the category and stay short enough to
+ * survive intact. Keep this under ~155 characters.
+ */
+export const META_DESCRIPTION =
+  `${ICON_COUNT} free, open-source animated SVG icons for React. Hand-tuned ` +
+  "icon motion on hover, installed with the shadcn CLI. MIT licensed.";
 
 /** Short, hard facts. Order matters: most citable first. */
 export const KEY_FACTS: string[] = [
@@ -74,10 +96,17 @@ export const FAQ: FaqItem[] = [
       "built with React 19, Next.js 16, and the motion library, and is written in TypeScript throughout.",
   },
   {
-    question: "Does Iconimate work with shadcn/ui and v0?",
+    question: "Does Iconimate work with shadcn/ui?",
     answer:
-      "Yes. Icons are delivered through the shadcn registry and every icon has an Open in v0 link, so they " +
-      "fit directly into a shadcn/ui project or a v0 workflow.",
+      "Yes. Icons are delivered through the shadcn registry, so an icon drops directly into a shadcn/ui " +
+      "project with a single add command and no wrapper.",
+  },
+  {
+    question: "Can an AI assistant build an Iconimate-style icon?",
+    answer:
+      "Yes. Every icon has a Copy AI prompt action that gives you a self-contained brief: the glyph's " +
+      "subpaths, the motion it should play, and the authoring rules the set follows. Paste it into any LLM " +
+      "to author or restyle that icon.",
   },
   {
     question: "How is Iconimate different from Lucide-based animated icon sets?",

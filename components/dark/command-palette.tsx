@@ -2,10 +2,9 @@
 
 import { Suspense, useEffect, useId, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion as m } from "motion/react";
-import { visibleIconMeta, type IconMetaEntry } from "@/registry/icon-meta.gen";
+import type { IconView } from "@/lib/sanity/icons";
 import { LAZY_ICONS } from "@/registry/lazy-icons.gen";
 import type { IconHandle } from "@/lib/icon";
-import { metaFor } from "./icon-meta";
 import type { IconAction } from "./dark-icon-card";
 
 const RECENT = [
@@ -18,7 +17,7 @@ const RECENT = [
 ];
 
 /** Live preview: the active row's icon plays its animation; the rest sit still. */
-function RowIcon({ entry, active }: { entry: IconMetaEntry; active: boolean }) {
+function RowIcon({ entry, active }: { entry: IconView; active: boolean }) {
   const ref = useRef<IconHandle>(null);
   useEffect(() => {
     if (active) ref.current?.startAnimation();
@@ -43,10 +42,14 @@ export function CommandPalette({
   open,
   onClose,
   onAction,
+  icons,
 }: {
   open: boolean;
   onClose: () => void;
   onAction: (kind: IconAction, slug: string, name: string) => void;
+  /** The same resolved list the grid renders, so a name edited in the Studio is
+   *  searchable here too rather than only in the grid. */
+  icons: IconView[];
 }) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
@@ -59,21 +62,21 @@ export function CommandPalette({
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) {
-      const recent = RECENT.map((s) => visibleIconMeta.find((i) => i.slug === s)).filter(Boolean) as IconMetaEntry[];
-      const rest = visibleIconMeta.filter((i) => !RECENT.includes(i.slug));
+      const recent = RECENT.map((s) => icons.find((i) => i.slug === s)).filter(Boolean) as IconView[];
+      const rest = icons.filter((i) => !RECENT.includes(i.slug));
       return [
         { label: "Recently Added", items: recent },
         { label: "All Icons", items: rest },
       ];
     }
-    const matches = visibleIconMeta.filter(
+    const matches = icons.filter(
       (i) =>
         i.name.toLowerCase().includes(q) ||
         i.slug.includes(q) ||
         i.keywords.some((k) => k.includes(q)),
     );
     return [{ label: "Results", items: matches }];
-  }, [query]);
+  }, [query, icons]);
 
   const flat = useMemo(() => groups.flatMap((g) => g.items), [groups]);
 
@@ -188,7 +191,7 @@ export function CommandPalette({
                   idx += 1;
                   const i = idx;
                   const isActive = i === active;
-                  const { motion } = metaFor(entry.slug);
+                  const { motion } = entry;
                   return (
                     <div
                       key={entry.slug}

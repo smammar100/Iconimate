@@ -3,10 +3,12 @@ import { DocShell } from "@/components/seo/doc-shell";
 import { ICON_COUNT } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Docs",
+  // The page is a substantial install guide, so the title names what it teaches
+  // rather than labelling the section. The layout template appends "· Iconimate".
+  title: "Install Animated React Icons",
   description:
-    "Install and use Iconimate animated React icons: the shadcn registry flow, Open in v0, " +
-    "controlling animation with a ref, TypeScript usage, and reduced-motion.",
+    "Install and use Iconimate animated React icons: the shadcn registry flow, the per-icon AI " +
+    "prompt, controlling animation with a ref, TypeScript usage, and reduced-motion.",
   alternates: { canonical: "/docs" },
 };
 
@@ -76,11 +78,14 @@ export function Example() {
 }`}</code>
       </pre>
 
-      <h2>Open in v0</h2>
+      <h2>Copy AI prompt</h2>
       <p>
-        Every icon in the gallery has an <strong>Open in v0</strong> action that hands the registry
-        item to <a href="https://v0.dev" target="_blank" rel="noreferrer">v0</a>, so you can drop it
-        into a v0 chat and keep building.
+        Every icon in the gallery has a <strong>Copy AI prompt</strong> action. It gives you a
+        self-contained brief for that icon — the glyph&apos;s subpaths, the motion it plays, the
+        alternatives that were explored before it shipped, and the rules every Iconimate icon follows
+        (imperative handle, <code>normal</code>/<code>animate</code> variants, reduced-motion
+        fallback, pixel-identical rest state). Paste it into any LLM to author a matching icon or
+        restyle this one.
       </p>
 
       <h2>TypeScript</h2>
