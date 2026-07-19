@@ -182,6 +182,11 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "baseball-helmet", name: "Baseball Helmet", keywords: ["sport","batting","batter","protection","gear","safety","dizzy","stars","team","wear"] },
   { slug: "basket", name: "Basket", keywords: ["shopping","cart","market","groceries","store","buy","purchase","checkout","shop","items","carry"] },
   { slug: "basketball", name: "Basketball", keywords: ["sport","ball","hoop","dribble","spin","court","game","nba","team","play"] },
+  { slug: "bathtub", name: "Bathtub", keywords: ["bath","shower","wash","bathroom","tub","clean","hygiene","rinse","soak","plumbing"] },
+  { slug: "battery-charging", name: "Battery Charging", keywords: ["battery","charge","charging","power","energy","bolt","electric","plug","level","full"] },
+  { slug: "battery-charging-vertical", name: "Battery Charging Vertical", keywords: ["battery","charge","charging","power","energy","bolt","electric","vertical","portrait","level"] },
+  { slug: "battery-empty", name: "Battery Empty", keywords: ["battery","empty","dead","low","power","drained","flat","charge","warning","energy"] },
+  { slug: "battery-vertical-empty", name: "Battery Vertical Empty", keywords: ["battery","empty","dead","low","power","drained","vertical","portrait","warning","flat"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);

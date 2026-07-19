@@ -175,6 +175,11 @@ import { BaseballCapIcon } from "./baseball-cap";
 import { BaseballHelmetIcon } from "./baseball-helmet";
 import { BasketIcon } from "./basket";
 import { BasketballIcon } from "./basketball";
+import { BathtubIcon } from "./bathtub";
+import { BatteryChargingIcon } from "./battery-charging";
+import { BatteryChargingVerticalIcon } from "./battery-charging-vertical";
+import { BatteryEmptyIcon } from "./battery-empty";
+import { BatteryVerticalEmptyIcon } from "./battery-vertical-empty";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -361,6 +366,11 @@ export const icons: IconEntry[] = [
   { slug: "baseball-helmet", name: "Baseball Helmet", keywords: ["sport", "batting", "batter", "protection", "gear", "safety", "dizzy", "stars", "team", "wear"], Component: BaseballHelmetIcon },
   { slug: "basket", name: "Basket", keywords: ["shopping", "cart", "market", "groceries", "store", "buy", "purchase", "checkout", "shop", "items", "carry"], Component: BasketIcon },
   { slug: "basketball", name: "Basketball", keywords: ["sport", "ball", "hoop", "dribble", "spin", "court", "game", "nba", "team", "play"], Component: BasketballIcon },
+  { slug: "bathtub", name: "Bathtub", keywords: ["bath", "shower", "wash", "bathroom", "tub", "clean", "hygiene", "rinse", "soak", "plumbing"], Component: BathtubIcon },
+  { slug: "battery-charging", name: "Battery Charging", keywords: ["battery", "charge", "charging", "power", "energy", "bolt", "electric", "plug", "level", "full"], Component: BatteryChargingIcon },
+  { slug: "battery-charging-vertical", name: "Battery Charging Vertical", keywords: ["battery", "charge", "charging", "power", "energy", "bolt", "electric", "vertical", "portrait", "level"], Component: BatteryChargingVerticalIcon },
+  { slug: "battery-empty", name: "Battery Empty", keywords: ["battery", "empty", "dead", "low", "power", "drained", "flat", "charge", "warning", "energy"], Component: BatteryEmptyIcon },
+  { slug: "battery-vertical-empty", name: "Battery Vertical Empty", keywords: ["battery", "empty", "dead", "low", "power", "drained", "vertical", "portrait", "warning", "flat"], Component: BatteryVerticalEmptyIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
