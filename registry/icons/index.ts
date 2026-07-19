@@ -183,11 +183,16 @@ import { BatteryFullIcon } from "./battery-full";
 import { BatteryHighIcon } from "./battery-high";
 import { BatteryLowIcon } from "./battery-low";
 import { BatteryMediumIcon } from "./battery-medium";
+import { BatteryPlusIcon } from "./battery-plus";
+import { BatteryPlusVerticalIcon } from "./battery-plus-vertical";
 import { BatteryVerticalEmptyIcon } from "./battery-vertical-empty";
 import { BatteryVerticalFullIcon } from "./battery-vertical-full";
 import { BatteryVerticalHighIcon } from "./battery-vertical-high";
 import { BatteryVerticalLowIcon } from "./battery-vertical-low";
 import { BatteryVerticalMediumIcon } from "./battery-vertical-medium";
+import { BatteryWarningIcon } from "./battery-warning";
+import { BatteryWarningVerticalIcon } from "./battery-warning-vertical";
+import { BeachBallIcon } from "./beach-ball";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -382,11 +387,16 @@ export const icons: IconEntry[] = [
   { slug: "battery-high", name: "Battery High", keywords: ["battery", "high", "charged", "power", "energy", "level", "bars", "healthy", "charge", "full"], Component: BatteryHighIcon },
   { slug: "battery-low", name: "Battery Low", keywords: ["battery", "low", "power", "warning", "charge", "energy", "level", "drained", "alert", "empty"], Component: BatteryLowIcon },
   { slug: "battery-medium", name: "Battery Medium", keywords: ["battery", "medium", "half", "power", "energy", "level", "bars", "charge", "mid", "partial"], Component: BatteryMediumIcon },
+  { slug: "battery-plus", name: "Battery Plus", keywords: ["battery", "plus", "add", "new", "power", "energy", "charge", "increase", "more", "create"], Component: BatteryPlusIcon },
+  { slug: "battery-plus-vertical", name: "Battery Plus Vertical", keywords: ["battery", "plus", "add", "new", "power", "energy", "charge", "increase", "vertical", "portrait"], Component: BatteryPlusVerticalIcon },
   { slug: "battery-vertical-empty", name: "Battery Vertical Empty", keywords: ["battery", "empty", "dead", "low", "power", "drained", "vertical", "portrait", "warning", "flat"], Component: BatteryVerticalEmptyIcon },
   { slug: "battery-vertical-full", name: "Battery Vertical Full", keywords: ["battery", "full", "charged", "power", "energy", "level", "vertical", "portrait", "complete", "topped"], Component: BatteryVerticalFullIcon },
   { slug: "battery-vertical-high", name: "Battery Vertical High", keywords: ["battery", "high", "charged", "power", "energy", "level", "vertical", "portrait", "healthy", "full"], Component: BatteryVerticalHighIcon },
   { slug: "battery-vertical-low", name: "Battery Vertical Low", keywords: ["battery", "low", "power", "warning", "charge", "energy", "vertical", "portrait", "alert", "drained"], Component: BatteryVerticalLowIcon },
   { slug: "battery-vertical-medium", name: "Battery Vertical Medium", keywords: ["battery", "medium", "half", "power", "energy", "level", "vertical", "portrait", "mid", "partial"], Component: BatteryVerticalMediumIcon },
+  { slug: "battery-warning", name: "Battery Warning", keywords: ["battery", "warning", "alert", "fault", "power", "energy", "caution", "exclamation", "error", "attention"], Component: BatteryWarningIcon },
+  { slug: "battery-warning-vertical", name: "Battery Warning Vertical", keywords: ["battery", "warning", "alert", "fault", "power", "caution", "exclamation", "vertical", "portrait", "attention"], Component: BatteryWarningVerticalIcon },
+  { slug: "beach-ball", name: "Beach Ball", keywords: ["ball", "beach", "summer", "play", "bounce", "roll", "toy", "sport", "inflatable", "sand"], Component: BeachBallIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */

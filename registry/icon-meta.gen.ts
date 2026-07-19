@@ -190,11 +190,16 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "battery-high", name: "Battery High", keywords: ["battery","high","charged","power","energy","level","bars","healthy","charge","full"] },
   { slug: "battery-low", name: "Battery Low", keywords: ["battery","low","power","warning","charge","energy","level","drained","alert","empty"] },
   { slug: "battery-medium", name: "Battery Medium", keywords: ["battery","medium","half","power","energy","level","bars","charge","mid","partial"] },
+  { slug: "battery-plus", name: "Battery Plus", keywords: ["battery","plus","add","new","power","energy","charge","increase","more","create"] },
+  { slug: "battery-plus-vertical", name: "Battery Plus Vertical", keywords: ["battery","plus","add","new","power","energy","charge","increase","vertical","portrait"] },
   { slug: "battery-vertical-empty", name: "Battery Vertical Empty", keywords: ["battery","empty","dead","low","power","drained","vertical","portrait","warning","flat"] },
   { slug: "battery-vertical-full", name: "Battery Vertical Full", keywords: ["battery","full","charged","power","energy","level","vertical","portrait","complete","topped"] },
   { slug: "battery-vertical-high", name: "Battery Vertical High", keywords: ["battery","high","charged","power","energy","level","vertical","portrait","healthy","full"] },
   { slug: "battery-vertical-low", name: "Battery Vertical Low", keywords: ["battery","low","power","warning","charge","energy","vertical","portrait","alert","drained"] },
   { slug: "battery-vertical-medium", name: "Battery Vertical Medium", keywords: ["battery","medium","half","power","energy","level","vertical","portrait","mid","partial"] },
+  { slug: "battery-warning", name: "Battery Warning", keywords: ["battery","warning","alert","fault","power","energy","caution","exclamation","error","attention"] },
+  { slug: "battery-warning-vertical", name: "Battery Warning Vertical", keywords: ["battery","warning","alert","fault","power","caution","exclamation","vertical","portrait","attention"] },
+  { slug: "beach-ball", name: "Beach Ball", keywords: ["ball","beach","summer","play","bounce","roll","toy","sport","inflatable","sand"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
