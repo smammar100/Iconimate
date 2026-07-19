@@ -186,7 +186,15 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "battery-charging", name: "Battery Charging", keywords: ["battery","charge","charging","power","energy","bolt","electric","plug","level","full"] },
   { slug: "battery-charging-vertical", name: "Battery Charging Vertical", keywords: ["battery","charge","charging","power","energy","bolt","electric","vertical","portrait","level"] },
   { slug: "battery-empty", name: "Battery Empty", keywords: ["battery","empty","dead","low","power","drained","flat","charge","warning","energy"] },
+  { slug: "battery-full", name: "Battery Full", keywords: ["battery","full","charged","power","energy","level","bars","complete","topped","charge"] },
+  { slug: "battery-high", name: "Battery High", keywords: ["battery","high","charged","power","energy","level","bars","healthy","charge","full"] },
+  { slug: "battery-low", name: "Battery Low", keywords: ["battery","low","power","warning","charge","energy","level","drained","alert","empty"] },
+  { slug: "battery-medium", name: "Battery Medium", keywords: ["battery","medium","half","power","energy","level","bars","charge","mid","partial"] },
   { slug: "battery-vertical-empty", name: "Battery Vertical Empty", keywords: ["battery","empty","dead","low","power","drained","vertical","portrait","warning","flat"] },
+  { slug: "battery-vertical-full", name: "Battery Vertical Full", keywords: ["battery","full","charged","power","energy","level","vertical","portrait","complete","topped"] },
+  { slug: "battery-vertical-high", name: "Battery Vertical High", keywords: ["battery","high","charged","power","energy","level","vertical","portrait","healthy","full"] },
+  { slug: "battery-vertical-low", name: "Battery Vertical Low", keywords: ["battery","low","power","warning","charge","energy","vertical","portrait","alert","drained"] },
+  { slug: "battery-vertical-medium", name: "Battery Vertical Medium", keywords: ["battery","medium","half","power","energy","level","vertical","portrait","mid","partial"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
