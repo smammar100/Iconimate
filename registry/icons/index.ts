@@ -193,6 +193,9 @@ import { BatteryVerticalMediumIcon } from "./battery-vertical-medium";
 import { BatteryWarningIcon } from "./battery-warning";
 import { BatteryWarningVerticalIcon } from "./battery-warning-vertical";
 import { BeachBallIcon } from "./beach-ball";
+import { BeanieIcon } from "./beanie";
+import { BedIcon } from "./bed";
+import { BeerBottleIcon } from "./beer-bottle";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -397,6 +400,9 @@ export const icons: IconEntry[] = [
   { slug: "battery-warning", name: "Battery Warning", keywords: ["battery", "warning", "alert", "fault", "power", "energy", "caution", "exclamation", "error", "attention"], Component: BatteryWarningIcon },
   { slug: "battery-warning-vertical", name: "Battery Warning Vertical", keywords: ["battery", "warning", "alert", "fault", "power", "caution", "exclamation", "vertical", "portrait", "attention"], Component: BatteryWarningVerticalIcon },
   { slug: "beach-ball", name: "Beach Ball", keywords: ["ball", "beach", "summer", "play", "bounce", "roll", "toy", "sport", "inflatable", "sand"], Component: BeachBallIcon },
+  { slug: "beanie", name: "Beanie", keywords: ["beanie", "hat", "winter", "knit", "cap", "pom", "wool", "cold", "warm", "clothing"], Component: BeanieIcon },
+  { slug: "bed", name: "Bed", keywords: ["bed", "sleep", "night", "rest", "zzz", "hotel", "room", "furniture", "mattress", "dream"], Component: BedIcon },
+  { slug: "beer-bottle", name: "Beer Bottle", keywords: ["beer", "bottle", "drink", "alcohol", "bar", "pub", "brew", "cap", "cheers", "fizz"], Component: BeerBottleIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */

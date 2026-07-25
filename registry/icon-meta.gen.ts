@@ -200,6 +200,9 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "battery-warning", name: "Battery Warning", keywords: ["battery","warning","alert","fault","power","energy","caution","exclamation","error","attention"] },
   { slug: "battery-warning-vertical", name: "Battery Warning Vertical", keywords: ["battery","warning","alert","fault","power","caution","exclamation","vertical","portrait","attention"] },
   { slug: "beach-ball", name: "Beach Ball", keywords: ["ball","beach","summer","play","bounce","roll","toy","sport","inflatable","sand"] },
+  { slug: "beanie", name: "Beanie", keywords: ["beanie","hat","winter","knit","cap","pom","wool","cold","warm","clothing"] },
+  { slug: "bed", name: "Bed", keywords: ["bed","sleep","night","rest","zzz","hotel","room","furniture","mattress","dream"] },
+  { slug: "beer-bottle", name: "Beer Bottle", keywords: ["beer","bottle","drink","alcohol","bar","pub","brew","cap","cheers","fizz"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
