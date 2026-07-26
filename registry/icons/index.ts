@@ -196,6 +196,8 @@ import { BeachBallIcon } from "./beach-ball";
 import { BeanieIcon } from "./beanie";
 import { BedIcon } from "./bed";
 import { BeerBottleIcon } from "./beer-bottle";
+import { BeerSteinIcon } from "./beer-stein";
+import { BehanceLogoIcon } from "./behance-logo";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -403,6 +405,8 @@ export const icons: IconEntry[] = [
   { slug: "beanie", name: "Beanie", keywords: ["beanie", "hat", "winter", "knit", "cap", "pom", "wool", "cold", "warm", "clothing"], Component: BeanieIcon },
   { slug: "bed", name: "Bed", keywords: ["bed", "sleep", "night", "rest", "zzz", "hotel", "room", "furniture", "mattress", "dream"], Component: BedIcon },
   { slug: "beer-bottle", name: "Beer Bottle", keywords: ["beer", "bottle", "drink", "alcohol", "bar", "pub", "brew", "cap", "cheers", "fizz"], Component: BeerBottleIcon },
+  { slug: "beer-stein", name: "Beer Stein", keywords: ["beer", "stein", "mug", "tankard", "drink", "alcohol", "pub", "toast", "cheers", "fizz"], Component: BeerSteinIcon },
+  { slug: "behance-logo", name: "Behance Logo", keywords: ["behance", "logo", "brand", "portfolio", "design", "social", "adobe", "creative", "network", "roll"], Component: BehanceLogoIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */

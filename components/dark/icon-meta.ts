@@ -194,6 +194,8 @@ export const ICON_META: Record<string, IconMeta> = {
   "beanie": { motion: "pop-on tilt", glow: "#F472B6" },
   "bed": { motion: "deep sleep", glow: "#818CF8" },
   "beer-bottle": { motion: "pop & fizz", glow: "#F59E0B" },
+  "beer-stein": { motion: "cheers & fizz", glow: "#FBBF24" },
+  "behance-logo": { motion: "roll in", glow: "#3B82F6" },
   "arrows-left-right": { motion: "bounce", glow: "#2DD4BF" },
   "arrow-elbow-down-left": { motion: "draw", glow: "#34D399" },
   "arrow-elbow-down-right": { motion: "draw", glow: "#34D399" },

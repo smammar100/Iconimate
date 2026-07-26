@@ -203,6 +203,8 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "beanie", name: "Beanie", keywords: ["beanie","hat","winter","knit","cap","pom","wool","cold","warm","clothing"] },
   { slug: "bed", name: "Bed", keywords: ["bed","sleep","night","rest","zzz","hotel","room","furniture","mattress","dream"] },
   { slug: "beer-bottle", name: "Beer Bottle", keywords: ["beer","bottle","drink","alcohol","bar","pub","brew","cap","cheers","fizz"] },
+  { slug: "beer-stein", name: "Beer Stein", keywords: ["beer","stein","mug","tankard","drink","alcohol","pub","toast","cheers","fizz"] },
+  { slug: "behance-logo", name: "Behance Logo", keywords: ["behance","logo","brand","portfolio","design","social","adobe","creative","network","roll"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
