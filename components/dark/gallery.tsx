@@ -23,8 +23,19 @@ const GRID_COLUMNS = 5;
 
 /* Intro sequencing: the hero's own entrance (title rise + tile ripple in
    HeroTiles) runs first; grid cards that are in view at load wait this long
-   before revealing. Rows revealed later by scrolling get no extra delay. */
-const HERO_INTRO_SECONDS = 1.1;
+   before revealing. Rows revealed later by scrolling get no extra delay.
+   Kept short — at 1.1s the set read as stalled rather than sequenced, since the
+   cards are painted (position-only reveal, never opacity) and so sit visibly
+   frozen mid-offset for the whole hold. Must match the delay on
+   `.dc-section--intro` and `[data-intro] [data-reveal]` in globals.css. */
+const HERO_INTRO_SECONDS = 0.45;
+
+/* When to drop the data-intro hold. It must outlast the reveals it gates: the
+   rule sets `transition-delay: stagger + HERO_INTRO_SECONDS`, so removing the
+   attribute mid-delay re-resolves the delay to a value that has already elapsed
+   and the held cards jump to their end state instead of gliding. Cover the hold,
+   the 0.45s transition, and the widest --stagger (2 columns out at 0.05s). */
+const INTRO_HOLD_CLEAR_SECONDS = HERO_INTRO_SECONDS + 0.45 + 0.1 + 0.05;
 
 /**
  * The interactive gallery. Everything here is client-side — the ⌘K palette,
@@ -43,7 +54,7 @@ export function Gallery({ icons }: { icons: IconView[] }) {
   const [heroIntro, setHeroIntro] = useState(true);
 
   useEffect(() => {
-    const t = window.setTimeout(() => setHeroIntro(false), HERO_INTRO_SECONDS * 1000);
+    const t = window.setTimeout(() => setHeroIntro(false), INTRO_HOLD_CLEAR_SECONDS * 1000);
     return () => window.clearTimeout(t);
   }, []);
   const [toast, setToast] = useState<string | null>(null);
@@ -89,7 +100,15 @@ export function Gallery({ icons }: { icons: IconView[] }) {
           }
         }
       },
-      { rootMargin: "0px 0px -8% 0px" },
+      /* The bottom margin must never be negative. This reveal animates position
+         only — never opacity, to protect LCP — so an unrevealed card is fully
+         painted and merely sits 12px low. A negative margin therefore carves a
+         band at the bottom of the viewport where visible cards are frozen
+         mid-offset, misaligned against the settled row above them, until the
+         user happens to scroll. A small positive margin instead arms each row
+         just before it appears, so the rise still reads on scroll but is never
+         caught static and out of position. */
+      { rootMargin: "0px 0px 64px 0px" },
     );
     document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
     return () => io.disconnect();

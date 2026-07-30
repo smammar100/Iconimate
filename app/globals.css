@@ -25,6 +25,17 @@ body {
      no decorative texture. */
   background-color: var(--bg);
   color: var(--text);
+  /* Geist ships real weights for every step used here, so never let the browser
+     synthesise a bold or oblique — a faked face is visibly heavier and wrongly
+     spaced next to the genuine one. */
+  font-synthesis: none;
+}
+
+/* Selection was browser-default (a flat blue that ignores the theme). Tint it
+   with the accent so it reads as part of the system in both light and dark. */
+::selection {
+  background: color-mix(in oklab, var(--accent) 24%, transparent);
+  color: var(--text-strong);
 }
 
 /*
@@ -587,7 +598,11 @@ body {
   font-family: var(--mono-font);
   font-size: 12px;
   line-height: 1;
-  padding: 5px 10px;
+  /* 12px glyph + 5px padding measured 22px tall, under the 24px WCAG 2.5.8 floor.
+     Padded rather than hit-expanded: the tab strip sits flush on top of the
+     command pill (gap: 0), so a pseudo-element would overlap the pill's controls
+     and steal clicks. +2px each side grows the strip by 4px total. */
+  padding: 7px 10px;
   border-radius: 4px;
   cursor: pointer;
   transition: color 0.15s var(--ease), background 0.15s var(--ease);
@@ -674,7 +689,7 @@ body {
    The delay matches HERO_INTRO_SECONDS in app/page.tsx. The hero title stays
    the LCP element, so gating this section's paint does not move LCP. */
 .dc-section--intro {
-  animation: dc-section-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 1.1s backwards;
+  animation: dc-section-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.45s backwards;
 }
 @keyframes dc-section-in {
   from {
@@ -754,12 +769,16 @@ body {
   grid-template-columns: repeat(5, minmax(0, 1fr)); /* fixed 5 across */
   gap: 12px;
 }
+/* Breakpoint scale — 600 / 900 / 1040, and nothing else. The file previously
+   carried five values (560, 600, 880, 900, 1040), so 560/600 and 880/900 fired
+   two separate reflows within 20-40px of each other while resizing. Collapsed to
+   the three that carry real layout changes. */
 @media (max-width: 900px) {
   .dc-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
-@media (max-width: 560px) {
+@media (max-width: 600px) {
   .dc-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -779,8 +798,12 @@ body {
   transform: none;
   transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1) var(--stagger, 0s);
 }
+/* Hold for above-the-fold rows so the intro reads hero-first, grid-second. Must
+   stay in step with HERO_INTRO_SECONDS in gallery.tsx, and the attribute that
+   gates it must not clear until these transitions have finished — swapping
+   transition-delay on an in-flight transition makes held cards snap. */
 [data-intro] [data-reveal][data-revealed] {
-  transition-delay: calc(var(--stagger, 0s) + 1.1s);
+  transition-delay: calc(var(--stagger, 0s) + 0.45s);
 }
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
@@ -864,13 +887,32 @@ body {
   box-shadow: var(--shadow-2);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.15s var(--ease), transform 0.18s var(--ease);
+  /* visibility, not opacity alone: an opacity-0 toolbar still contributes its
+     three buttons to the tab order and the a11y tree, so 186 cards added 558
+     phantom tab stops before the footer. visibility:hidden removes them, and
+     transitioning it defers the hide until the fade finishes. */
+  visibility: hidden;
+  transition: opacity 0.15s var(--ease), transform 0.18s var(--ease),
+    visibility 0.15s var(--ease);
 }
-.dc-card:hover .dc-card__actions,
+/* Keyboard reveal stays unconditional — the card itself is the focusable node, so
+   :focus-within fires the moment the card is tabbed to, which in turn makes the
+   three buttons tabbable. Must live outside the hover query below. */
 .dc-card:focus-within .dc-card__actions {
   opacity: 1;
   pointer-events: auto;
+  visibility: visible;
   transform: translateY(-50%) translateX(0);
+}
+/* Hover reveal only where hover exists. Ungated, this was the sole path to
+   Copy .tsx and Copy AI prompt, leaving both unreachable on touch. */
+@media (hover: hover) and (pointer: fine) {
+  .dc-card:hover .dc-card__actions {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+  }
 }
 .dc-card__action {
   display: inline-grid;
@@ -889,6 +931,36 @@ body {
   color: var(--text-strong);
   background: var(--gray-alpha-100);
   border-color: var(--border);
+}
+/* Coarse pointers have no hover, and the card's own tap is already bound to
+   copy-CLI — so a tap-to-reveal toolbar would fight the card's primary action.
+   Show the three actions persistently instead, as a row beneath the label with
+   40px targets. This deliberately makes touch cards taller than pointer cards;
+   it is the only arrangement in which Copy .tsx and Copy AI prompt are reachable
+   at all on a phone. */
+@media (hover: none), (pointer: coarse) {
+  .dc-card__actions {
+    position: static;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 6px;
+    margin-top: -6px;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
+    transition: none;
+  }
+  .dc-card__action {
+    width: 40px;
+    height: 40px;
+    border-color: var(--border);
+    background: var(--background-100);
+  }
 }
 .dc-card__name {
   display: block;
@@ -1077,7 +1149,19 @@ body {
   border: 1px solid var(--border);
   color: var(--text-strong);
   text-decoration: none;
+  /* 76x21 chips — under the 24px WCAG 2.5.8 floor on height. Expanded with a
+     pseudo-element rather than padding so the credit sentence's baseline and
+     line-height stay exactly as designed. */
+  position: relative;
   transition: border-color 0.15s var(--ease), color 0.15s var(--ease);
+}
+.dc-footer__credit-link::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 0;
+  width: 100%;
+  height: 44px;
+  transform: translateY(-50%);
 }
 .dc-footer__credit-link:hover {
   border-color: var(--text-dim);
@@ -1094,7 +1178,21 @@ body {
 }
 .dc-footer__links a {
   color: var(--text-faint);
+  /* These single-word links measured 8x17 — the smallest hit target on the page.
+     Expand the hit box with a pseudo-element so the row's visual rhythm is
+     untouched. 28px wide matches the 8px glyph + 20px gap pitch exactly, so
+     adjacent targets meet without overlapping (overlap would cause mis-taps). */
+  position: relative;
   transition: color 0.15s var(--ease);
+}
+.dc-footer__links a::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 44px;
+  transform: translate(-50%, -50%);
 }
 .dc-footer__links a:hover {
   color: var(--text-strong);
@@ -1386,7 +1484,7 @@ body {
 .dc-decor__glow {
   display: none;
 }
-@media (max-width: 880px) {
+@media (max-width: 900px) {
   .dc-decor-pos {
     display: none;
   }
@@ -1492,6 +1590,18 @@ body {
   font-family: var(--ui-font);
   font-size: 13px;
   color: var(--text-faint);
+  /* 138x21 — under the 24px WCAG 2.5.8 floor on height. Hit-expanded via a
+     pseudo-element so the hero's CTA row spacing is unchanged; it sits alone in
+     its row, so a 44px box cannot overlap a neighbouring target. */
+  position: relative;
+}
+.fh-kbd-hint::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 0;
+  width: 100%;
+  height: 44px;
+  transform: translateY(-50%);
 }
 
 /* the two scatter grids — hidden below the 3-column breakpoint to avoid an
@@ -1802,6 +1912,8 @@ body {
   line-height: 1.6;
   color: var(--text-dim);
   margin: 0 0 40px;
+  max-width: 68ch;
+  text-wrap: pretty;
 }
 .doc-prose h2 {
   font-family: var(--heading-font);
@@ -1817,11 +1929,24 @@ body {
   color: var(--text-strong);
   margin: 28px 0 8px;
 }
+/* Headings rag better balanced than left to break into a long first line and a
+   one-word orphan second line. */
+.doc-prose h1,
+.doc-prose h2,
+.doc-prose h3 {
+  text-wrap: balance;
+}
 .doc-prose p,
 .doc-prose li {
   font-size: 15.5px;
   line-height: 1.7;
   color: var(--text-dim);
+  /* .doc-page is 760px less 48px padding = 712px, which at 15.5px runs ~92
+     characters per line — well past the ~75 readability ceiling. Cap the running
+     text only, so pre/table siblings keep the full width that code blocks and
+     the /compare table actually want. */
+  max-width: 68ch;
+  text-wrap: pretty;
 }
 .doc-prose p {
   margin: 0 0 16px;
