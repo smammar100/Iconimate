@@ -193,11 +193,9 @@ function TileGrid({
 
 export function HeroTiles({
   onCopyInstall,
-  onOpenSearch,
 }: {
   /** Copy the hero install command for the currently shown icon + package manager. */
   onCopyInstall: (pm: PackageManager, slug: string, name: string) => void;
-  onOpenSearch: () => void;
 }) {
   const [pm, setPm] = useState<PackageManager>("npm");
   // Hover beam on the install field; theme is read from the document toggle at
@@ -355,9 +353,6 @@ export function HeroTiles({
                 </span>
               </BorderBeam>
             </span>
-            <button type="button" className="fh-kbd-hint" onClick={onOpenSearch}>
-              Press <span className="dc-kbd">⌘K</span> to search
-            </button>
           </div>
         </div>
 

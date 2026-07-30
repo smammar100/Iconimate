@@ -90,10 +90,11 @@ export default function ComparePage() {
 
       <h2>How each is distributed</h2>
       <p>
-        Iconimate ships every icon as a shadcn registry item, so you add exactly the {ICON_COUNT}{" "}
-        icons you need as self-contained components rather than installing a whole package. The only
-        runtime dependency is <strong>motion</strong>. Lucide-based sets are distributed in a few
-        different ways depending on the project, from an npm package to copy-paste snippets.
+        Iconimate publishes all {ICON_COUNT} icons as individual shadcn registry items, so you add
+        exactly the ones you need as self-contained components rather than installing a whole
+        package. The only runtime dependency is <strong>motion</strong>. Lucide-based sets are
+        distributed in a few different ways depending on the project, from an npm package to
+        copy-paste snippets.
       </p>
 
       <h2>Which should you choose?</h2>

@@ -673,6 +673,26 @@ body {
   font-family: var(--ui-font);
   font-size: 13px;
   letter-spacing: 0;
+  /* Now the gallery's search trigger (it replaced a 320x42 bar), so it needs a
+     button reset and a real hit area. Hit-expanded via a pseudo-element so the
+     section head's baseline alignment is untouched. */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.15s var(--ease);
+}
+.dc-kbd-hint:hover {
+  color: var(--text-dim);
+}
+.dc-kbd-hint::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 0;
+  width: 100%;
+  height: 44px;
+  transform: translateY(-50%);
 }
 
 /* section + grid */
@@ -735,35 +755,6 @@ body {
   letter-spacing: 0;
   color: var(--text-dim);
 }
-.dc-searchbar {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  width: 320px;
-  max-width: 100%;
-  height: 42px;
-  padding: 0 10px 0 14px;
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-faint);
-  font-family: var(--ui-font);
-  font-size: 14px;
-  letter-spacing: 0;
-  cursor: text;
-  transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
-}
-.dc-searchbar:hover {
-  border-color: var(--border-2);
-}
-.dc-searchbar:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-}
-.dc-searchbar__spacer {
-  flex: 1;
-}
-
 .dc-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr)); /* fixed 5 across */
@@ -1579,31 +1570,6 @@ body {
   font-size: 16px;
   border-radius: 8px;
 }
-.fh-kbd-hint {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  font-family: var(--ui-font);
-  font-size: 13px;
-  color: var(--text-faint);
-  /* 138x21 — under the 24px WCAG 2.5.8 floor on height. Hit-expanded via a
-     pseudo-element so the hero's CTA row spacing is unchanged; it sits alone in
-     its row, so a 44px box cannot overlap a neighbouring target. */
-  position: relative;
-}
-.fh-kbd-hint::after {
-  content: "";
-  position: absolute;
-  inset: 50% auto auto 0;
-  width: 100%;
-  height: 44px;
-  transform: translateY(-50%);
-}
-
 /* the two scatter grids — hidden below the 3-column breakpoint to avoid an
    awkward stack; the centered hero carries small screens on its own. */
 .fh-grid {

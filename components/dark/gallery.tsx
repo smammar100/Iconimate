@@ -143,11 +143,13 @@ export function Gallery({ icons }: { icons: IconView[] }) {
           message = `Copied ${name} AI prompt`;
         } else {
           text = installCommand(slug, pm);
-          message = `Copied ${name}`;
+          // Names the thing copied, like its two siblings above — a bare
+          // "Copied Acorn" doesn't say which of the three actions fired.
+          message = `Copied ${name} install command`;
         }
         await navigator.clipboard.writeText(text);
       } catch {
-        message = `Couldn't copy ${name}`;
+        message = `Couldn’t copy ${name}`;
       }
       setToast(message);
       window.clearTimeout(toastTimer.current);
@@ -173,10 +175,7 @@ export function Gallery({ icons }: { icons: IconView[] }) {
       </div>
 
       {/* hero — tile scatter (Fintech Web Template), icons animate on hover */}
-      <HeroTiles
-        onCopyInstall={(pm, slug, name) => action("copy-cli", slug, name, pm)}
-        onOpenSearch={() => setPaletteOpen(true)}
-      />
+      <HeroTiles onCopyInstall={(pm, slug, name) => action("copy-cli", slug, name, pm)} />
 
       <div className="dc-shell">
         {/* the set */}
@@ -201,16 +200,11 @@ export function Gallery({ icons }: { icons: IconView[] }) {
             <div className="dc-section__title">
               All Icons <span className="dc-section__count">{icons.length}</span>
             </div>
-            <button
-              type="button"
-              className="dc-searchbar"
-              onClick={() => setPaletteOpen(true)}
-              aria-label="Open search"
-            >
-              <SearchGlyph />
-              <span>Search the set…</span>
-              <span className="dc-searchbar__spacer" />
-              <span className="dc-kbd">⌘K</span>
+            {/* The visible text is the accessible name, so no aria-label — the
+                previous bar read "Open search" to AT while showing "Search the
+                set…", which is a WCAG 2.5.3 label-in-name mismatch. */}
+            <button type="button" className="dc-kbd-hint" onClick={() => setPaletteOpen(true)}>
+              Press <span className="dc-kbd">⌘K</span> to search
             </button>
           </div>
 
@@ -250,16 +244,17 @@ export function Gallery({ icons }: { icons: IconView[] }) {
               the space-between row, so it sits centered between copy and links. */}
           <span className="dc-footer__credit">
             Crafted with{" "}
+            <span className="dc-footer__credit-heart" aria-label="love" role="img">❤️</span>{" "}
+            using{" "}
             <a className="dc-footer__credit-link" href="https://github.com/motiondivision/motion" target="_blank" rel="noopener noreferrer">
               Motion
             </a>{" "}
-            &amp;{" "}
+            and{" "}
             <a className="dc-footer__credit-link" href="https://github.com/phosphor-icons/core" target="_blank" rel="noopener noreferrer">
-              Phosphor
-            </a>{" "}
-            with <span className="dc-footer__credit-heart" aria-label="love" role="img">❤️</span>
+              Phosphor Icons
+            </a>
           </span>
-          <nav className="dc-footer__links" aria-label="Follow me">
+          <nav className="dc-footer__links" aria-label="Social links">
             <a href="https://x.com/Ammar110_SM" target="_blank" rel="noreferrer">
               X
             </a>
@@ -303,14 +298,6 @@ export function Gallery({ icons }: { icons: IconView[] }) {
   );
 }
 
-function SearchGlyph() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <circle cx="11" cy="11" r="7" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
-  );
-}
 function CheckGlyph() {
   return (
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">

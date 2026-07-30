@@ -98,11 +98,16 @@ export function Example() {
 
       <h2>Reduced motion</h2>
       <p>
-        Iconimate icon motions are small and triggered only by hover or focus, so they play for all
-        users by default. If you want to gate them behind the{" "}
-        <code>prefers-reduced-motion</code> setting in your own app, wrap your tree in a motion
-        <code> MotionConfig reducedMotion=&quot;user&quot;</code> boundary, or branch on the{" "}
-        <code>useReducedMotion</code> hook where you render the icons.
+        Icon motions are small and only ever start on hover or focus, so they play for everyone by
+        default — they do not currently check the{" "}
+        <code>prefers-reduced-motion</code> setting on their own.
+      </p>
+      <p>
+        To gate them, branch on the <code>useReducedMotion</code> hook at the point where you render
+        the icon and skip it when the preference is set. Wrapping your tree in a{" "}
+        <code>MotionConfig</code> boundary will not do it: <code>useReducedMotion</code> reads the
+        media query directly and never consults <code>MotionConfig</code>, so the icons keep
+        animating.
       </p>
 
       <h2>License</h2>
