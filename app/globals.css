@@ -324,29 +324,51 @@ body {
   justify-content: space-between;
   height: 72px;
 }
+/* Full lockup (L1): mark + script wordmark, ink black. No underline on the
+   wordmark — the swash lives on the mark alone. */
 .dc-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--heading-font);
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: -0.01em;
+  gap: 3px;
+  font-family: var(--font-script), cursive;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 0.01em;
   color: var(--text-strong);
 }
+/* Brand mark (script "I" + double swash, see components/dark/logo-mark.tsx).
+   Bare SVG in the brand red — no tile behind it; the red carries on both themes. */
 .dc-logo-mark {
   width: 28px;
   height: 28px;
-  border-radius: 6px; /* Geist sm */
-  background: var(--gray-1000);
-  border: none;
-  color: var(--background-100);
   display: grid;
   place-items: center;
-  font-family: var(--heading-font);
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: -0.02em;
+}
+/* Logo hover animation: the script I gives a small tip-of-the-pen wiggle and
+   the two swashes redraw left-to-right (thin one a beat behind). Hover-capable
+   pointers only, and skipped entirely under prefers-reduced-motion. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .dc-logo:hover .lm-i {
+    animation: dc-logo-wiggle 0.55s var(--ease, ease);
+    transform-origin: 32px 28px;
+  }
+  .dc-logo:hover .lm-swash {
+    stroke-dasharray: 44;
+    animation: dc-logo-draw 0.5s ease-out both;
+  }
+  .dc-logo:hover .lm-swash--thin {
+    animation-delay: 0.12s;
+  }
+}
+@keyframes dc-logo-wiggle {
+  0% { transform: rotate(0deg); }
+  30% { transform: rotate(-7deg); }
+  65% { transform: rotate(4deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes dc-logo-draw {
+  from { stroke-dashoffset: 44; }
+  to { stroke-dashoffset: 0; }
 }
 .dc-nav-links {
   display: flex;

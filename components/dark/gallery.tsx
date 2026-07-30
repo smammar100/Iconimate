@@ -8,6 +8,7 @@ import { CommandPalette } from "@/components/dark/command-palette";
 import { HeroTiles } from "@/components/dark/hero-tiles";
 import { CtaFooter } from "@/components/dark/cta-footer";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
+import { Logo } from "@/components/dark/logo";
 import { GithubStarButton } from "@/components/dark/github-star-button";
 import {
   fetchIconPrompt,
@@ -163,10 +164,7 @@ export function Gallery({ icons }: { icons: IconView[] }) {
       <div className="dc-shell">
         {/* nav */}
         <nav className="dc-nav">
-          <div className="dc-logo">
-            <span className="dc-logo-mark">I</span>
-            <span>Iconimate</span>
-          </div>
+          <Logo />
           <div className="dc-nav-links">
             <ThemeToggle />
             <GithubStarButton />

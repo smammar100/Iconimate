@@ -60,8 +60,15 @@ export default function OpengraphImage() {
 
         {/* left lockup */}
         <div style={{ position: "relative", width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "72px 80px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-            <div style={{ width: 64, height: 64, borderRadius: 16, background: "#fafafa", color: "#0a0a0a", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 40, fontWeight: 700 }}>I</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            {/* brand mark (script I + double swash) — mirrors components/dark/logo-mark.tsx,
+                white on the dark canvas like the site's dark-mode lockup */}
+            <svg width={64} height={64} viewBox="0 0 64 64" fill="none">
+              <path d="M18 16 C 26 9.5, 39 8.5, 47 13" stroke="#fafafa" strokeWidth="5" strokeLinecap="round" />
+              <path d="M43 11 C 38 21, 31 32, 26.5 41 C 25.5 43.5, 26.5 45.5, 29.5 44.5" stroke="#fafafa" strokeWidth="5" strokeLinecap="round" />
+              <path d="M14 50 C 26 56.5, 41 56.5, 51 48" stroke="#fafafa" strokeWidth="3.2" strokeLinecap="round" />
+              <path d="M20 57.5 C 29 62, 39 62, 46.5 56.5" stroke="#fafafa" strokeWidth="1.7" strokeLinecap="round" />
+            </svg>
             <div style={{ fontSize: 40, fontWeight: 600 }}>{SITE_NAME}</div>
           </div>
 

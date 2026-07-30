@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Caveat } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { AppProvider } from "./providers";
@@ -12,6 +13,15 @@ import { SITE, SITE_NAME, META_TITLE, META_DESCRIPTION } from "@/lib/seo";
  * data, and tabular figures. Both are open source and ship with the `geist`
  * package, so this is the real design system — no substitutes.
  */
+
+// Brand script for the logo wordmark only (see `.dc-logo` in globals.css) —
+// everything else stays Geist.
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: "600",
+  variable: "--font-script",
+  display: "swap",
+});
 
 const TITLE = META_TITLE;
 
@@ -93,7 +103,7 @@ export default function RootLayout({
       data-theme="light"
       data-color-scheme="light"
       suppressHydrationWarning
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
+      className={`${GeistSans.variable} ${GeistMono.variable} ${caveat.variable}`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />

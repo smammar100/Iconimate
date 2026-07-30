@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import type { IconHandle } from "@/lib/icon";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
+import { Logo } from "@/components/dark/logo";
 import { BABY_CARRIAGE } from "./baby-carriage-icon";
 import { Bc1 } from "./variants/bc1";
 import { Bc2 } from "./variants/bc2";
@@ -31,13 +32,7 @@ export default function Lab() {
       <div className="dc-hero__glow" aria-hidden />
       <div className="dc-shell">
         <nav className="dc-nav">
-          <div className="dc-logo">
-            <span className="dc-logo-mark">I</span>
-            <span>Iconimate</span>
-            <span className="dc-mono" style={{ marginLeft: 6, color: "var(--text-faint)", fontSize: 12 }}>
-              / lab
-            </span>
-          </div>
+          <Logo sub="/ lab" />
           <div className="dc-nav-links">
             <a href="/">← Back to set</a>
             <ThemeToggle />
