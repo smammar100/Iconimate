@@ -111,21 +111,6 @@ export function scrollLoop(ambient: boolean): Transition {
 }
 
 /**
- * Plunge (arrow-fat-*) — Squash & stretch + Anticipation + Follow-through on one
- * anchored axis (scaleX or scaleY against the tail edge). rest → coil (anticipation
- * wind-up, 0.86) → plunge (peak 1.07 — capped so the leading tip lands right at the
- * frame edge, never past it) → recoil → small overshoot → settle. The slow 0.9s
- * timing lets the elongation read as deliberate mass. Pair with a tail-edge anchor.
- * Do not change the numbers — the 1.07 peak is the in-frame cap.
- */
-export const PLUNGE_KEYS = [1, 0.86, 1.07, 0.97, 1.02, 1] as const;
-export const PLUNGE_TRANSITION: Transition = {
-  duration: 0.9,
-  ease: "easeInOut",
-  times: [0, 0.18, 0.48, 0.68, 0.84, 1],
-};
-
-/**
  * Snap (arrow-bend-*) — the underdamped self-draw spring. Anticipation lives in the
  * from-zero start, Exaggeration in the head's overshoot past the tip, Follow-through
  * in the settle. Low damping (7) gives the bouncy single overshoot; the head shoots

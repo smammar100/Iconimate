@@ -83,8 +83,6 @@ const TOKEN_DEPS = {
   popIn: ["ANTICIPATE_DIP", "DUR", "ARRIVE"],
   staged: [],
   scrollLoop: [],
-  PLUNGE_KEYS: [],
-  PLUNGE_TRANSITION: [],
   SNAP_DRAW_SPRING: [],
   SNAP_RETURN: [],
 };
