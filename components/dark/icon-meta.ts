@@ -9,7 +9,7 @@ export interface IconMeta {
 }
 
 export const ICON_META: Record<string, IconMeta> = {
-  bell: { motion: "swing", glow: "#E34BA0" },
+  bell: { motion: "ring", glow: "#E34BA0" },
   heart: { motion: "pop", glow: "#C457E0" },
   star: { motion: "twinkle", glow: "#E6C100" },
   bookmark: { motion: "yoyo", glow: "#6E72F0" },
