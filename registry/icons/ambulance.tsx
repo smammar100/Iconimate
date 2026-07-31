@@ -9,6 +9,18 @@ import type { IconHandle, IconProps } from "@/lib/icon";
 // DRIVE — the van bobs on its suspension while three speed streaks tear off the back
 // and the red cross blinks like a flasher, so the whole thing reads as racing past.
 // Filled Phosphor ambulance glyph, split into body + cross so the cross can blink.
+//
+// DELIBERATE REDRAW — this icon does NOT rest on the untouched Phosphor glyph, and that
+// is a design decision rather than a tolerance. The source van spans x16..256: it touches
+// the right edge and leaves no lane for the speed streaks, which are the thing that makes
+// the icon read as racing rather than idling. So the vehicle is scaled to 0.86 about the
+// artboard centre and the streaks occupy the margin that frees up.
+//
+// The consequence is real and worth knowing before "fixing" it: a consumer who swaps the
+// static Phosphor ambulance for this one gets a glyph ~14% smaller. The rest state is
+// still exact — it is exactly the *intended* picture, deterministic and identical every
+// frame — it is simply a different picture from the original. Restoring full size means
+// dropping the streaks; the two cannot both fit. See AGENTS.md, rest-state fidelity rule.
 const AMBULANCE_BODY =
   "M256,120v64a16,16,0,0,1-16,16H223a32,32,0,0,1-62,0H111a32,32,0,0,1-62,0H32a16,16,0,0,1-16-16V72A16,16,0,0,1,32,56H184a8,8,0,0,1,8,8v8h34.58a15.93,15.93,0,0,1,14.86,10.06l14,35A7.92,7.92,0,0,1,256,120ZM192,88v24h44.18l-9.6-24ZM32,184H49a32,32,0,0,1,62,0h50a32.11,32.11,0,0,1,15-19.69V72H32Zm64,8a16,16,0,1,0-16,16A16,16,0,0,0,96,192Zm112,0a16,16,0,1,0-16,16A16,16,0,0,0,208,192Zm32-8V128H192v32a32.06,32.06,0,0,1,31,24Z";
 const AMBULANCE_CROSS =
@@ -53,7 +65,7 @@ const streak = (delay: number): Variants => ({
   }),
 });
 
-// Three streaks sit in the freed-up left margin (the van is scaled to 0.86 to make room).
+// Three streaks sit in the lane freed by the 0.86 vehicle scale (see the redraw note above).
 const STREAKS = [
   { y: 98, x1: 6, x2: 30, delay: 0 },
   { y: 128, x1: 2, x2: 32, delay: 0.12 },
@@ -96,7 +108,7 @@ export const AmbulanceIcon = forwardRef<IconHandle, IconProps>(function Ambulanc
             />
           ))}
 
-        {/* Vehicle scaled down to leave a lane for the speed streaks on the left. */}
+        {/* Vehicle scaled to 0.86 about the artboard centre — the declared redraw, not a tweak. */}
         <g transform="translate(128 128) scale(0.86) translate(-128 -128)">
           <motion.g
             variants={reduced ? undefined : drive}

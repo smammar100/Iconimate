@@ -56,6 +56,16 @@ original Phosphor glyph**. If a variant rebuilds the glyph from sub-paths to mov
 diff the rest state against the original path (canvas pixel-diff) before shipping — a resting icon that
 drifts reads as broken at 24px in consumer apps, and nothing in CI catches it yet.
 
+The one licensed exception is a **deliberate redraw**: the author decides the icon should rest as a
+different picture, and says so out loud in the file's header. That is a design decision, not a
+tolerance — the new rest must still be exact, just exact to the *new* intended picture. There is
+currently **one** such icon:
+
+- **`ambulance`** rests at **0.86 scale** about the artboard centre. The source van spans x16..256 and
+  touches the right edge, so there is no lane for the speed streaks that make it read as racing; the
+  scale frees one. Consumers swapping the static Phosphor ambulance for this one get a ~14% smaller
+  glyph. Restoring full size means dropping the streaks — they cannot both fit. Do not "fix" this.
+
 ## The generator contract (tripwires)
 
 Adding an icon means editing **three hand-maintained files in lockstep**:
