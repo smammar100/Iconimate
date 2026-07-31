@@ -41,11 +41,17 @@ An icon is `registry/icons/<slug>.tsx`. Follow the shape of an existing one (e.g
   hover/tap still performs the gesture once. **Any icon whose transition carries `repeat: Infinity`
   must gate that `repeat` on `ambient`** — the hook cannot reach inside a per-icon transition.
 
-~35 icons still loop unconditionally (`SCROLL_LOOP` in `registry/lib/motion-tokens.ts` covers 16 of
-them; the rest are the ambient/STATE icons — `sun`, `moon`, `cloud`, `bed`, the `airplane*` pair,
-`alarm`, `ambulance`, `android-logo`, `baby-carriage`, `beer-*`, `anchor*`, `amazon-logo`). Those are
-the outstanding work. The **13** files that call `useReducedMotion()` directly (the ten `arrow-bend-*`
-plus `_draw-elbow`, `_arrow-u-bounce`, `_arrows-pulse`) predate this and are still correct.
+Every looping icon is now gated: **no `repeat: Infinity` remains anywhere in `registry/icons/`** — grep
+for it, an unguarded one is a bug. The shared scroll token became `scrollLoop(ambient)`; the ambient /
+STATE icons (`sun`, `moon`, `cloud`, `bed`, the `airplane*` trio, `alarm`, `ambulance`, `android-logo`,
+`baby-carriage`, `beer-*`, `anchor*`, `alien`) each thread `ambient` in as motion's **`custom`**, which
+is how a per-render value reaches a module-level variant. The **13** files that call
+`useReducedMotion()` directly (the ten `arrow-bend-*` plus `_draw-elbow`, `_arrow-u-bounce`,
+`_arrows-pulse`) predate this and are still correct.
+
+> Gotcha: `custom` does **not** inherit from a parent `motion.*`. Put `custom={ambient}` on the same
+> element that carries the dynamic `variants`, or the variant receives `undefined`, `repeat` collapses
+> to `0`, and the loop silently plays once — which looks like a timing bug, not a wiring bug.
 
 Note `app/docs/page.tsx` tells consumers to wrap in `MotionConfig reducedMotion="user"`, which cannot
 help (see *Motion API gotcha* below) — that guidance is still wrong and should be rewritten to point

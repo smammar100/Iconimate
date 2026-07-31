@@ -46,7 +46,7 @@ export const ICON_META: Record<string, IconMeta> = {
   "align-right-simple": { motion: "drop", glow: "#5B8DEF" },
   "align-top": { motion: "drop", glow: "#5B8DEF" },
   "align-top-simple": { motion: "drop", glow: "#5B8DEF" },
-  "amazon-logo": { motion: "wobble", glow: "#FF9900" },
+  "amazon-logo": { motion: "draw", glow: "#FF9900" },
   ambulance: { motion: "drive", glow: "#F0584F" },
   anchor: { motion: "sway", glow: "#3B82F6" },
   "anchor-simple": { motion: "sway", glow: "#3B82F6" },
