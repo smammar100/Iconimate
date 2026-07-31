@@ -195,6 +195,7 @@ export const LAZY_ICONS: Record<string, LazyIcon> = {
   "beer-stein": lazy(() => import("./icons/beer-stein").then((m) => ({ default: m.BeerSteinIcon }))),
   "behance-logo": lazy(() => import("./icons/behance-logo").then((m) => ({ default: m.BehanceLogoIcon }))),
   "bell": lazy(() => import("./icons/bell").then((m) => ({ default: m.BellIcon }))),
+  "bell-ringing": lazy(() => import("./icons/bell-ringing").then((m) => ({ default: m.BellRingingIcon }))),
   "bolt": lazy(() => import("./icons/bolt").then((m) => ({ default: m.BoltIcon }))),
   "bookmark": lazy(() => import("./icons/bookmark").then((m) => ({ default: m.BookmarkIcon }))),
   "camera": lazy(() => import("./icons/camera").then((m) => ({ default: m.CameraIcon }))),

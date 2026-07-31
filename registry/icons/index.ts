@@ -198,6 +198,7 @@ import { BedIcon } from "./bed";
 import { BeerBottleIcon } from "./beer-bottle";
 import { BeerSteinIcon } from "./beer-stein";
 import { BehanceLogoIcon } from "./behance-logo";
+import { BellRingingIcon } from "./bell-ringing";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -209,7 +210,6 @@ export interface IconEntry {
 }
 
 export const icons: IconEntry[] = [
-  { slug: "bell", name: "Bell", keywords: ["notification", "alert", "ring"], Component: BellIcon },
   { slug: "heart", name: "Heart", keywords: ["like", "love", "favorite"], Component: HeartIcon },
   { slug: "star", name: "Star", keywords: ["favorite", "rate", "review"], Component: StarIcon },
   { slug: "bookmark", name: "Bookmark", keywords: ["save", "read later", "flag"], Component: BookmarkIcon },
@@ -407,11 +407,12 @@ export const icons: IconEntry[] = [
   { slug: "beer-bottle", name: "Beer Bottle", keywords: ["beer", "bottle", "drink", "alcohol", "bar", "pub", "brew", "cap", "cheers", "fizz"], Component: BeerBottleIcon },
   { slug: "beer-stein", name: "Beer Stein", keywords: ["beer", "stein", "mug", "tankard", "drink", "alcohol", "pub", "toast", "cheers", "fizz"], Component: BeerSteinIcon },
   { slug: "behance-logo", name: "Behance Logo", keywords: ["behance", "logo", "brand", "portfolio", "design", "social", "adobe", "creative", "network", "roll"], Component: BehanceLogoIcon },
+  { slug: "bell", name: "Bell", keywords: ["notification", "alert", "ring"], Component: BellIcon },
+  { slug: "bell-ringing", name: "Bell Ringing", keywords: ["notification", "alert", "ring", "ringing", "sound", "alarm", "notify"], Component: BellRingingIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
 export const HOME_HIDDEN_SLUGS = new Set<string>([
-  "bell",
   "heart",
   "star",
   "bookmark",
@@ -430,6 +431,7 @@ export const visibleIcons: IconEntry[] = icons.filter((entry) => !HOME_HIDDEN_SL
 
 export {
   BellIcon,
+  BellRingingIcon,
   HeartIcon,
   StarIcon,
   BookmarkIcon,

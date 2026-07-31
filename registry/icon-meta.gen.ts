@@ -7,7 +7,6 @@ export interface IconMetaEntry {
 }
 
 export const iconMeta: IconMetaEntry[] = [
-  { slug: "bell", name: "Bell", keywords: ["notification","alert","ring"] },
   { slug: "heart", name: "Heart", keywords: ["like","love","favorite"] },
   { slug: "star", name: "Star", keywords: ["favorite","rate","review"] },
   { slug: "bookmark", name: "Bookmark", keywords: ["save","read later","flag"] },
@@ -205,8 +204,10 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "beer-bottle", name: "Beer Bottle", keywords: ["beer","bottle","drink","alcohol","bar","pub","brew","cap","cheers","fizz"] },
   { slug: "beer-stein", name: "Beer Stein", keywords: ["beer","stein","mug","tankard","drink","alcohol","pub","toast","cheers","fizz"] },
   { slug: "behance-logo", name: "Behance Logo", keywords: ["behance","logo","brand","portfolio","design","social","adobe","creative","network","roll"] },
+  { slug: "bell", name: "Bell", keywords: ["notification","alert","ring"] },
+  { slug: "bell-ringing", name: "Bell Ringing", keywords: ["notification","alert","ring","ringing","sound","alarm","notify"] },
 ];
 
-export const HOME_HIDDEN_SLUGS = new Set<string>(["bell","heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
+export const HOME_HIDDEN_SLUGS = new Set<string>(["heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
 
 export const visibleIconMeta: IconMetaEntry[] = iconMeta.filter((e) => !HOME_HIDDEN_SLUGS.has(e.slug));
