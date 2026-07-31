@@ -199,6 +199,9 @@ import { BeerBottleIcon } from "./beer-bottle";
 import { BeerSteinIcon } from "./beer-stein";
 import { BehanceLogoIcon } from "./behance-logo";
 import { BellRingingIcon } from "./bell-ringing";
+import { BellSimpleIcon } from "./bell-simple";
+import { BellSimpleRingingIcon } from "./bell-simple-ringing";
+import { BellSimpleSlashIcon } from "./bell-simple-slash";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -409,6 +412,9 @@ export const icons: IconEntry[] = [
   { slug: "behance-logo", name: "Behance Logo", keywords: ["behance", "logo", "brand", "portfolio", "design", "social", "adobe", "creative", "network", "roll"], Component: BehanceLogoIcon },
   { slug: "bell", name: "Bell", keywords: ["notification", "alert", "ring"], Component: BellIcon },
   { slug: "bell-ringing", name: "Bell Ringing", keywords: ["notification", "alert", "ring", "ringing", "sound", "alarm", "notify"], Component: BellRingingIcon },
+  { slug: "bell-simple", name: "Bell Simple", keywords: ["notification", "alert", "ring", "simple", "bell", "notify", "reminder"], Component: BellSimpleIcon },
+  { slug: "bell-simple-ringing", name: "Bell Simple Ringing", keywords: ["notification", "alert", "ring", "ringing", "simple", "sound", "notify"], Component: BellSimpleRingingIcon },
+  { slug: "bell-simple-slash", name: "Bell Simple Slash", keywords: ["notification", "mute", "muted", "silence", "silent", "off", "disabled", "simple"], Component: BellSimpleSlashIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -432,6 +438,9 @@ export const visibleIcons: IconEntry[] = icons.filter((entry) => !HOME_HIDDEN_SL
 export {
   BellIcon,
   BellRingingIcon,
+  BellSimpleIcon,
+  BellSimpleRingingIcon,
+  BellSimpleSlashIcon,
   HeartIcon,
   StarIcon,
   BookmarkIcon,

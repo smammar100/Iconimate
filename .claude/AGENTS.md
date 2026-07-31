@@ -64,13 +64,27 @@ drifts reads as broken at 24px in consumer apps, and nothing in CI catches it ye
 
 The one licensed exception is a **deliberate redraw**: the author decides the icon should rest as a
 different picture, and says so out loud in the file's header. That is a design decision, not a
-tolerance — the new rest must still be exact, just exact to the *new* intended picture. There is
-currently **one** such icon:
+tolerance — the new rest must still be exact, just exact to the *new* intended picture. There are
+currently **two** such icons:
 
 - **`ambulance`** rests at **0.86 scale** about the artboard centre. The source van spans x16..256 and
   touches the right edge, so there is no lane for the speed streaks that make it read as racing; the
   scale frees one. Consumers swapping the static Phosphor ambulance for this one get a ~14% smaller
   glyph. Restoring full size means dropping the streaks — they cannot both fit. Do not "fix" this.
+
+- **`bell-simple-slash`** rests **832 pixels (1.3%)** off the Phosphor mark. Phosphor does not
+  overlay a slash on a whole bell — it redraws the bell with the dome's upper-left and the collar's
+  right *omitted* where the slash crosses, so the outline stops against the slash. That geometry
+  cannot be animated: the slash has no separate path to draw, and the gaps sit in the bell as a
+  ghost outline before any ink arrives. So the bell is drawn from `bell-simple`'s whole geometry and
+  the slash is stroked over it, running continuously beneath rather than stopping at it. Masking the
+  band out and redrawing it round-trips at rest but fails in motion (a static cut shows the gaps
+  early; a cut that follows the stroke leaves the source's own slash visible ahead of it, so the
+  slash looks finished from frame 0). Both were tried. Do not re-try them.
+  Also note the slash's `opacity` keyframes are load-bearing, not decoration: a round-capped stroke
+  at `pathLength: 0` renders a full 16-wide **dot** parked at the start point. Fading in over the
+  hold suppresses it while keeping the round caps the source has. Butt caps would also kill the dot,
+  at the cost of flat-ending the finished slash.
 
 ## The generator contract (tripwires)
 

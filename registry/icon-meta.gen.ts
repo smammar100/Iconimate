@@ -206,6 +206,9 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "behance-logo", name: "Behance Logo", keywords: ["behance","logo","brand","portfolio","design","social","adobe","creative","network","roll"] },
   { slug: "bell", name: "Bell", keywords: ["notification","alert","ring"] },
   { slug: "bell-ringing", name: "Bell Ringing", keywords: ["notification","alert","ring","ringing","sound","alarm","notify"] },
+  { slug: "bell-simple", name: "Bell Simple", keywords: ["notification","alert","ring","simple","bell","notify","reminder"] },
+  { slug: "bell-simple-ringing", name: "Bell Simple Ringing", keywords: ["notification","alert","ring","ringing","simple","sound","notify"] },
+  { slug: "bell-simple-slash", name: "Bell Simple Slash", keywords: ["notification","mute","muted","silence","silent","off","disabled","simple"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
