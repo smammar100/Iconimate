@@ -14,6 +14,7 @@ export const ICON_META: Record<string, IconMeta> = {
   "bell-simple": { motion: "ring", glow: "#E34BA0" },
   "bell-simple-ringing": { motion: "ring + emit", glow: "#E34BA0" },
   "bell-simple-slash": { motion: "silenced", glow: "#E34BA0" },
+  "bell-simple-z": { motion: "zzz", glow: "#E34BA0" },
   heart: { motion: "pop", glow: "#C457E0" },
   star: { motion: "twinkle", glow: "#E6C100" },
   bookmark: { motion: "yoyo", glow: "#6E72F0" },

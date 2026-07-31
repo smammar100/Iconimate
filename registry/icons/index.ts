@@ -202,6 +202,7 @@ import { BellRingingIcon } from "./bell-ringing";
 import { BellSimpleIcon } from "./bell-simple";
 import { BellSimpleRingingIcon } from "./bell-simple-ringing";
 import { BellSimpleSlashIcon } from "./bell-simple-slash";
+import { BellSimpleZIcon } from "./bell-simple-z";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -415,6 +416,7 @@ export const icons: IconEntry[] = [
   { slug: "bell-simple", name: "Bell Simple", keywords: ["notification", "alert", "ring", "simple", "bell", "notify", "reminder"], Component: BellSimpleIcon },
   { slug: "bell-simple-ringing", name: "Bell Simple Ringing", keywords: ["notification", "alert", "ring", "ringing", "simple", "sound", "notify"], Component: BellSimpleRingingIcon },
   { slug: "bell-simple-slash", name: "Bell Simple Slash", keywords: ["notification", "mute", "muted", "silence", "silent", "off", "disabled", "simple"], Component: BellSimpleSlashIcon },
+  { slug: "bell-simple-z", name: "Bell Simple Z", keywords: ["notification", "snooze", "sleep", "sleeping", "asleep", "zzz", "do not disturb", "dnd", "quiet"], Component: BellSimpleZIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -441,6 +443,7 @@ export {
   BellSimpleIcon,
   BellSimpleRingingIcon,
   BellSimpleSlashIcon,
+  BellSimpleZIcon,
   HeartIcon,
   StarIcon,
   BookmarkIcon,
