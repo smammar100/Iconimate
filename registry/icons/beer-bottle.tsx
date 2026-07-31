@@ -58,23 +58,23 @@ const cap: Variants = {
 // clear it growing to full size as they drift into the empty up-left triangle.
 const bubbleNear = (delay: number): Variants => ({
   normal: { opacity: 0, x: 0, y: 0, scale: 0.3, transition: { duration: 0.2 } },
-  animate: {
+  animate: (ambient: boolean) => ({
     opacity: [0, 1, 0.85, 0],
     x: [0, -10, -22, -32],
     y: [0, -1, -2, -4],
     scale: [0.3, 0.85, 1, 0.9],
-    transition: { duration: 1.1, ease: "easeOut", times: [0, 0.3, 0.65, 1], repeat: Infinity, repeatDelay: 0.3, delay },
-  },
+    transition: { duration: 1.1, ease: "easeOut", times: [0, 0.3, 0.65, 1], repeat: ambient ? Infinity : 0, repeatDelay: 0.3, delay },
+  }),
 });
 const bubbleFar = (delay: number): Variants => ({
   normal: { opacity: 0, x: 0, y: 0, scale: 0.3, transition: { duration: 0.2 } },
-  animate: {
+  animate: (ambient: boolean) => ({
     opacity: [0, 1, 0.85, 0],
     x: [0, -9, -20, -30],
     y: [0, -2, -5, -8],
     scale: [0.3, 0.8, 1, 0.9],
-    transition: { duration: 1.1, ease: "easeOut", times: [0, 0.3, 0.65, 1], repeat: Infinity, repeatDelay: 0.3, delay },
-  },
+    transition: { duration: 1.1, ease: "easeOut", times: [0, 0.3, 0.65, 1], repeat: ambient ? Infinity : 0, repeatDelay: 0.3, delay },
+  }),
 });
 const bubble1 = bubbleNear(0.35);
 const bubble2 = bubbleFar(0.7);
@@ -82,7 +82,7 @@ const bubble3 = bubbleFar(1.05);
 
 export const BeerBottleIcon = forwardRef<IconHandle, IconProps>(
   function BeerBottleIcon({ size = 28, style, ...props }, ref) {
-    const { controls, reduced, start, stop, bind } = useHover();
+    const { controls, reduced, ambient, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
     if (reduced) {
@@ -113,13 +113,13 @@ export const BeerBottleIcon = forwardRef<IconHandle, IconProps>(
             <path d={CAP} transform="translate(232,22) rotate(45)" />
           </motion.g>
           {/* Bubbles: staggered, streaming from the lip into the open up-left space. */}
-          <motion.g variants={bubble1}>
+          <motion.g variants={bubble1} custom={ambient}>
             <circle cx={233} cy={16} r={11} />
           </motion.g>
-          <motion.g variants={bubble2}>
+          <motion.g variants={bubble2} custom={ambient}>
             <circle cx={238} cy={20} r={8} />
           </motion.g>
-          <motion.g variants={bubble3}>
+          <motion.g variants={bubble3} custom={ambient}>
             <circle cx={226} cy={24} r={6} />
           </motion.g>
         </motion.svg>

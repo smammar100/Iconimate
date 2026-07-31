@@ -16,19 +16,21 @@ const ALARM_PIVOT = { x: 0.5, y: 0.531 };
 
 const ring: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
-  animate: {
+  // Ambient burst — `repeat` is gated on `ambient` from useHover(), threaded in as motion's
+  // `custom`. A reduced-motion visitor still gets one full rattle on hover, then it rests.
+  animate: (ambient: boolean) => ({
     // Anticipation: a small +4 wind-up cocks the clock before it rattles, then the
     // shake decays through diminishing amplitude (follow-through) back to rest.
     rotate: [0, 4, -12, 12, -9, 9, -5, 5, 0],
-    transition: { duration: 0.72, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.45 },
-  },
+    transition: { duration: 0.72, ease: "easeInOut", repeat: ambient ? Infinity : 0, repeatDelay: 0.45 },
+  }),
 };
 
 export const AlarmIcon = forwardRef<IconHandle, IconProps>(function AlarmIcon(
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
   return (
@@ -45,6 +47,7 @@ export const AlarmIcon = forwardRef<IconHandle, IconProps>(function AlarmIcon(
       >
         <motion.path
           variants={reduced ? undefined : ring}
+          custom={ambient}
           style={{ transformBox: "view-box", originX: ALARM_PIVOT.x, originY: ALARM_PIVOT.y }}
           d={ALARM}
         />

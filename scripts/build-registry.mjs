@@ -82,7 +82,7 @@ const TOKEN_DEPS = {
   squashStretch: [],
   popIn: ["ANTICIPATE_DIP", "DUR", "ARRIVE"],
   staged: [],
-  SCROLL_LOOP: [],
+  scrollLoop: [],
   PLUNGE_KEYS: [],
   PLUNGE_TRANSITION: [],
   SNAP_DRAW_SPRING: [],

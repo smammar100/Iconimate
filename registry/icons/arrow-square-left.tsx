@@ -3,13 +3,13 @@
 import { forwardRef, useId, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION, SCROLL_LOOP } from "@/lib/motion-tokens";
+import { RETURN_TRANSITION, scrollLoop } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // SCROLL — the arrow rides a wheel inside the static box, looping toward where it
 // points (left). Principles: ARCS (travel) + SECONDARY ACTION (scale & opacity track
 // the travel — small/faint behind, full at centre, small/faint ahead) + TIMING
-// (symmetric easeInOut cadence via the shared SCROLL_LOOP token). The arrow is clipped
+// (symmetric easeInOut cadence via the shared scrollLoop token). The arrow is clipped
 // to the box interior so it only ever shows inside the frame. Two exact Phosphor
 // sub-paths (the rounded square + the inner arrow), animated whole so artwork is frozen.
 const SQUARE =
@@ -19,19 +19,19 @@ const ARROW =
 
 const scroll: Variants = {
   normal: { x: 0, scale: 1, opacity: 1, transition: RETURN_TRANSITION },
-  animate: {
+  animate: (ambient: boolean) => ({
     x: [46, 0, -46],
     scale: [0.4, 1, 0.4],
     opacity: [0, 1, 0],
-    transition: SCROLL_LOOP,
-  },
+    transition: scrollLoop(ambient),
+  }),
 };
 
 export const ArrowSquareLeftIcon = forwardRef<IconHandle, IconProps>(function ArrowSquareLeftIcon(
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   const clipId = useId();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
@@ -55,6 +55,7 @@ export const ArrowSquareLeftIcon = forwardRef<IconHandle, IconProps>(function Ar
           <motion.path
             d={ARROW}
             variants={reduced ? undefined : scroll}
+            custom={ambient}
             style={{ transformBox: "view-box", originX: 0.5, originY: 0.5 }}
           />
         </g>

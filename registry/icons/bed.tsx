@@ -41,34 +41,34 @@ const flop: Variants = {
 // Inner: the endless deep-sleep breathe, starting after the settle.
 const breathe: Variants = {
   normal: { scaleY: 1, transition: RETURN_TRANSITION },
-  animate: {
+  animate: (ambient: boolean) => ({
     scaleY: [1, 1.02, 1],
-    transition: { duration: 2.4, ease: "easeInOut", times: [0, 0.5, 1], repeat: Infinity, delay: 0.8 },
-  },
+    transition: { duration: 2.4, ease: "easeInOut", times: [0, 0.5, 1], repeat: ambient ? Infinity : 0, delay: 0.8 },
+  }),
 };
 // The zzz trail — both Zs rest at opacity 0 and loop once the sleep begins.
 const zBig: Variants = {
   normal: { opacity: 0, y: 0, scale: 0.7, transition: { duration: 0.2 } },
-  animate: {
+  animate: (ambient: boolean) => ({
     opacity: [0, 1, 1, 0],
     y: [10, 2, -8, -14],
     scale: [0.7, 1, 1, 0.95],
-    transition: { duration: 1.6, ease: "easeOut", times: [0, 0.25, 0.7, 1], repeat: Infinity, repeatDelay: 0.3, delay: 0.9 },
-  },
+    transition: { duration: 1.6, ease: "easeOut", times: [0, 0.25, 0.7, 1], repeat: ambient ? Infinity : 0, repeatDelay: 0.3, delay: 0.9 },
+  }),
 };
 const zSmall: Variants = {
   normal: { opacity: 0, y: 0, scale: 0.7, transition: { duration: 0.2 } },
-  animate: {
+  animate: (ambient: boolean) => ({
     opacity: [0, 0.9, 0.9, 0],
     y: [12, 4, -5, -10],
     scale: [0.5, 0.7, 0.7, 0.65],
-    transition: { duration: 1.6, ease: "easeOut", times: [0, 0.25, 0.7, 1], repeat: Infinity, repeatDelay: 0.3, delay: 1.45 },
-  },
+    transition: { duration: 1.6, ease: "easeOut", times: [0, 0.25, 0.7, 1], repeat: ambient ? Infinity : 0, repeatDelay: 0.3, delay: 1.45 },
+  }),
 };
 
 export const BedIcon = forwardRef<IconHandle, IconProps>(
   function BedIcon({ size = 28, style, ...props }, ref) {
-    const { controls, reduced, start, stop, bind } = useHover();
+    const { controls, reduced, ambient, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
     if (reduced) {
@@ -94,14 +94,14 @@ export const BedIcon = forwardRef<IconHandle, IconProps>(
           style={{ overflow: "visible" }}
         >
           <motion.g variants={flop} style={FLOOR}>
-            <motion.g variants={breathe} style={FLOOR}>
+            <motion.g variants={breathe} custom={ambient} style={FLOOR}>
               <path d={BED} />
             </motion.g>
           </motion.g>
-          <motion.g variants={zBig}>
+          <motion.g variants={zBig} custom={ambient}>
             <path d={Z} transform="translate(66,22)" />
           </motion.g>
-          <motion.g variants={zSmall}>
+          <motion.g variants={zSmall} custom={ambient}>
             <path d={Z} transform="translate(112,14)" />
           </motion.g>
         </motion.svg>

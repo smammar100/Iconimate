@@ -15,39 +15,42 @@ const AMBULANCE_CROSS =
   "M80,120a8,8,0,0,1,8-8h16V96a8,8,0,0,1,16,0v16h16a8,8,0,0,1,0,16H120v16a8,8,0,0,1-16,0V128H88A8,8,0,0,1,80,120Z";
 
 // Bob + nose-to-tail rock, applied to the whole vehicle group.
+// Every track here is ambient (the drive bob, the flasher, the speed streaks), so each
+// `repeat` is gated on `ambient` from useHover(), threaded in as motion's `custom`. Under
+// reduced motion the van bobs once, the cross blinks once and one streak passes, then rest.
 const drive: Variants = {
   normal: { y: 0, rotate: 0, transition: RETURN_TRANSITION },
-  animate: {
+  animate: (ambient: boolean) => ({
     y: [0, -2.5, 0, -1.5, 0],
     rotate: [0, -1.2, 0, 1, 0],
-    transition: { duration: 1, ease: "easeInOut", repeat: Infinity },
-  },
+    transition: { duration: 1, ease: "easeInOut", repeat: ambient ? Infinity : 0 },
+  }),
 };
 
 // The cross flashes on and off like an emergency light.
 const blink: Variants = {
   normal: { opacity: 1, transition: RETURN_TRANSITION },
-  animate: {
+  animate: (ambient: boolean) => ({
     opacity: [1, 1, 0.12, 0.12, 1],
-    transition: { duration: 0.8, ease: "easeInOut", repeat: Infinity },
-  },
+    transition: { duration: 0.8, ease: "easeInOut", repeat: ambient ? Infinity : 0 },
+  }),
 };
 
 // Each speed streak shoots leftward off the back of the van and fades, staggered so
 // they read as a continuous stream of motion lines.
 const streak = (delay: number): Variants => ({
   normal: { opacity: 0, x: 0, transition: RETURN_TRANSITION },
-  animate: {
+  animate: (ambient: boolean) => ({
     x: [10, -16],
     opacity: [0, 0.9, 0],
     transition: {
       duration: 0.55,
       ease: "easeIn",
-      repeat: Infinity,
+      repeat: ambient ? Infinity : 0,
       repeatDelay: 0.15,
       delay,
     } satisfies Transition,
-  },
+  }),
 });
 
 // Three streaks sit in the freed-up left margin (the van is scaled to 0.86 to make room).
@@ -61,7 +64,7 @@ export const AmbulanceIcon = forwardRef<IconHandle, IconProps>(function Ambulanc
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
   return (
@@ -88,6 +91,7 @@ export const AmbulanceIcon = forwardRef<IconHandle, IconProps>(function Ambulanc
               strokeWidth={10}
               strokeLinecap="round"
               variants={streak(s.delay)}
+              custom={ambient}
               style={{ transformBox: "view-box" }}
             />
           ))}
@@ -96,10 +100,11 @@ export const AmbulanceIcon = forwardRef<IconHandle, IconProps>(function Ambulanc
         <g transform="translate(128 128) scale(0.86) translate(-128 -128)">
           <motion.g
             variants={reduced ? undefined : drive}
+            custom={ambient}
             style={{ transformBox: "view-box", originX: 0.5, originY: 0.5 }}
           >
             <path d={AMBULANCE_BODY} />
-            <motion.path variants={reduced ? undefined : blink} d={AMBULANCE_CROSS} />
+            <motion.path variants={reduced ? undefined : blink} custom={ambient} d={AMBULANCE_CROSS} />
           </motion.g>
         </g>
       </motion.svg>

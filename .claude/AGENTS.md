@@ -28,19 +28,28 @@ An icon is `registry/icons/<slug>.tsx`. Follow the shape of an existing one (e.g
 - Motion `variants` with a **`normal`** (rest) and **`animate`** (playing) state.
 - A **reduced-motion static fallback** that renders the plain glyph.
 
-**The reduced-motion fallback is documented but not delivered.** `registry/hooks/use-hover.ts`
-hardcodes `const reduced = false`, so the `reduced ? … : …` branch in all **151** `useHover()`
-consumers is unreachable — it can never take the static path. Only the **13** files that call
-`useReducedMotion()` themselves honour the OS preference (the ten `arrow-bend-*` icons plus
-`_draw-elbow`, `_arrow-u-bounce`, `_arrows-pulse`), covering **30 of 198** icons. `alien.tsx` even
-carries `fillReduced` / `haloReduced` variant sets that nothing can reach. Note the
-`HoverController.reduced` JSDoc claims the field is "True when the user prefers reduced motion",
-which is the opposite of what it returns — fix the doc or the code, but don't trust the doc. This
-ships to consumers via `npx shadcn add`, and `app/docs/page.tsx` tells them to wrap in
-`MotionConfig reducedMotion="user"`, which cannot help (see *Motion API gotcha* below). Resolving it
-is a product decision — honouring the preference makes the gallery static, which arguably defeats the
-page — so the likely fix is to respect it for ambient/auto playback while keeping explicit
-hover/tap previews, not to flip the constant.
+**Reduced motion is honoured on playback, not on rendering — know which lever you are pulling.**
+`useHover()` returns two separate flags and they are not interchangeable:
+
+- **`reduced`** — "render the static fallback". Still hardcoded `false`, **deliberately**. Taking the
+  static path leaves a reduced-motion visitor unable to preview an icon at all, which defeats a
+  gallery whose entire content is motion. The `reduced ? … : …` branch in ~151 consumers is therefore
+  still unreachable (and `alien.tsx`'s `fillReduced` / `haloReduced` sets with it). That is a parked
+  product decision, not an oversight — leave the branches wired so it can be switched on in one place.
+- **`ambient`** — `!useReducedMotion()`, the real OS preference. It gates *unattended* motion: the
+  hover replay loop stops after one full pass when the user prefers reduced motion, so an explicit
+  hover/tap still performs the gesture once. **Any icon whose transition carries `repeat: Infinity`
+  must gate that `repeat` on `ambient`** — the hook cannot reach inside a per-icon transition.
+
+~35 icons still loop unconditionally (`SCROLL_LOOP` in `registry/lib/motion-tokens.ts` covers 16 of
+them; the rest are the ambient/STATE icons — `sun`, `moon`, `cloud`, `bed`, the `airplane*` pair,
+`alarm`, `ambulance`, `android-logo`, `baby-carriage`, `beer-*`, `anchor*`, `amazon-logo`). Those are
+the outstanding work. The **13** files that call `useReducedMotion()` directly (the ten `arrow-bend-*`
+plus `_draw-elbow`, `_arrow-u-bounce`, `_arrows-pulse`) predate this and are still correct.
+
+Note `app/docs/page.tsx` tells consumers to wrap in `MotionConfig reducedMotion="user"`, which cannot
+help (see *Motion API gotcha* below) — that guidance is still wrong and should be rewritten to point
+at `ambient`.
 
 **Rest-state fidelity rule (load-bearing):** the `normal` variant must render **pixel-identical to the
 original Phosphor glyph**. If a variant rebuilds the glyph from sub-paths to move parts independently,
@@ -117,6 +126,6 @@ retracted. Don't repeat it.
 - Do not reformat the regex-parsed `index.ts` / `icon-meta.ts` entries.
 - Never hand-edit `generated/`, `public/r/`, or `registry/*.gen.*` — they're generator output.
 
-> Note: `registry/hooks/use-hover.ts` schedules its replay via `setTimeout` guarded by a `looping` ref;
-> the timer id isn't tracked, which is benign today (the guard makes a late fire bail) but a watch-item
-> if that loop is ever edited to read state after unmount.
+> Note: `registry/hooks/use-hover.ts` schedules its replay via `setTimeout`. The timer id is now held
+> in `replayTimer` and cleared by both `stop()` and the unmount effect, so a pending replay is torn
+> down outright rather than relying on a late fire noticing `looping` went false.

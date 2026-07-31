@@ -93,14 +93,22 @@ export function staged(index: number, step = 0.09): number {
  * (NOT SWEEP/ARRIVE): the glyph slows into frame and out of frame equally, so no
  * single edge of the loop is favoured. `times: [0, 0.5, 1]` keeps centre the peak;
  * the short `repeatDelay` gives a measured "tick" between cycles rather than a blur.
+ *
+ * Pass `ambient` from `useHover()`. The scroll is unattended motion — it repeats until
+ * the pointer leaves — so it collapses to a single pass when the visitor prefers reduced
+ * motion: one arrow crosses the frame, which is the explicit preview they asked for, and
+ * then it rests. Never hardcode `repeat: Infinity` in an icon; the preference cannot be
+ * honoured from the hook, only from the transition that owns the repeat.
  */
-export const SCROLL_LOOP: Transition = {
-  duration: 1.15,
-  ease: "easeInOut",
-  times: [0, 0.5, 1],
-  repeat: Infinity,
-  repeatDelay: 0.05,
-};
+export function scrollLoop(ambient: boolean): Transition {
+  return {
+    duration: 1.15,
+    ease: "easeInOut",
+    times: [0, 0.5, 1],
+    repeat: ambient ? Infinity : 0,
+    repeatDelay: 0.05,
+  };
+}
 
 /**
  * Plunge (arrow-fat-*) — Squash & stretch + Anticipation + Follow-through on one

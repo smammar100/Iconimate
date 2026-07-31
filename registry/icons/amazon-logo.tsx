@@ -17,18 +17,20 @@ const AMAZON_PIVOT = { x: 0.5, y: 0.8 };
 
 const wobble: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
-  animate: {
+  // Ambient burst — `repeat` is gated on `ambient` from useHover(), threaded in as motion's
+  // `custom`. A reduced-motion visitor still gets one full wobble on hover, then it rests.
+  animate: (ambient: boolean) => ({
     // Anticipation (+3 counter-lean) winds up before the damped bounce decays back to rest.
     rotate: [0, 3, -9, 7, -4, 2, 0],
-    transition: { duration: 0.85, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.45 },
-  },
+    transition: { duration: 0.85, ease: "easeInOut", repeat: ambient ? Infinity : 0, repeatDelay: 0.45 },
+  }),
 };
 
 export const AmazonLogoIcon = forwardRef<IconHandle, IconProps>(function AmazonLogoIcon(
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
   return (
@@ -45,6 +47,7 @@ export const AmazonLogoIcon = forwardRef<IconHandle, IconProps>(function AmazonL
       >
         <motion.path
           variants={reduced ? undefined : wobble}
+          custom={ambient}
           style={{ transformBox: "view-box", originX: AMAZON_PIVOT.x, originY: AMAZON_PIVOT.y }}
           d={AMAZON_LOGO}
         />

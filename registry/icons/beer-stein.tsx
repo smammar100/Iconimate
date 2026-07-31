@@ -49,7 +49,9 @@ const cheers: Variants = {
 // One rising bubble: `rise` is how far up the glass it gets before it fades.
 const fizz = (rise: number, delay: number, duration: number): Variants => ({
   normal: { opacity: 0, y: 0, scale: 0.35, transition: { duration: 0.2 } },
-  animate: {
+  // The carbonation is ambient — `repeat` is gated on `ambient` from useHover(), threaded in
+  // as motion's `custom`. Under reduced motion each column sends up one bubble, then rests.
+  animate: (ambient: boolean) => ({
     opacity: [0, 0.9, 0.75, 0],
     y: [0, -rise * 0.35, -rise * 0.72, -rise],
     scale: [0.35, 0.8, 1, 0.95],
@@ -57,11 +59,11 @@ const fizz = (rise: number, delay: number, duration: number): Variants => ({
       duration,
       ease: "easeOut",
       times: [0, 0.3, 0.65, 1],
-      repeat: Infinity,
+      repeat: ambient ? Infinity : 0,
       repeatDelay: 0.15,
       delay,
     },
-  },
+  }),
 });
 const fizzA = fizz(96, 0, 1.25);
 const fizzB = fizz(88, 0.42, 1.4);
@@ -70,7 +72,7 @@ const fizzD = fizz(92, 1.05, 1.35);
 
 export const BeerSteinIcon = forwardRef<IconHandle, IconProps>(
   function BeerSteinIcon({ size = 28, style, ...props }, ref) {
-    const { controls, reduced, start, stop, bind } = useHover();
+    const { controls, reduced, ambient, start, stop, bind } = useHover();
     useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
     if (reduced) {
@@ -99,16 +101,16 @@ export const BeerSteinIcon = forwardRef<IconHandle, IconProps>(
             <path d={STEIN} />
             {/* Bubbles: left column (56..88), the gap between the ridge bars
                 (104..136), then the right column (152..184). */}
-            <motion.g variants={fizzA}>
+            <motion.g variants={fizzA} custom={ambient}>
               <circle cx={72} cy={196} r={8} />
             </motion.g>
-            <motion.g variants={fizzB}>
+            <motion.g variants={fizzB} custom={ambient}>
               <circle cx={120} cy={198} r={10} />
             </motion.g>
-            <motion.g variants={fizzC}>
+            <motion.g variants={fizzC} custom={ambient}>
               <circle cx={168} cy={196} r={7} />
             </motion.g>
-            <motion.g variants={fizzD}>
+            <motion.g variants={fizzD} custom={ambient}>
               <circle cx={119} cy={200} r={6} />
             </motion.g>
           </motion.g>

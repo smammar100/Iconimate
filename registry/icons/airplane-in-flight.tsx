@@ -16,26 +16,28 @@ const TRAIL = "M224,216a8,8,0,0,1-8,8H72a8,8,0,1,1,0-16H216A8,8,0,0,1,224,216Z";
 
 const planeClimb: Variants = {
   normal: { y: 0, rotate: 0, transition: RETURN_TRANSITION },
-  animate: {
+  // Ambient climb — `repeat` is gated on `ambient` from useHover(), threaded in as motion's
+  // `custom`. Under reduced motion the plane makes one climb-and-descend, then rests.
+  animate: (ambient: boolean) => ({
     y: [0, -18, 0],
     rotate: [0, -5, 0],
-    transition: { duration: 3.6, ease: "easeInOut", repeat: Infinity, repeatType: "loop" },
-  },
+    transition: { duration: 3.6, ease: "easeInOut", repeat: ambient ? Infinity : 0, repeatType: "loop" },
+  }),
 };
 const trailClimb: Variants = {
   normal: { y: 0, opacity: 1, transition: RETURN_TRANSITION },
-  animate: {
+  animate: (ambient: boolean) => ({
     y: [0, -18, 0],
     opacity: [1, 0.5, 1],
-    transition: { duration: 3.6, ease: "easeInOut", repeat: Infinity, repeatType: "loop", delay: 0.22 },
-  },
+    transition: { duration: 3.6, ease: "easeInOut", repeat: ambient ? Infinity : 0, repeatType: "loop", delay: 0.22 },
+  }),
 };
 
 export const AirplaneInFlightIcon = forwardRef<IconHandle, IconProps>(function AirplaneInFlightIcon(
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
   return (
@@ -52,11 +54,13 @@ export const AirplaneInFlightIcon = forwardRef<IconHandle, IconProps>(function A
       >
         <motion.path
           variants={reduced ? undefined : trailClimb}
+          custom={ambient}
           style={{ transformBox: "view-box" }}
           d={TRAIL}
         />
         <motion.path
           variants={reduced ? undefined : planeClimb}
+          custom={ambient}
           style={{ transformBox: "view-box", originX: 0.5, originY: 0.45 }}
           d={PLANE}
         />

@@ -3,13 +3,13 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION, SCROLL_LOOP } from "@/lib/motion-tokens";
+import { RETURN_TRANSITION, scrollLoop } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
 // SCROLL — the arrow rides a wheel inside the static ring, looping toward where it
 // points (down). Principles: ARCS (travel) + SECONDARY ACTION (scale & opacity track
 // the travel — small/faint behind, full at centre, small/faint ahead) + TIMING
-// (symmetric easeInOut cadence via the shared SCROLL_LOOP token).
+// (symmetric easeInOut cadence via the shared scrollLoop token).
 const RING =
   "M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Z";
 const ARROW =
@@ -20,19 +20,19 @@ const ARROW_ORIGIN = { x: 0.5, y: 0.51 };
 
 const scroll: Variants = {
   normal: { y: 0, scale: 1, opacity: 1, transition: RETURN_TRANSITION },
-  animate: {
+  animate: (ambient: boolean) => ({
     y: [-46, 0, 46],
     scale: [0.4, 1, 0.4],
     opacity: [0, 1, 0],
-    transition: SCROLL_LOOP,
-  },
+    transition: scrollLoop(ambient),
+  }),
 };
 
 export const ArrowCircleDownIcon = forwardRef<IconHandle, IconProps>(function ArrowCircleDownIcon(
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
   return (
@@ -51,6 +51,7 @@ export const ArrowCircleDownIcon = forwardRef<IconHandle, IconProps>(function Ar
         <motion.path
           d={ARROW}
           variants={reduced ? undefined : scroll}
+          custom={ambient}
           style={{ transformBox: "view-box", originX: ARROW_ORIGIN.x, originY: ARROW_ORIGIN.y }}
         />
       </motion.svg>

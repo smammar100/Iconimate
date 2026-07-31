@@ -16,7 +16,9 @@ const PLANE =
 
 const thermal: Variants = {
   normal: { y: 0, rotate: 0, scale: 1, transition: RETURN_TRANSITION },
-  animate: {
+  // All three tracks are ambient — `repeat` is gated on `ambient` from useHover(), threaded in
+  // as motion's `custom`. Under reduced motion the thermal plays one climb-and-sink, then rests.
+  animate: (ambient: boolean) => ({
     y: [0, -13, 0],
     rotate: [0, 3, 0, -2, 0],
     scale: [1, 1.03, 1],
@@ -28,20 +30,20 @@ const thermal: Variants = {
           [0.25, 0.6, 0.3, 1], // slow, buoyant climb
           [0.6, 0, 0.75, 0.35], // quicker sink
         ],
-        repeat: Infinity,
+        repeat: ambient ? Infinity : 0,
         repeatType: "loop",
       },
-      rotate: { duration: 4.2, ease: "easeInOut", repeat: Infinity, repeatType: "loop", delay: 0.5 },
-      scale: { duration: 4.2, times: [0, 0.62, 1], ease: "easeInOut", repeat: Infinity, repeatType: "loop" },
+      rotate: { duration: 4.2, ease: "easeInOut", repeat: ambient ? Infinity : 0, repeatType: "loop", delay: 0.5 },
+      scale: { duration: 4.2, times: [0, 0.62, 1], ease: "easeInOut", repeat: ambient ? Infinity : 0, repeatType: "loop" },
     },
-  },
+  }),
 };
 
 export const AirplaneIcon = forwardRef<IconHandle, IconProps>(function AirplaneIcon(
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
   return (
@@ -58,6 +60,7 @@ export const AirplaneIcon = forwardRef<IconHandle, IconProps>(function AirplaneI
       >
         <motion.path
           variants={reduced ? undefined : thermal}
+          custom={ambient}
           style={{ transformBox: "view-box", originX: 0.5, originY: 0.54 }}
           d={PLANE}
         />

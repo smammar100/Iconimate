@@ -15,21 +15,24 @@ const PLANE =
 
 const bank: Variants = {
   normal: { rotate: 0, y: 0, transition: RETURN_TRANSITION },
-  animate: {
+  // Both tracks are ambient — `repeat` is gated on `ambient` from useHover(), threaded in as
+  // motion's `custom`. Under reduced motion each plays once; note they run on different
+  // periods (2.6s / 3.4s) so a single pass loses the drifting-out-of-phase effect by design.
+  animate: (ambient: boolean) => ({
     rotate: [0, 11, -11, 0],
     y: [0, -7, 0, 5, 0],
     transition: {
-      rotate: { duration: 2.6, ease: "easeInOut", repeat: Infinity, repeatType: "loop" },
-      y: { duration: 3.4, ease: "easeInOut", repeat: Infinity, repeatType: "loop" },
+      rotate: { duration: 2.6, ease: "easeInOut", repeat: ambient ? Infinity : 0, repeatType: "loop" },
+      y: { duration: 3.4, ease: "easeInOut", repeat: ambient ? Infinity : 0, repeatType: "loop" },
     },
-  },
+  }),
 };
 
 export const AirplaneTiltIcon = forwardRef<IconHandle, IconProps>(function AirplaneTiltIcon(
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
   return (
@@ -46,6 +49,7 @@ export const AirplaneTiltIcon = forwardRef<IconHandle, IconProps>(function Airpl
       >
         <motion.path
           variants={reduced ? undefined : bank}
+          custom={ambient}
           style={{ transformBox: "view-box", originX: 0.484, originY: 0.516 }}
           d={PLANE}
         />

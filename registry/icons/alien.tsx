@@ -42,10 +42,12 @@ const fill: Variants = {
 // Halo behind the eyes: breathes while hovered.
 const halo: Variants = {
   normal: { opacity: 0, transition: { duration: 0.2 } },
-  animate: {
+  // The breath is the only ambient track here (the eye fill is a one-shot pop), so `repeat`
+  // is gated on `ambient` from useHover(), threaded in as motion's `custom`.
+  animate: (ambient: boolean) => ({
     opacity: [0.4, 0.85, 0.4],
-    transition: { duration: 1.5, ease: "easeInOut", repeat: Infinity },
-  },
+    transition: { duration: 1.5, ease: "easeInOut", repeat: ambient ? Infinity : 0 },
+  }),
 };
 // Reduced motion: still fill + light the eyes, just hold steady (no pop, no breathing).
 const fillReduced: Variants = { normal: { opacity: 0 }, animate: { opacity: 1 } };
@@ -55,7 +57,7 @@ export const AlienIcon = forwardRef<IconHandle, IconProps>(function AlienIcon(
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
 
   // Pick a fresh glow colour on each hover/focus — never the same hue twice in a row.
   // Seeded with the resting green so the first paint (SSR) is deterministic.
@@ -111,6 +113,7 @@ export const AlienIcon = forwardRef<IconHandle, IconProps>(function AlienIcon(
         <path d={MOUTH} />
         <motion.g
           variants={reduced ? haloReduced : halo}
+          custom={ambient}
           fill={glow}
           filter={`url(#${blurId})`}
           style={eyeOrigin}

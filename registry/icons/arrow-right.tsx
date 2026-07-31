@@ -3,26 +3,38 @@
 import { forwardRef, useImperativeHandle } from "react";
 import { motion, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
-import { RETURN_TRANSITION } from "@/lib/motion-tokens";
+import { ARRIVE, RETURN_TRANSITION } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 
-// SPRING — a horizontal squash with the tail (left) anchored: the arrowhead retracts
-// left, then springs back right, overshooting past rest and bouncing to a stop. The
-// height never changes — only the length compresses and stretches.
+// TRAVEL — the arrow goes where it points. It accelerates off the right edge, and while
+// it is genuinely off-frame it is repositioned to the far left and eases back in to rest.
+// A journey, not a rubber band: an arrow that stretches and snaps back in place has gone
+// nowhere, and those keyframes would look the same on any glyph in the set.
+//
+// The travel axis is the arrow's OWN axis — this one points +x, so it leaves right and
+// returns from the left. Direction is the only thing that changes across the family.
 const ARROW =
   "M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z";
-// The tail (left end of the shaft, x=40) — the squash anchor.
-const TAIL = { x: 40 / 256, y: 0.5 };
 
-const squash: Variants = {
-  normal: { scaleX: 1, transition: RETURN_TRANSITION },
+// The glyph spans x40..221.66. +224 puts its trailing edge at 264 (past the 256 box) and
+// -228 puts its leading edge at -6.3, so it is fully invisible at BOTH ends of the jump —
+// which is what licenses the reposition. Measured off the path, not guessed.
+const OUT = 224;
+const BACK = -228;
+
+// Leaving is the one place ease-in is right: a departure does not start at its slowest.
+// The return is the set's shared ARRIVE decelerate. Departure takes a third of the
+// timeline, the arrival two thirds, so the icon reads as coming home rather than fleeing.
+const travel: Variants = {
+  normal: { x: 0, transition: RETURN_TRANSITION },
   animate: {
-    // Squash & stretch + anticipation (the deep 0.5 wind-up) + follow-through (the
-    // diminishing 1.12 → 0.93 → 1.04 overshoot bounce): rest → squash → stretch past
-    // rest → bounce → small overshoot → settle. Deeper than the shared squashStretch()
-    // on purpose — an arrow's length reads as elastic, so the recoil is exaggerated.
-    scaleX: [1, 0.5, 1.12, 0.93, 1.04, 1],
-    transition: { duration: 0.8, ease: "easeInOut", times: [0, 0.26, 0.5, 0.68, 0.85, 1] },
+    x: [0, OUT, BACK, 0],
+    transition: {
+      duration: 0.75,
+      // The 0.0001 gap is the jump nobody sees — off-frame at both keyframes.
+      times: [0, 0.34, 0.3401, 1],
+      ease: ["easeIn", "linear", ARRIVE],
+    },
   },
 };
 
@@ -34,6 +46,8 @@ export const ArrowRightIcon = forwardRef<IconHandle, IconProps>(function ArrowRi
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
   return (
+    // overflow:hidden is load-bearing here, not cosmetic — it is the clip that hides the
+    // reposition. Without it the arrow is visibly teleported across the frame.
     <div {...props} {...bind} style={{ display: "inline-flex", overflow: "hidden", ...style }}>
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
@@ -43,12 +57,11 @@ export const ArrowRightIcon = forwardRef<IconHandle, IconProps>(function ArrowRi
         fill="currentColor"
         initial="normal"
         animate={controls}
-        style={{ overflow: "visible" }}
       >
         <motion.path
           d={ARROW}
-          variants={reduced ? undefined : squash}
-          style={{ transformBox: "view-box", originX: TAIL.x, originY: TAIL.y }}
+          variants={reduced ? undefined : travel}
+          style={{ transformBox: "view-box" }}
         />
       </motion.svg>
     </div>

@@ -15,19 +15,22 @@ const ANCHOR =
 
 const ANCHOR_PIVOT = { x: 0.5, y: 0.219 };
 
+// The sway is ambient (it repeats unattended), so `repeat` is gated on `ambient` from
+// useHover() and threaded in as motion's `custom`. A reduced-motion visitor still gets
+// one full swing on hover — the preview they asked for — and then it rests.
 const sway: Variants = {
   normal: { rotate: 0, transition: RETURN_TRANSITION },
-  animate: {
+  animate: (ambient: boolean) => ({
     rotate: [0, 11, 0, -11, 0],
-    transition: { duration: 2.4, ease: "easeInOut", repeat: Infinity },
-  },
+    transition: { duration: 2.4, ease: "easeInOut", repeat: ambient ? Infinity : 0 },
+  }),
 };
 
 export const AnchorIcon = forwardRef<IconHandle, IconProps>(function AnchorIcon(
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
 
   return (
@@ -44,6 +47,7 @@ export const AnchorIcon = forwardRef<IconHandle, IconProps>(function AnchorIcon(
       >
         <motion.path
           variants={reduced ? undefined : sway}
+          custom={ambient}
           style={{ transformBox: "view-box", originX: ANCHOR_PIVOT.x, originY: ANCHOR_PIVOT.y }}
           d={ANCHOR}
         />

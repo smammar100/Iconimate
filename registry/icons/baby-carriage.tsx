@@ -24,17 +24,26 @@ const WHEEL_L = { x: 66, y: 204, w: 42, h: 40 }; // left tyre  x[66,108] y[204,2
 const WHEEL_R = { x: 172, y: 204, w: 42, h: 40 }; // right tyre x[172,214] y[204,244]
 const CANOPY_HINGE = { transformBox: "view-box" as const, transformOrigin: "152px 104px" };
 
-const LOOP: Transition = { duration: 0.85, times: [0, 0.5, 1], ease: "easeInOut", repeat: Infinity };
+// The suspension bounce is ambient, so `repeat` is gated on `ambient` from useHover() and
+// threaded in as motion's `custom`. Body and canopy must stay on ONE shared transition —
+// the canopy's forward pivot only reads as secondary momentum if it is locked to the same
+// clock as the drop — so the loop stays a single factory both variants call.
+const LOOP = (ambient: boolean): Transition => ({
+  duration: 0.85,
+  times: [0, 0.5, 1],
+  ease: "easeInOut",
+  repeat: ambient ? Infinity : 0,
+});
 
 // Body drops to the suspension limit and back.
 const bodyBounce: Variants = {
   normal: { y: 0, transition: { duration: 0.3, ease: "easeOut" } },
-  animate: { y: [0, 8, 0], transition: LOOP },
+  animate: (ambient: boolean) => ({ y: [0, 8, 0], transition: LOOP(ambient) }),
 };
 // Canopy pivots forward as the body drops (secondary momentum).
 const canopyPivot: Variants = {
   normal: { rotate: 0, transition: { duration: 0.3, ease: "easeOut" } },
-  animate: { rotate: [0, 6, 0], transition: LOOP },
+  animate: (ambient: boolean) => ({ rotate: [0, 6, 0], transition: LOOP(ambient) }),
 };
 
 const rect = (b: { x: number; y: number; w: number; h: number }) =>
@@ -44,7 +53,7 @@ export const BabyCarriageIcon = forwardRef<IconHandle, IconProps>(function BabyC
   { size = 28, style, ...props },
   ref,
 ) {
-  const { controls, reduced, start, stop, bind } = useHover();
+  const { controls, reduced, ambient, start, stop, bind } = useHover();
   useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
   const uid = useId();
   const bodyClip = `bcg-body-${uid}`;
@@ -87,11 +96,11 @@ export const BabyCarriageIcon = forwardRef<IconHandle, IconProps>(function BabyC
         </defs>
 
         {/* Body (handle + basket + canopy) bounces down; canopy adds its pivot. */}
-        <motion.g variants={reduced ? undefined : bodyBounce}>
+        <motion.g variants={reduced ? undefined : bodyBounce} custom={ambient}>
           <g clipPath={`url(#${bodyClip})`}>
             <path d={BABY_CARRIAGE} />
           </g>
-          <motion.g variants={reduced ? undefined : canopyPivot} style={CANOPY_HINGE}>
+          <motion.g variants={reduced ? undefined : canopyPivot} custom={ambient} style={CANOPY_HINGE}>
             <g clipPath={`url(#${canopyClip})`}>
               <path d={BABY_CARRIAGE} />
             </g>
