@@ -210,6 +210,8 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "bell-simple-ringing", name: "Bell Simple Ringing", keywords: ["notification","alert","ring","ringing","simple","sound","notify"] },
   { slug: "bell-simple-slash", name: "Bell Simple Slash", keywords: ["notification","mute","muted","silence","silent","off","disabled","simple"] },
   { slug: "bell-simple-z", name: "Bell Simple Z", keywords: ["notification","snooze","sleep","sleeping","asleep","zzz","do not disturb","dnd","quiet"] },
+  { slug: "bell-slash", name: "Bell Slash", keywords: ["notification","mute","muted","silence","silent","off","disabled","unsubscribe"] },
+  { slug: "bell-z", name: "Bell Z", keywords: ["notification","snooze","sleep","sleeping","asleep","zzz","do not disturb","dnd","quiet"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);

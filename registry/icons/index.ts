@@ -199,6 +199,8 @@ import { BeerBottleIcon } from "./beer-bottle";
 import { BeerSteinIcon } from "./beer-stein";
 import { BehanceLogoIcon } from "./behance-logo";
 import { BellRingingIcon } from "./bell-ringing";
+import { BellSlashIcon } from "./bell-slash";
+import { BellZIcon } from "./bell-z";
 import { BellSimpleIcon } from "./bell-simple";
 import { BellSimpleRingingIcon } from "./bell-simple-ringing";
 import { BellSimpleSlashIcon } from "./bell-simple-slash";
@@ -417,6 +419,8 @@ export const icons: IconEntry[] = [
   { slug: "bell-simple-ringing", name: "Bell Simple Ringing", keywords: ["notification", "alert", "ring", "ringing", "simple", "sound", "notify"], Component: BellSimpleRingingIcon },
   { slug: "bell-simple-slash", name: "Bell Simple Slash", keywords: ["notification", "mute", "muted", "silence", "silent", "off", "disabled", "simple"], Component: BellSimpleSlashIcon },
   { slug: "bell-simple-z", name: "Bell Simple Z", keywords: ["notification", "snooze", "sleep", "sleeping", "asleep", "zzz", "do not disturb", "dnd", "quiet"], Component: BellSimpleZIcon },
+  { slug: "bell-slash", name: "Bell Slash", keywords: ["notification", "mute", "muted", "silence", "silent", "off", "disabled", "unsubscribe"], Component: BellSlashIcon },
+  { slug: "bell-z", name: "Bell Z", keywords: ["notification", "snooze", "sleep", "sleeping", "asleep", "zzz", "do not disturb", "dnd", "quiet"], Component: BellZIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -444,6 +448,8 @@ export {
   BellSimpleRingingIcon,
   BellSimpleSlashIcon,
   BellSimpleZIcon,
+  BellSlashIcon,
+  BellZIcon,
   HeartIcon,
   StarIcon,
   BookmarkIcon,

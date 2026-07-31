@@ -72,7 +72,13 @@ currently **two** such icons:
   scale frees one. Consumers swapping the static Phosphor ambulance for this one get a ~14% smaller
   glyph. Restoring full size means dropping the streaks — they cannot both fit. Do not "fix" this.
 
-- **`bell-simple-slash`** rests **832 pixels (1.3%)** off the Phosphor mark. Phosphor does not
+- **`bell-simple-slash`** (and **`bell-slash`**, identically) rests **12,447 pixels — 5.9%** off
+  the Phosphor mark, counting only pixels that flip ink/no-ink so antialiasing cannot inflate
+  the figure. An earlier note here said "832 pixels (1.3%)"; that was a narrower measurement
+  reported as the rest-state deviation and understated it about fifteenfold. Most of the real
+  figure is **clearance**: Phosphor leaves white margins either side of the slash where it
+  crosses the outline, and these have the outline touching it, so the slash merges with the
+  bell instead of cutting a channel through it. Phosphor does not
   overlay a slash on a whole bell — it redraws the bell with the dome's upper-left and the collar's
   right *omitted* where the slash crosses, so the outline stops against the slash. That geometry
   cannot be animated: the slash has no separate path to draw, and the gaps sit in the bell as a

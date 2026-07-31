@@ -23,9 +23,22 @@ import type { IconHandle, IconProps } from "@/lib/icon";
 //     arrives, and making the cut follow the stroke is worse still — the source's own slash
 //     then stays visible ahead of it, so the slash looks fully drawn from the first frame.
 // So the bell is drawn from bell-simple's own whole geometry and the slash is simply stroked
-// over it. The trade is explicit: at rest this is 832 pixels (1.3%) different from the source
-// glyph, the outline running continuously beneath the slash instead of stopping at it. That
-// is visible only on inspection, and it buys a slash that actually draws.
+// over it, running continuously beneath rather than stopping against it.
+//
+// THE TRADE IS 12,447 PIXELS — 5.9% of the glyph's ink. That counts only pixels which flip
+// ink/no-ink, so antialiasing cannot inflate it: 12,447 drawn here but absent from the source,
+// and 10 the other way. An earlier revision of this comment claimed "832 pixels (1.3%)", which
+// was a narrower measurement stated as if it were the rest-state deviation and understated it
+// by roughly fifteen times. Almost all of the real figure is CLEARANCE — Phosphor leaves white
+// margins on both sides of the slash where it crosses the outline, and here the outline
+// touches it instead, so the slash merges with the bell rather than cutting a channel through
+// it. bell-slash measures identically, to the pixel, for the same reason.
+//
+// That is more than "visible only on inspection", and it is still the accepted trade because
+// it buys a slash that actually draws. If it ever needs closing, the untried route is a mask
+// over the WHOLE geometry with the cut following the stroke: both failures recorded above were
+// on the SOURCE geometry, where the source's own slash defeats them, and neither objection
+// applies once the geometry carries no slash of its own.
 //
 // EVERY NUMBER IS MEASURED OFF THE PATH.
 //   · the slash is a 16-wide round-capped stroke whose caps centre on (48,40) and (208,216),
@@ -76,7 +89,12 @@ const slash: Variants = {
     opacity: [0, 0, 1, 1],
     transition: {
       pathLength: { duration: 0.95, times: [0, 0.42, 0.66, 1], ease: [0.4, 0, 0.2, 1] },
-      opacity: { duration: 0.95, times: [0, 0.43, 0.48, 1], ease: "linear" },
+      // The fade must finish AFTER the stroke has outgrown its own cap, not merely after it
+      // starts. The cap is 8 units in radius, so the mark stops reading as a dot past ~0.033
+      // of the length, which this eased ramp reaches at 0.445. Ending the fade at 0.48 — as
+      // an earlier revision did — leaves a ~10ms window at 20% opacity showing a 2.4-unit
+      // stub: measured at 6 frames on the sibling. Ending at 0.50 removes it.
+      opacity: { duration: 0.95, times: [0, 0.45, 0.5, 1], ease: "linear" },
     },
   },
 };
