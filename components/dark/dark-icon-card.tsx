@@ -75,9 +75,9 @@ export function DarkIconCard({
       <span className="dc-card__actions">
         <button
           type="button"
-          className="dc-card__action"
+          className="dc-card__action dc-tip"
           aria-label={`Copy ${name} .tsx code`}
-          title="Copy .tsx code"
+          data-tip="Copy .tsx code"
           onClick={(e) => {
             e.stopPropagation();
             onAction("copy-code", slug, name);
@@ -87,9 +87,9 @@ export function DarkIconCard({
         </button>
         <button
           type="button"
-          className="dc-card__action"
+          className="dc-card__action dc-tip"
           aria-label={`Copy ${name} shadcn CLI command`}
-          title="Copy shadcn CLI command"
+          data-tip="Copy shadcn CLI command"
           onClick={(e) => {
             e.stopPropagation();
             onAction("copy-cli", slug, name);
@@ -99,9 +99,9 @@ export function DarkIconCard({
         </button>
         <button
           type="button"
-          className="dc-card__action"
+          className="dc-card__action dc-tip"
           aria-label={`Copy ${name} AI prompt`}
-          title="Copy AI prompt"
+          data-tip="Copy AI prompt"
           onClick={(e) => {
             e.stopPropagation();
             onAction("copy-prompt", slug, name);

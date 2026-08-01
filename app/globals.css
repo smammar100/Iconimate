@@ -61,6 +61,13 @@ body {
   --gray-800: #7d7d7d;
   --gray-900: #4d4d4d;
   --gray-1000: #171717;
+  /* Tooltip is an INVERTED surface — near-black on light, white on dark — so it
+     reads as an overlay sitting above the page rather than another card. Set
+     explicitly rather than reusing --gray-1000, because that token flips with
+     the theme (#171717 light, #ededed dark) and would give a light-on-light
+     tooltip in dark mode. */
+  --tooltip-bg: #171717;
+  --tooltip-fg: #ffffff;
   --gray-alpha-100: #0000000d;
   --gray-alpha-200: #00000015;
   --gray-alpha-300: #0000001a;
@@ -205,6 +212,8 @@ body {
   --gray-800: #a1a1a1;
   --gray-900: #ededed;
   --gray-1000: #ededed;
+  --tooltip-bg: #ffffff;
+  --tooltip-fg: #0a0a0a;
   --gray-alpha-100: #ffffff0f;
   --gray-alpha-200: #ffffff14;
   --gray-alpha-300: #ffffff1f;
@@ -944,6 +953,73 @@ body {
   color: var(--text-strong);
   background: var(--gray-alpha-100);
   border-color: var(--border);
+}
+
+/* ── Tooltip ───────────────────────────────────────────────────────────────
+   Replaces the native `title` bubble, which can't be styled, sits wherever the
+   OS puts it, and waits ~1s before appearing.
+
+   CSS-only, off a `data-tip` attribute. There is no JS and no portal because
+   the card is `position: relative` with no overflow clipping, so a positioned
+   pseudo-element escapes it cleanly — and a tooltip that costs zero runtime is
+   worth having on 194 cards.
+
+   IT IS NOT AN ACCESSIBLE NAME. Every button keeps its own `aria-label`, which
+   is what screen readers announce; this is decoration on top, so it is
+   `aria-hidden` by virtue of being a pseudo-element and the `title` attribute
+   is REMOVED — leaving both would show two bubbles at once. */
+.dc-tip {
+  position: relative;
+}
+.dc-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  /* Left of the button: the toolbar hugs the card's right edge, so opening
+     rightward would push the bubble off-screen on the last column. */
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%) translateX(3px);
+  z-index: 20;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-fg);
+  font-family: var(--ui-font);
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 450;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: var(--shadow-2);
+  opacity: 0;
+  visibility: hidden;
+  /* Never let the bubble eat the click meant for the button under it. */
+  pointer-events: none;
+  transition: opacity 0.12s var(--ease), transform 0.12s var(--ease),
+    visibility 0.12s var(--ease);
+}
+/* Hover only where hover exists — on touch the toolbar is already a persistent
+   row and a bubble would just cover the next button. Focus-visible is kept
+   outside the query so keyboard users get it on every device. */
+@media (hover: hover) and (pointer: fine) {
+  .dc-tip:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+    /* Delay on show, none on hide: sweeping across three buttons shouldn't
+       flash three bubbles, but moving away should clear instantly. */
+    transition-delay: 0.35s;
+  }
+}
+.dc-tip:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .dc-tip::after {
+    transition: none;
+  }
 }
 /* Coarse pointers have no hover, and the card's own tap is already bound to
    copy-CLI — so a tap-to-reveal toolbar would fight the card's primary action.
