@@ -271,10 +271,15 @@ export function HeroTiles({
               pure CSS (fh-rise) — it paints and animates immediately at first
               paint instead of waiting for JS hydration like Motion's
               SSR-inlined `opacity: 0` would. */}
-          <h1 className="fh-title fh-rise">Animated icons that earn their motion</h1>
+          {/* The break lives at the comma — the clause boundary — not wherever the
+              container happens to run out. `fh-title-line` keeps each clause whole. */}
+          <h1 className="fh-title fh-rise">
+            <span className="fh-title-line">Every motion has a reason,</span>{" "}
+            <span className="fh-title-line">nothing moves without meaning</span>
+          </h1>
           <p className="fh-sub fh-rise" style={{ animationDelay: "90ms" }}>
-            Open-source React icons, hand-drawn on the Phosphor 256 grid and tuned to read at 24px.
-            Hover any tile to watch it move.
+            Open-source animated icons that combine thoughtful motion, precise geometry, and
+            developer-friendly implementation.
           </p>
           <div className="fh-cta-row fh-rise" style={{ animationDelay: "180ms" }}>
             <span className="dc-install-block">

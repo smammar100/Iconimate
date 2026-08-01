@@ -1562,14 +1562,27 @@ body {
 
 .fh-title {
   font-family: var(--heading-font);
-  /* sized so "Animated icons that / earn their motion" breaks as two lines */
-  font-size: clamp(36px, 4vw, 56px);
-  line-height: 1.06;
+  /* "Every motion has a reason, / nothing moves without meaning" — the break is
+     forced at the comma by .fh-title-line, so the size only has to keep the
+     longer clause (29 chars) on one line. 57 chars total runs ~1.5x the old
+     tagline, hence the smaller cap. */
+  font-size: clamp(32px, 3.6vw, 48px);
+  line-height: 1.08;
   letter-spacing: -0.035em;
   font-weight: 600;
   color: var(--text-strong);
   margin: 0;
-  max-width: 640px;
+  max-width: 760px;
+}
+/* Each clause is a block on wide screens so the comma is the break point; on
+   narrow screens they revert to inline and wrap naturally. */
+.fh-title-line {
+  display: block;
+}
+@media (max-width: 599px) {
+  .fh-title-line {
+    display: inline;
+  }
 }
 .fh-sub {
   font-family: var(--ui-font);
