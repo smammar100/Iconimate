@@ -26,7 +26,7 @@ export const REPO_URL = "https://github.com/smammar100/Iconimate";
 export const ICON_COUNT = visibleIconMeta.length;
 
 /** Brand line. Drives the hero and the OG image, not the <title> — see META_TITLE. */
-export const TAGLINE = "Animated icons that earn their motion";
+export const TAGLINE = "Every motion has a reason, nothing moves without meaning";
 
 /**
  * The homepage <title>. Deliberately not `SITE_NAME — TAGLINE`: the tagline is
@@ -40,9 +40,10 @@ export const META_TITLE = `${SITE_NAME} — Animated Icon Library for React`;
 /** One-paragraph, quotable description of the project. */
 export const SITE_DESCRIPTION =
   "Iconimate is a free, open-source library of animated SVG icons for React, " +
-  "hand-drawn on the Phosphor 256 grid and tuned to read at 24px. Each icon " +
-  "ships as a self-contained component you install through the shadcn registry, " +
-  "with spring-physics motion that plays on hover and keyboard focus.";
+  "built on Phosphor's glyphs and tuned to read at 24px. Phosphor drew the " +
+  "icons; Iconimate adds the motion, derived from each glyph's own geometry. " +
+  "Each one ships as a self-contained component you install through the shadcn " +
+  "registry, with spring-physics motion that plays on hover and keyboard focus.";
 
 /**
  * The <meta name="description"> / OG / Twitter description. Separate from
@@ -74,9 +75,10 @@ export const FAQ: FaqItem[] = [
   {
     question: "What is Iconimate?",
     answer:
-      `Iconimate is a free, open-source set of ${ICON_COUNT} animated React icons built on the ` +
-      "Phosphor 256 grid and tuned to read at 24px. Every icon carries its own hand-tuned motion " +
-      "that plays on hover and keyboard focus.",
+      `Iconimate is a free, open-source set of ${ICON_COUNT} animated React icons built on ` +
+      "Phosphor's glyphs and tuned to read at 24px. Phosphor drew the icons; Iconimate adds the " +
+      "motion — every icon carries its own, derived from the glyph's geometry and played on hover " +
+      "and keyboard focus.",
   },
   {
     question: "Is Iconimate free?",

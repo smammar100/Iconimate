@@ -48,7 +48,7 @@ export function CtaFooter({ count }: { count: number }) {
           Open source · MIT · {count} icons
         </span>
         <h2 id="cta-heading" className="cta__title">
-          Icons that earn their motion.
+          Nothing moves without meaning.
         </h2>
         <p className="cta__sub">
           Free and open source. Star the repo to follow along as the set grows.

@@ -2,12 +2,13 @@
 
 # Iconimate
 
-**A hand-built set of animated icons. Spring motion, hover magic.**
+**Every motion has a reason, nothing moves without meaning.**
 
-Open source React icons, hand drawn on the Phosphor 256 grid and tuned to read at 24px.
+Open-source React icons built on [Phosphor](https://phosphoricons.com)'s glyphs — Phosphor drew
+them, the motion is ours, derived from each icon's own geometry. Tuned to read at 24px.
 Hover any glyph and watch it come alive.
 
-`162 icons` &middot; `MIT licensed` &middot; `React 19` &middot; `Next.js 16` &middot; `motion`
+`194 icons` &middot; `MIT licensed` &middot; `React 19` &middot; `Next.js 16` &middot; `motion`
 
 </div>
 
@@ -17,9 +18,15 @@ Hover any glyph and watch it come alive.
 
 Most icon sets hand you a static SVG and call it a day. Iconimate ships icons that **move with intent**. Every glyph carries its own little performance: a bell that swings, an anchor that sways on its ring, an ambulance that races past with blinking lights, a tiny Android that hops and waggles its antennae.
 
+The drawings are not ours. Phosphor's glyphs are the starting point and stay **pixel-identical at
+rest** — swap a static Phosphor icon for the matching Iconimate one and nothing shifts until you
+hover it. What this project adds is the motion, and every angle and offset in it is measured off
+the glyph's own path rather than eyeballed: a bell swings from its crown because that is where the
+geometry says it hangs.
+
 Each icon is:
 
-- **Drawn on the Phosphor 256 grid** so the whole set shares one visual language.
+- **Built on the Phosphor 256 grid** so the whole set shares one visual language.
 - **Animated with [motion](https://motion.dev)** using a shared dialect of springs and easing curves, so nothing feels out of place.
 - **Hover and focus aware** out of the box, with an imperative handle for touch devices where `:hover` never fires.
 - **Small and legible**, with hover and focus motions kept short and subtle so they read at 24px.
@@ -133,3 +140,8 @@ New icons are welcome. Match the existing pattern: draw on the 256 grid, pick a 
 ## License
 
 MIT. Use them anywhere, animate everything.
+
+The glyphs themselves are [Phosphor Icons](https://phosphoricons.com), also MIT, copyright (c)
+2023 Phosphor Icons. Every registry item ships Phosphor path data, so that notice travels with
+the icons — it is reproduced in full in [LICENSE](LICENSE) alongside this project's own. The
+animation code is this project's.

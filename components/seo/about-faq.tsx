@@ -14,9 +14,10 @@ export function AboutFaq() {
           What is Iconimate?
         </h2>
         <p className="dc-about__text">
-          Iconimate is a free, open-source library of {ICON_COUNT} animated React icons built on the
-          Phosphor 256 grid and tuned to read at 24px. Each icon ships as a self-contained component
-          you install through the shadcn registry, and every glyph carries its own hand-tuned
+          Iconimate is a free, open-source library of {ICON_COUNT} animated React icons built on
+          Phosphor&apos;s glyphs and tuned to read at 24px. Phosphor drew the icons; Iconimate adds
+          the motion, derived from each glyph&apos;s own geometry. Each one ships as a
+          self-contained component you install through the shadcn registry, and carries its own
           spring motion that plays on hover and keyboard focus. It is MIT licensed and free for
           personal and commercial use. The source is on{" "}
           <a href={REPO_URL} target="_blank" rel="noreferrer">
