@@ -204,6 +204,11 @@ import { BellZIcon } from "./bell-z";
 import { BellSimpleIcon } from "./bell-simple";
 import { BellSimpleRingingIcon } from "./bell-simple-ringing";
 import { BellSimpleSlashIcon } from "./bell-simple-slash";
+import { BeltIcon } from "./belt";
+import { BezierCurveIcon } from "./bezier-curve";
+import { BicycleIcon } from "./bicycle";
+import { BinaryIcon } from "./binary";
+import { BinocularsIcon } from "./binoculars";
 import { BellSimpleZIcon } from "./bell-simple-z";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
@@ -421,6 +426,11 @@ export const icons: IconEntry[] = [
   { slug: "bell-simple-z", name: "Bell Simple Z", keywords: ["notification", "snooze", "sleep", "sleeping", "asleep", "zzz", "do not disturb", "dnd", "quiet"], Component: BellSimpleZIcon },
   { slug: "bell-slash", name: "Bell Slash", keywords: ["notification", "mute", "muted", "silence", "silent", "off", "disabled", "unsubscribe"], Component: BellSlashIcon },
   { slug: "bell-z", name: "Bell Z", keywords: ["notification", "snooze", "sleep", "sleeping", "asleep", "zzz", "do not disturb", "dnd", "quiet"], Component: BellZIcon },
+  { slug: "belt", name: "Belt", keywords: ["belt", "buckle", "strap", "leather", "waist", "fasten", "buckle up", "tighten", "cinch", "accessory"], Component: BeltIcon },
+  { slug: "bezier-curve", name: "Bezier Curve", keywords: ["bezier", "curve", "vector", "path", "anchor", "control point", "handle", "tangent", "pen tool", "node", "spline", "illustrator", "design"], Component: BezierCurveIcon },
+  { slug: "bicycle", name: "Bicycle", keywords: ["bicycle", "bike", "cycling", "cycle", "ride", "pedal", "wheels", "transport", "commute", "exercise", "sport", "eco"], Component: BicycleIcon },
+  { slug: "binary", name: "Binary", keywords: ["binary", "bits", "bit", "code", "data", "digital", "computer", "computing", "machine code", "zeros and ones", "developer", "programming", "encoding"], Component: BinaryIcon },
+  { slug: "binoculars", name: "Binoculars", keywords: ["binoculars", "search", "find", "explore", "discover", "look", "watch", "observe", "scout", "lookout", "zoom", "magnify", "vision", "spot", "survey"], Component: BinocularsIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -450,6 +460,11 @@ export {
   BellSimpleZIcon,
   BellSlashIcon,
   BellZIcon,
+  BeltIcon,
+  BezierCurveIcon,
+  BicycleIcon,
+  BinaryIcon,
+  BinocularsIcon,
   HeartIcon,
   StarIcon,
   BookmarkIcon,

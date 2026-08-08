@@ -212,6 +212,11 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "bell-simple-z", name: "Bell Simple Z", keywords: ["notification","snooze","sleep","sleeping","asleep","zzz","do not disturb","dnd","quiet"] },
   { slug: "bell-slash", name: "Bell Slash", keywords: ["notification","mute","muted","silence","silent","off","disabled","unsubscribe"] },
   { slug: "bell-z", name: "Bell Z", keywords: ["notification","snooze","sleep","sleeping","asleep","zzz","do not disturb","dnd","quiet"] },
+  { slug: "belt", name: "Belt", keywords: ["belt","buckle","strap","leather","waist","fasten","buckle up","tighten","cinch","accessory"] },
+  { slug: "bezier-curve", name: "Bezier Curve", keywords: ["bezier","curve","vector","path","anchor","control point","handle","tangent","pen tool","node","spline","illustrator","design"] },
+  { slug: "bicycle", name: "Bicycle", keywords: ["bicycle","bike","cycling","cycle","ride","pedal","wheels","transport","commute","exercise","sport","eco"] },
+  { slug: "binary", name: "Binary", keywords: ["binary","bits","bit","code","data","digital","computer","computing","machine code","zeros and ones","developer","programming","encoding"] },
+  { slug: "binoculars", name: "Binoculars", keywords: ["binoculars","search","find","explore","discover","look","watch","observe","scout","lookout","zoom","magnify","vision","spot","survey"] },
 ];
 
 export const HOME_HIDDEN_SLUGS = new Set<string>(["heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
