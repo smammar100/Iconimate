@@ -7,6 +7,12 @@
       "runtimeArgs": ["dev"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "Sanity Studio",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--dir", "apps/studio-iconimate", "run", "dev", "--", "--port", "3333"],
+      "port": 3333
     }
   ]
 }
