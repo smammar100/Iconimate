@@ -67,6 +67,24 @@ different picture, and says so out loud in the file's header. That is a design d
 tolerance — the new rest must still be exact, just exact to the *new* intended picture. There are
 currently **two** such icons:
 
+> **A scaled body does not have to cost rendered size — `bicycle` shows the way out.** It needs a
+> lane and has none (ink bbox x[0, 255.75]; wheels r48 at (48,160) and (208,160), touching both walls
+> at the equator), so its body is drawn at 0.824 *inside the viewBox* — but the `svg` is rendered at
+> `size / 0.824` and pulled back by a negative margin of half the difference. The layout box stays
+> `size`, the body renders at `0.824 × size/0.824 = size` (identical pixels-per-unit to an unscaled
+> glyph), and the freed 17.6% becomes room **outside** the box for the travel and streaks. Shipping
+> the scale *without* the compensating box is what makes an icon read as ~18% too small in a grid —
+> that happened, and was caught in review. The three numbers move together or not at all. The trade
+> is overflow, not size: nothing paints outside the box at rest, only while playing, which is the
+> same trade `airplane-taxiing` makes.
+>
+> Two more bicycle findings worth keeping: the glyph *does* have a generous lane **higher up** — the
+> left margin is empty out to x41 at y60, x85 at y96, and rows above y56 are empty edge to edge, so
+> wind can live there at full size and only **travel** needs the horizontal lane. And the wheels
+> deliberately do **not** spin: they are plain rings, and a circle rotated about its centre is itself,
+> so no rotation is visible at any speed. Spokes would be needed and are not in the mark; prototyped
+> in `app/lab/bicycle/page.tsx` and not taken.
+
 - **`ambulance`** rests at **0.86 scale** about the artboard centre. The source van spans x16..256 and
   touches the right edge, so there is no lane for the speed streaks that make it read as racing; the
   scale frees one. Consumers swapping the static Phosphor ambulance for this one get a ~14% smaller
