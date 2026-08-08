@@ -8,7 +8,7 @@ export interface IconMetaEntry {
 
 export const iconMeta: IconMetaEntry[] = [
   { slug: "heart", name: "Heart", keywords: ["like","love","favorite"] },
-  { slug: "star", name: "Star", keywords: ["favorite","rate","review"] },
+  { slug: "star", name: "Star", keywords: ["favorite","favourite","rate","rating","review","like","bookmark","save","wishlist","quality"] },
   { slug: "bookmark", name: "Bookmark", keywords: ["save","read later","flag"] },
   { slug: "sun", name: "Sun", keywords: ["light","theme","day","weather"] },
   { slug: "arrow-right", name: "Arrow Right", keywords: ["send","next","forward","go"] },
@@ -219,6 +219,6 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "binoculars", name: "Binoculars", keywords: ["binoculars","search","find","explore","discover","look","watch","observe","scout","lookout","zoom","magnify","vision","spot","survey"] },
 ];
 
-export const HOME_HIDDEN_SLUGS = new Set<string>(["heart","star","bookmark","sun","arrow-right","bolt","moon","camera","trash","cloud","mail"]);
+export const HOME_HIDDEN_SLUGS = new Set<string>(["heart","bookmark","sun","arrow-right","bolt","moon","camera","cloud","mail"]);
 
 export const visibleIconMeta: IconMetaEntry[] = iconMeta.filter((e) => !HOME_HIDDEN_SLUGS.has(e.slug));

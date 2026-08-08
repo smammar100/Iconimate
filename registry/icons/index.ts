@@ -222,7 +222,7 @@ export interface IconEntry {
 
 export const icons: IconEntry[] = [
   { slug: "heart", name: "Heart", keywords: ["like", "love", "favorite"], Component: HeartIcon },
-  { slug: "star", name: "Star", keywords: ["favorite", "rate", "review"], Component: StarIcon },
+  { slug: "star", name: "Star", keywords: ["favorite", "favourite", "rate", "rating", "review", "like", "bookmark", "save", "wishlist", "quality"], Component: StarIcon },
   { slug: "bookmark", name: "Bookmark", keywords: ["save", "read later", "flag"], Component: BookmarkIcon },
   { slug: "sun", name: "Sun", keywords: ["light", "theme", "day", "weather"], Component: SunIcon },
   { slug: "arrow-right", name: "Arrow Right", keywords: ["send", "next", "forward", "go"], Component: ArrowRightIcon },
@@ -436,14 +436,12 @@ export const icons: IconEntry[] = [
 /** Slugs hidden from the public home page (still in the registry and installable). */
 export const HOME_HIDDEN_SLUGS = new Set<string>([
   "heart",
-  "star",
   "bookmark",
   "sun",
   "arrow-right",
   "bolt",
   "moon",
   "camera",
-  "trash",
   "cloud",
   "mail",
 ]);
