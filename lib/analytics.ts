@@ -10,8 +10,12 @@
  */
 import posthog from "posthog-js";
 
-/** Mirrors the guard in instrumentation-client.ts — unconfigured means silent. */
-const ENABLED = Boolean(process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NEXT_PUBLIC_POSTHOG_HOST);
+/** Mirrors the guard in components/posthog-init.tsx — unconfigured means silent.
+ *  Both token names are accepted; see the note there for why. */
+const ENABLED = Boolean(
+  (process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN || process.env.NEXT_PUBLIC_POSTHOG_KEY) &&
+    process.env.NEXT_PUBLIC_POSTHOG_HOST,
+);
 
 /** What the visitor copied. Matches the three actions the gallery dispatches. */
 export type CopyType = "copy-cli" | "copy-code" | "copy-prompt";

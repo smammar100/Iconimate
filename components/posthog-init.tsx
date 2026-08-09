@@ -28,7 +28,13 @@ import posthog from "posthog-js";
  */
 export function PostHogInit() {
   useEffect(() => {
-    const KEY = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+    // Two accepted names. `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` is what the PostHog
+    // integration already merged to main used, so it may already be configured in
+    // Vercel; `NEXT_PUBLIC_POSTHOG_KEY` is PostHog's own documented name. Reading
+    // both means neither deployment breaks on this merge. Must be inlined
+    // statically — Next replaces `process.env.NEXT_PUBLIC_*` at build time, so
+    // these cannot be looked up dynamically.
+    const KEY = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN || process.env.NEXT_PUBLIC_POSTHOG_KEY;
     const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST;
     // Unconfigured means silent — a missing key must never break the page.
     if (!KEY || !HOST) return;
