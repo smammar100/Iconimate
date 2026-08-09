@@ -1,12 +1,13 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 import { BorderBeam } from "border-beam";
 import { iconMeta, visibleIconMeta, type IconMetaEntry } from "@/registry/icon-meta.gen";
 import { LAZY_ICONS } from "@/registry/lazy-icons.gen";
 import type { IconHandle } from "@/lib/icon";
 import { installCommandParts, metaFor, PACKAGE_MANAGERS, type PackageManager } from "./icon-meta";
+import { capturePackageManagerSelected } from "@/lib/analytics";
 
 // The slug that rotates through the hero install command. A hand-picked set of
 // recognisable icons, validated against the registry so a rename can't leave a
@@ -291,7 +292,13 @@ export function HeroTiles({
                     role="tab"
                     aria-selected={pm === p}
                     className={`dc-install__tab dc-mono${pm === p ? " is-active" : ""}`}
-                    onClick={() => setPm(p)}
+                    onClick={() => {
+                      // Guarded inside the capture helper: clicking the already
+                      // active tab is not a preference change and would inflate
+                      // whichever tab is the default.
+                      capturePackageManagerSelected(p, pm);
+                      setPm(p);
+                    }}
                   >
                     {p}
                   </button>
@@ -314,9 +321,19 @@ export function HeroTiles({
                       — no width jitter per swap, no wrap shifting the hero
                       vertically. Inside, the slug slot glides between slug
                       widths so ".json" follows smoothly instead of snapping. */}
+                  {/* Handed to CSS as a custom property rather than a hard
+                      min-width: an inline min-width outranks every stylesheet rule,
+                      so below 600px it pinned the box to ~59ch (~460px) inside a
+                      ~359px pill and the command was clipped with no way to scroll
+                      it. As a variable, the narrow breakpoint can drop the
+                      reservation — where it isn't needed anyway, because a
+                      viewport-clamped box is already at a fixed width and cannot
+                      jitter between slugs. */}
                   <span
                     className="dc-install__cmd"
-                    style={{ minWidth: `${before.length + slugCh + after.length}ch` }}
+                    style={
+                      { "--cmd-min": `${before.length + slugCh + after.length}ch` } as CSSProperties
+                    }
                   >
                     {before}
                     {reduceMotion ? (
