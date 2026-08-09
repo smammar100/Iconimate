@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import posthog from "posthog-js";
 import type { IconView } from "@/lib/sanity/icons";
 import { DarkIconCard, type IconAction } from "@/components/dark/dark-icon-card";
 import { CommandPalette } from "@/components/dark/command-palette";
@@ -149,6 +150,11 @@ export function Gallery({ icons }: { icons: IconView[] }) {
           message = `Copied ${name} install command`;
         }
         await navigator.clipboard.writeText(text);
+        posthog.capture("icon_copied", {
+          icon_slug: slug,
+          copy_type: kind,
+          package_manager: kind === "copy-cli" ? pm : undefined,
+        });
       } catch {
         message = `Couldn’t copy ${name}`;
       }
