@@ -219,6 +219,10 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "binoculars", name: "Binoculars", keywords: ["binoculars","search","find","explore","discover","look","watch","observe","scout","lookout","zoom","magnify","vision","spot","survey"] },
 ];
 
-export const HOME_HIDDEN_SLUGS = new Set<string>(["heart","bookmark","sun","arrow-right","bolt","moon","camera","cloud","mail"]);
+export const HOME_HIDDEN_SLUGS = new Set<string>(["bookmark","sun","arrow-right","bolt","moon","camera","cloud","mail"]);
 
 export const visibleIconMeta: IconMetaEntry[] = iconMeta.filter((e) => !HOME_HIDDEN_SLUGS.has(e.slug));
+
+/** Most recently authored icons, newest first — see iconRecency() in the generator.
+ *  Empty when git history is unavailable, so consumers must fall back gracefully. */
+export const RECENT_SLUGS: string[] = ["heart","trash","star","binoculars","binary","bicycle","bezier-curve","belt","bell-z","bell-slash","bell-simple-slash","bell-simple-z"];
