@@ -456,6 +456,41 @@ function iconRecency(slugList) {
   return stamps;
 }
 
+/**
+ * Keep the README's icon counts honest.
+ *
+ * This file has now carried three different wrong numbers — 194 and 162 in the two
+ * prose spots, then 210 in the badge — because every one of them was typed by hand
+ * and nothing re-checked them. The app never had this problem: lib/seo.ts derives
+ * ICON_COUNT from the live list and /docs, /compare, /llms.txt and the JSON-LD all
+ * read it, so they cannot drift. The README was the only surface still asserting a
+ * literal, and it is the first thing anyone sees.
+ *
+ * The number used is the VISIBLE count, matching the gallery's own "All Icons N"
+ * heading. The 8 slugs in HOME_HIDDEN_SLUGS are installable but not shown, and a
+ * README that claims more icons than the site displays reads as inflated.
+ *
+ * Deliberately narrow regexes — this rewrites a hand-authored file, so it should
+ * touch the counts and nothing else, and stay a no-op when they are already right.
+ */
+function syncReadmeCount(visibleCount) {
+  const path = join(ROOT, "README.md");
+  let src;
+  try {
+    src = readFileSync(path, "utf8");
+  } catch {
+    return; // no README (tarball consumer) — nothing to keep in sync
+  }
+  const updated = src
+    .replace(/Icons-\d+-6E7681\.svg/g, `Icons-${visibleCount}-6E7681.svg`)
+    .replace(/alt="\d+ icons"/g, `alt="${visibleCount} icons"`)
+    .replace(/^\d+ icons and counting,/m, `${visibleCount} icons and counting,`);
+  if (updated !== src) {
+    writeFileSync(path, updated);
+    console.log(`registry: README icon count -> ${visibleCount}`);
+  }
+}
+
 const recency = iconRecency([...entries.keys()]);
 // Ties are common — a batch of icons lands in one commit — so index order breaks
 // them, keeping the result deterministic instead of dependent on Map iteration.
@@ -487,6 +522,9 @@ export const visibleIconMeta: IconMetaEntry[] = iconMeta.filter((e) => !HOME_HID
 export const RECENT_SLUGS: string[] = ${JSON.stringify(recentSlugs)};
 `;
 writeFileSync(join(ROOT, "registry", "icon-meta.gen.ts"), metaOut);
+
+// Same figure the gallery heading shows, so the README can never disagree with the site.
+syncReadmeCount(entries.size - hiddenSlugs.length);
 
 const lazyOut = `"use client";
 ${GEN_HEADER}
