@@ -38,6 +38,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the template, which is documentation and holds placeholders only.
+# `.env*` above is deliberately broad, so the exception has to be explicit.
+!.env.example
 
 # vercel
 .vercel

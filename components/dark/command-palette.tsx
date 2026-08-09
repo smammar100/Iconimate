@@ -4,17 +4,25 @@ import { Suspense, useEffect, useId, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion as m } from "motion/react";
 import type { IconView } from "@/lib/sanity/icons";
 import { LAZY_ICONS } from "@/registry/lazy-icons.gen";
+import { RECENT_SLUGS } from "@/registry/icon-meta.gen";
 import type { IconHandle } from "@/lib/icon";
 import type { IconAction } from "./dark-icon-card";
 
-const RECENT = [
-  "airplane-tilt",
-  "airplane-taxiing",
-  "airplane-takeoff",
-  "airplane-landing",
-  "airplane-in-flight",
-  "airplane",
-];
+/**
+ * How many icons "Recently Added" shows.
+ *
+ * The ORDER comes from RECENT_SLUGS, which the generator computes from git's
+ * last-commit date per icon file. Two earlier attempts were both wrong:
+ *   1. a hardcoded array of six airplane slugs, which froze the section in place
+ *      while every icon added afterwards never appeared;
+ *   2. the tail of registry/icons/index.ts, which looks chronological but is not —
+ *      a batch of icons lands alphabetically, and a file's position records when it
+ *      was CREATED, not when its animation was authored. That surfaced
+ *      binoculars/binary/bicycle and still missed heart, star and trash, the three
+ *      most recently worked on.
+ * Last-modified is the signal that actually matches what "recently added" means here.
+ */
+const RECENT_COUNT = 6;
 
 /** Live preview: the active row's icon plays its animation; the rest sit still. */
 function RowIcon({ entry, active }: { entry: IconView; active: boolean }) {
@@ -62,8 +70,13 @@ export function CommandPalette({
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) {
-      const recent = RECENT.map((s) => icons.find((i) => i.slug === s)).filter(Boolean) as IconView[];
-      const rest = icons.filter((i) => !RECENT.includes(i.slug));
+      // RECENT_SLUGS is empty when git history wasn't available at build time; fall
+      // back to index order then rather than showing an empty shelf.
+      const bySlug = new Map(icons.map((i) => [i.slug, i]));
+      const ordered = RECENT_SLUGS.map((s) => bySlug.get(s)).filter(Boolean) as IconView[];
+      const recent = (ordered.length ? ordered : [...icons].reverse()).slice(0, RECENT_COUNT);
+      const recentSlugs = new Set(recent.map((i) => i.slug));
+      const rest = icons.filter((i) => !recentSlugs.has(i.slug));
       return [
         { label: "Recently Added", items: recent },
         { label: "All Icons", items: rest },

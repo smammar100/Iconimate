@@ -435,7 +435,6 @@ export const icons: IconEntry[] = [
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
 export const HOME_HIDDEN_SLUGS = new Set<string>([
-  "heart",
   "bookmark",
   "sun",
   "arrow-right",

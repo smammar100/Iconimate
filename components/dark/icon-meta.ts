@@ -22,7 +22,7 @@ export const ICON_META: Record<string, IconMeta> = {
   bicycle: { motion: "ride", glow: "#2ECC9B" },
   binary: { motion: "flip", glow: "#4EA8F0" },
   binoculars: { motion: "lock on", glow: "#E8A33D" },
-  heart: { motion: "pop", glow: "#C457E0" },
+  heart: { motion: "fill & beat", glow: "#C457E0" },
   star: { motion: "favourite", glow: "#E6C100" },
   bookmark: { motion: "yoyo", glow: "#6E72F0" },
   sun: { motion: "spin", glow: "#F0973A" },

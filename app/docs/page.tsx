@@ -81,7 +81,7 @@ export function Example() {
       <h2>Copy AI prompt</h2>
       <p>
         Every icon in the gallery has a <strong>Copy AI prompt</strong> action. It gives you a
-        self-contained brief for that icon — the glyph&apos;s subpaths, the motion it plays, the
+        self-contained brief for that icon: the glyph&apos;s subpaths, the motion it plays, the
         alternatives that were explored before it shipped, and the rules every Iconimate icon follows
         (imperative handle, <code>normal</code>/<code>animate</code> variants, reduced-motion
         fallback, pixel-identical rest state). Paste it into any LLM to author a matching icon or
@@ -99,7 +99,7 @@ export function Example() {
       <h2>Reduced motion</h2>
       <p>
         Icon motions are small and only ever start on hover or focus, so they play for everyone by
-        default — they do not currently check the{" "}
+        default. They do not currently check the{" "}
         <code>prefers-reduced-motion</code> setting on their own.
       </p>
       <p>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import type { IconView } from "@/lib/sanity/icons";
 import { LAZY_ICONS } from "@/registry/lazy-icons.gen";
 import type { IconHandle } from "@/lib/icon";
@@ -10,9 +10,17 @@ export type IconAction = "copy-cli" | "copy-code" | "copy-prompt";
 
 /**
  * A Dark Command grid cell. The whole card is the trigger — pointer, keyboard focus
- * and tap drive the icon through its imperative handle. Click copies the install
- * line; a hover action row offers Copy .tsx / Copy CLI / Copy AI prompt. The card is
- * a div[role=button] because the actions are real <button>s and buttons can't nest.
+ * and tap drive the icon through its imperative handle. A hover action row offers
+ * Copy .tsx / Copy CLI / Copy AI prompt. The card is a div[role=button] because the
+ * actions are real <button>s and buttons can't nest.
+ *
+ * **Card click copies only where hover exists.** On a coarse pointer there is no
+ * hover, so a tap is the only way to preview the animation — and a tap that also
+ * wrote the install line to the clipboard hijacked it every time a touch visitor
+ * previewed an icon. That was reported from the field. Touch therefore plays and
+ * does nothing else; the three action buttons stay the way to copy there (they are
+ * already reachable on touch via the coarse-pointer path in globals.css). Desktop
+ * is unchanged: hover plays, click copies, which are two distinct gestures.
  */
 export function DarkIconCard({
   entry,
@@ -33,12 +41,29 @@ export function DarkIconCard({
   const play = () => ref.current?.startAnimation();
   const rest = () => ref.current?.stopAnimation();
 
+  // Starts true so the server render and the first client render agree — the
+  // hover-capable card is the SSR default, and a coarse pointer corrects it after
+  // mount. Reading the media query during render instead would mismatch hydration.
+  const [canHover, setCanHover] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover)");
+    const sync = () => setCanHover(mq.matches);
+    sync();
+    // Tracked, not read once: a 2-in-1 switching to tablet mode flips this live.
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  // The one place the gesture's meaning is decided, so click, keyboard and the
+  // accessible name can never drift apart.
+  const clickCopies = canHover;
+
   return (
     <div
       role="button"
       tabIndex={0}
       className="dc-card"
-      aria-label={`${name} — copy install command`}
+      aria-label={clickCopies ? `Copy ${name} install command` : `Play ${name} animation`}
       onMouseEnter={play}
       onMouseLeave={rest}
       onFocus={(e) => {
@@ -50,13 +75,13 @@ export function DarkIconCard({
       }}
       onClick={() => {
         play();
-        onAction("copy-cli", slug, name);
+        if (clickCopies) onAction("copy-cli", slug, name);
       }}
       onKeyDown={(e) => {
         if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
           e.preventDefault();
           play();
-          onAction("copy-cli", slug, name);
+          if (clickCopies) onAction("copy-cli", slug, name);
         }
       }}
     >
