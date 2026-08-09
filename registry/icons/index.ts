@@ -209,6 +209,7 @@ import { BezierCurveIcon } from "./bezier-curve";
 import { BicycleIcon } from "./bicycle";
 import { BinaryIcon } from "./binary";
 import { BinocularsIcon } from "./binoculars";
+import { BiohazardIcon } from "./biohazard";
 import { BellSimpleZIcon } from "./bell-simple-z";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
@@ -431,6 +432,7 @@ export const icons: IconEntry[] = [
   { slug: "bicycle", name: "Bicycle", keywords: ["bicycle", "bike", "cycling", "cycle", "ride", "pedal", "wheels", "transport", "commute", "exercise", "sport", "eco"], Component: BicycleIcon },
   { slug: "binary", name: "Binary", keywords: ["binary", "bits", "bit", "code", "data", "digital", "computer", "computing", "machine code", "zeros and ones", "developer", "programming", "encoding"], Component: BinaryIcon },
   { slug: "binoculars", name: "Binoculars", keywords: ["binoculars", "search", "find", "explore", "discover", "look", "watch", "observe", "scout", "lookout", "zoom", "magnify", "vision", "spot", "survey"], Component: BinocularsIcon },
+  { slug: "biohazard", name: "Biohazard", keywords: ["biohazard", "hazard", "warning", "danger", "toxic", "biological", "contamination", "infectious", "quarantine", "lab", "safety", "radiation", "caution"], Component: BiohazardIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
