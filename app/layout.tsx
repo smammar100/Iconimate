@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { AppProvider } from "./providers";
 import { StructuredData } from "@/components/seo/structured-data";
+import { PostHogInit } from "@/components/posthog-init";
 import { SITE, SITE_NAME, META_TITLE, META_DESCRIPTION } from "@/lib/seo";
 
 /**
@@ -112,6 +113,11 @@ export default function RootLayout({
         <AppProvider>{children}</AppProvider>
         <StructuredData />
         <Analytics />
+        {/* Must stay AFTER <StructuredData />: PostHog appends its own <script>
+            nodes to the body as it boots, and initialising it before hydration is
+            what let React reconcile the JSON-LD scripts against them. See
+            components/posthog-init.tsx. */}
+        <PostHogInit />
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { captureStarClicked } from "@/lib/analytics";
 
 const REPO_URL = "https://github.com/smammar100/Iconimate";
 const REPO_API_URL = "https://api.github.com/repos/smammar100/Iconimate";
@@ -34,7 +35,13 @@ export function GithubStarButton() {
   }, []);
 
   return (
-    <a className="dc-btn dc-btn--rainbow" href={REPO_URL} target="_blank" rel="noreferrer">
+    <a
+      className="dc-btn dc-btn--rainbow"
+      href={REPO_URL}
+      target="_blank"
+      rel="noreferrer"
+      onClick={() => captureStarClicked("nav")}
+    >
       <GithubGlyph />
       <span>Star on GitHub</span>
       {stars !== null && (
