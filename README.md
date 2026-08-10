@@ -8,7 +8,16 @@ Open-source React icons built on [Phosphor](https://phosphoricons.com)'s glyphs 
 them, the motion is ours, derived from each icon's own geometry. Tuned to read at 24px.
 Hover any glyph and watch it come alive.
 
-`194 icons` &middot; `MIT licensed` &middot; `React 19` &middot; `Next.js 16` &middot; `motion`
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/stars/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="GitHub Stars" src="https://www.shieldcn.dev/github/stars/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/watchers/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Watchers" src="https://www.shieldcn.dev/github/watchers/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/last-commit/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Last commit" src="https://www.shieldcn.dev/github/last-commit/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/commits/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Commits" src="https://www.shieldcn.dev/github/commits/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/Icons-203-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="203 icons" src="https://www.shieldcn.dev/badge/Icons-203-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/License-MIT-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="MIT licensed" src="https://www.shieldcn.dev/badge/License-MIT-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/Language-TypeScript-3178C6.svg?logo=typescript&amp;variant=branded&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Language · TypeScript" src="https://www.shieldcn.dev/badge/Language-TypeScript-3178C6.svg?logo=typescript&amp;variant=branded&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/React-19-61DAFB.svg?logo=react&amp;variant=branded&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="React 19" src="https://www.shieldcn.dev/badge/React-19-61DAFB.svg?logo=react&amp;variant=branded&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/Framework-Next.js%2016-000000.svg?logo=nextdotjs&amp;variant=branded&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Framework · Next.js 16" src="https://www.shieldcn.dev/badge/Framework-Next.js%2016-000000.svg?logo=nextdotjs&amp;variant=branded&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/Motion-12-0055FF.svg?logo=framer&amp;variant=branded&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Motion 12" src="https://www.shieldcn.dev/badge/Motion-12-0055FF.svg?logo=framer&amp;variant=branded&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
 
 </div>
 
@@ -89,7 +98,7 @@ Every icon accepts a `size` prop (defaults to 28, calibrated to read at 24) plus
 
 ## The set
 
-162 icons and counting, including:
+203 icons and counting, including:
 
 | Icon | Motion |
 | --- | --- |

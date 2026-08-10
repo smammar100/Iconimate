@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { SITE_NAME, TAGLINE, ICON_COUNT } from "@/lib/seo";
 import type { ReactElement } from "react";
 
-export const alt = `${SITE_NAME} — ${TAGLINE}`;
+export const alt = `${SITE_NAME}: ${TAGLINE}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

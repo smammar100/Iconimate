@@ -16,6 +16,7 @@ import {
   installCommand,
   type PackageManager,
 } from "@/components/dark/icon-meta";
+import { captureIconCopied } from "@/lib/analytics";
 
 /* Desktop column count of .dc-grid — used to stagger each row's reveal from
    its center. Narrower breakpoints use fewer columns; the center-out rhythm
@@ -149,6 +150,11 @@ export function Gallery({ icons }: { icons: IconView[] }) {
           message = `Copied ${name} install command`;
         }
         await navigator.clipboard.writeText(text);
+        // After the write resolves, never before. writeText rejects on a denied
+        // permission or an insecure context, and capturing ahead of it would count
+        // those failures as copies — the one number this site actually cares about.
+        // pm is only meaningful for the CLI line; the other two ignore it.
+        captureIconCopied(slug, kind, kind === "copy-cli" ? pm : undefined);
       } catch {
         message = `Couldn’t copy ${name}`;
       }

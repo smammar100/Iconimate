@@ -35,7 +35,7 @@ export const TAGLINE = "Every motion has a reason, nothing moves without meaning
  * search ("animated icon library", "react"). The tagline still leads the hero
  * and the OG image, where voice matters more than matching a query.
  */
-export const META_TITLE = `${SITE_NAME} — Animated Icon Library for React`;
+export const META_TITLE = `${SITE_NAME}: Animated Icon Library for React`;
 
 /** One-paragraph, quotable description of the project. */
 export const SITE_DESCRIPTION =
@@ -77,7 +77,7 @@ export const FAQ: FaqItem[] = [
     answer:
       `Iconimate is a free, open-source set of ${ICON_COUNT} animated React icons built on ` +
       "Phosphor's glyphs and tuned to read at 24px. Phosphor drew the icons; Iconimate adds the " +
-      "motion — every icon carries its own, derived from the glyph's geometry and played on hover " +
+      "motion. Every icon carries its own, derived from the glyph's geometry and played on hover " +
       "and keyboard focus.",
   },
   {

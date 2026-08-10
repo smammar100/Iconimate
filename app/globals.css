@@ -611,6 +611,7 @@ body {
   align-items: center; /* tab strip sits centered above the command field */
   gap: 0;
   max-width: 100%;
+  min-width: 0; /* every link in the chain must shrink, or max-width can't bind */
 }
 .dc-install__tabs {
   display: inline-flex;
@@ -652,6 +653,7 @@ body {
   gap: 12px;
   height: 46px;
   max-width: 100%;
+  min-width: 0;
   padding: 0 8px 0 16px;
   border-radius: 10px; /* tabs are centered now — all four corners round */
   background: var(--surface);
@@ -663,6 +665,9 @@ body {
 .dc-install__cmd {
   white-space: nowrap;
   overflow-x: auto;
+  /* Width reservation for the rotating slug, supplied per-render by hero-tiles.tsx.
+     Defaults to 0 so a missing variable degrades to "scrolls" rather than "clipped". */
+  min-width: var(--cmd-min, 0);
   scrollbar-width: none; /* long URL command scrolls quietly on narrow screens */
 }
 /* The rotating slug: the outer span anchors it in the text run; the slot masks
@@ -1028,7 +1033,14 @@ body {
    it is the only arrangement in which Copy .tsx and Copy AI prompt are reachable
    at all on a phone. */
 @media (hover: none), (pointer: coarse) {
-  .dc-card__actions {
+  /* :focus-within must be neutralised here too, not just the base state. That rule
+     lives outside the hover query on purpose (keyboard access) and carries higher
+     specificity than this block, so its translateY(-50%) — meaningful only for the
+     absolutely-positioned pointer toolbar — won its way into this static row and
+     shoved it 20px up, over the motion label. Source order can't fix that; the
+     selector has to match. */
+  .dc-card__actions,
+  .dc-card:focus-within .dc-card__actions {
     position: static;
     transform: none;
     opacity: 1;
@@ -1365,6 +1377,7 @@ body {
   font-weight: 600;
   margin: 0;
   color: #fff;
+  text-wrap: balance; /* a fluid clamp means every viewport is a new break point */
 }
 .cta__sub {
   font-family: var(--ui-font);
@@ -1373,6 +1386,11 @@ body {
   color: rgba(237, 237, 237, 0.62);
   max-width: 500px;
   margin: 0;
+  /* balance, not pretty: pretty is applied but Chrome's look-back is short and it
+     still left "grows." alone on line two (422px + 75px). This block is two lines,
+     well inside balance's line budget, so balancing is both safe and the only one
+     that actually clears the widow here. Measured, not assumed. */
+  text-wrap: balance;
 }
 .cta__actions {
   display: flex;
@@ -1654,10 +1672,21 @@ body {
    narrow screens they revert to inline and wrap naturally. */
 .fh-title-line {
   display: block;
+  /* The h1 shrink-wraps to the hero column (~534px between the scatter grids),
+     not to its 760px max-width, so the second clause is too long for one line and
+     used to break 459px + a 175px "meaning" widow. Balancing splits it evenly
+     instead. Per clause, not on .fh-title: balance works within a block, and each
+     clause is its own block here. */
+  text-wrap: balance;
 }
 @media (max-width: 599px) {
   .fh-title-line {
     display: inline;
+  }
+  /* Inline clauses make the whole h1 one block again, so the balance has to move
+     up to it or the headline breaks unbalanced on phones. */
+  .fh-title {
+    text-wrap: balance;
   }
 }
 .fh-sub {
@@ -1665,6 +1694,9 @@ body {
   font-size: 18px;
   line-height: 1.55;
   color: var(--text-dim);
+  /* pretty, not balance: this is running copy, so only the last line needs
+     protecting from a lone word — balance would re-rag every line of it. */
+  text-wrap: pretty;
   max-width: 560px; /* two lines of subtext */
   margin: 0;
 }
@@ -1674,6 +1706,23 @@ body {
   align-items: center;
   gap: 14px;
   margin-top: 4px;
+  /* The install command is a single nowrap line ~528px wide. A flex item defaults
+     to min-width: auto, which refuses to shrink below that min-content width, so
+     this row held itself 528px wide inside a 375px viewport and the pill was
+     clipped at both ends — the command was unreadable and unscrollable. Allowing
+     the row to shrink is what lets .dc-install__cmd's own overflow-x: auto engage. */
+  max-width: 100%;
+  min-width: 0;
+}
+/* Drop the anti-jitter width reservation on narrow screens only: the pill is
+   already clamped to the viewport there, so it holds one fixed width across every
+   slug and the command scrolls inside it instead of being cut off at both ends.
+   Must stay inside the query — ungated, this removes the reservation on desktop
+   too and the hero jitters on every slug swap. */
+@media (max-width: 599px) {
+  .dc-install__cmd {
+    min-width: 0;
+  }
 }
 .fh-cta {
   height: 56px;

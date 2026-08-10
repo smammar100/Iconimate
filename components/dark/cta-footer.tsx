@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useReducedMotion } from "motion/react";
+import { captureStarClicked } from "@/lib/analytics";
 
 // The burst is a WebGL effect (ogl) — heavy and purely decorative, and it lives
 // at the very bottom of the page. Load it client-side only and keep `ogl` out of
@@ -54,7 +55,13 @@ export function CtaFooter({ count }: { count: number }) {
           Free and open source. Star the repo to follow along as the set grows.
         </p>
         <div className="cta__actions">
-          <a className="cta__btn cta__btn--primary" href={REPO_URL} target="_blank" rel="noreferrer">
+          <a
+            className="cta__btn cta__btn--primary"
+            href={REPO_URL}
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => captureStarClicked("footer")}
+          >
             <StarGlyph />
             Star on GitHub
           </a>
