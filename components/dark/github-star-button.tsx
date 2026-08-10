@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { StarIcon } from "@/registry/icons/star";
+import type { IconHandle } from "@/lib/icon";
 
 const REPO_URL = "https://github.com/smammar100/Iconimate";
 const REPO_API_URL = "https://api.github.com/repos/smammar100/Iconimate";
@@ -17,6 +19,17 @@ function formatStars(n: number) {
  */
 export function GithubStarButton() {
   const [stars, setStars] = useState<number | null>(null);
+  /**
+   * THE WHOLE BUTTON DRIVES THE STAR, not the star's own hover area. Left to
+   * itself the icon only plays when the pointer is over its own 12px box, which
+   * inside a pill this wide is a target almost nobody hits on the way to
+   * clicking. Driving it from the anchor is exactly what the imperative handle
+   * exists for — it is also the path that works on touch, where :hover never
+   * fires. focus/blur are wired too so the gesture is not mouse-only.
+   */
+  const star = useRef<IconHandle>(null);
+  const play = () => star.current?.startAnimation();
+  const rest = () => star.current?.stopAnimation();
 
   useEffect(() => {
     let cancelled = false;
@@ -34,12 +47,21 @@ export function GithubStarButton() {
   }, []);
 
   return (
-    <a className="dc-btn dc-btn--rainbow" href={REPO_URL} target="_blank" rel="noreferrer">
+    <a
+      className="dc-btn dc-btn--rainbow"
+      href={REPO_URL}
+      target="_blank"
+      rel="noreferrer"
+      onMouseEnter={play}
+      onMouseLeave={rest}
+      onFocus={play}
+      onBlur={rest}
+    >
       <GithubGlyph />
       <span>Star on GitHub</span>
       {stars !== null && (
         <span className="dc-btn--rainbow__stars">
-          <StarGlyph />
+          <StarIcon ref={star} size={12} aria-hidden />
           {formatStars(stars)}
         </span>
       )}
@@ -55,10 +77,3 @@ function GithubGlyph() {
   );
 }
 
-function StarGlyph() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="m12 2 2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2Z" />
-    </svg>
-  );
-}

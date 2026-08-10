@@ -129,8 +129,14 @@ export const StarIcon = forwardRef<IconHandle, IconProps>(function StarIcon(
     );
   }
 
+  // THE WRAPPER MUST NOT CLIP. At their peak the rays reach r118 x 1.2 = 141.6
+  // from the centre, and the 11-wide round caps carry them ~5.5 further, so
+  // three of the five — at 18, 90 and 162 degrees — finish outside the 256 box.
+  // With overflow:hidden here they render as stubs with flat, cut-off ends.
+  // Nothing paints outside at rest; only the burst uses the margin, which is the
+  // same trade `airplane-taxiing` and `trash` make.
   return (
-    <div {...props} {...bind} style={{ display: "inline-flex", overflow: "hidden", ...style }}>
+    <div {...props} {...bind} style={{ display: "inline-flex", overflow: "visible", ...style }}>
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
         width={size}
