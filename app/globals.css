@@ -395,6 +395,26 @@ body {
 .dc-nav-links a:hover {
   color: var(--text-strong);
 }
+/* Phone-only nav actions: search + repo, as icons. Hidden here, switched on at
+   600 — see the mobile block. 44px square because they are the primary way to
+   reach both on a touch device, and a glyph is not a hit area. */
+.dc-nav-icon {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.15s var(--ease);
+}
+.dc-nav-icon:hover,
+.dc-nav-links a.dc-nav-icon:hover {
+  color: var(--text-strong);
+}
 /* Primary button — Geist: solid gray-1000 fill, background-100 label, button-14. */
 .dc-btn {
   height: 40px;
@@ -729,6 +749,47 @@ body {
   width: 100%;
   height: 44px;
   transform: translateY(-50%);
+}
+/* Desktop shows the shortcut; the tap affordance is hidden. Swapped below 900.
+   Only one is ever in the a11y tree, so the accessible name always matches the
+   visible text. */
+.dc-kbd-hint__keys {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.dc-kbd-hint__tap {
+  display: none;
+  align-items: center;
+  gap: 7px;
+}
+/* 900 is the existing tablet step — the scale is 600 / 900 / 1040 and a fourth
+   would fire paired reflows a few tens of pixels apart while resizing. */
+@media (max-width: 900px) {
+  .dc-kbd-hint__keys {
+    display: none;
+  }
+  .dc-kbd-hint__tap {
+    display: inline-flex;
+  }
+  /* A hint can be quiet text; a control cannot. It gets a border, a surface and
+     real padding so it reads as a button, and 44px of height in its own right —
+     the ::after hit-expander is no longer doing that work alone. */
+  .dc-kbd-hint {
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+  .dc-kbd-hint:hover {
+    color: var(--text-strong);
+    border-color: var(--border-2);
+  }
+  .dc-kbd-hint::after {
+    content: none;
+  }
 }
 
 /* section + grid */
@@ -1912,7 +1973,7 @@ body {
     height: 60px;
   }
   .dc-nav-links {
-    gap: 12px;
+    gap: 2px;
   }
   .dc-nav-links a {
     display: none;
@@ -1920,11 +1981,41 @@ body {
   .dc-nav-links .dc-btn:not(.dc-btn--ghost) {
     display: none;
   }
+  /* The blanket rule two lines up hides every <a> in the nav, which would take
+     the repo link with it — re-assert both icons after it. */
+  .dc-nav-links .dc-nav-icon,
+  .dc-nav-links a.dc-nav-icon {
+    display: inline-flex;
+  }
+  /* Search now lives in the nav, so the section head stops carrying it. Between
+     600 and 900 the head keeps the tap pill — a tablet has the room, a phone
+     does not, and the nav is where a thumb already is. */
+  .dc-kbd-hint {
+    display: none;
+  }
   .dc-shell {
     padding: 0 16px;
   }
   .dc-section {
     padding: 0 0 24px;
+  }
+  /* STICKY NAV — phone only. Search and the repo now live up here, so the bar
+     has to stay reachable; on desktop those jobs sit in the section head and
+     the CTA, which are fine scrolling away with their content.
+
+     z-index 30 is deliberate: above the page, below the command palette's
+     overlay (60) and the toast (80), so opening search still covers the bar.
+
+     The background MUST be opaque. `.dc` is transparent and sits on the body
+     surface, so without this the icon grid scrolls straight through the bar.
+     The hairline underneath is what stops content looking severed as it passes
+     beneath — an opaque bar with no edge reads as clipping rather than layering. */
+  .dc-shell--nav {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
   }
 }
 

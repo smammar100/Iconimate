@@ -9,7 +9,7 @@ import { HeroTiles } from "@/components/dark/hero-tiles";
 import { CtaFooter } from "@/components/dark/cta-footer";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
 import { Logo } from "@/components/dark/logo";
-import { GithubStarButton } from "@/components/dark/github-star-button";
+import { GithubStarButton, GithubGlyph, REPO_URL } from "@/components/dark/github-star-button";
 import {
   fetchIconPrompt,
   fetchIconSource,
@@ -167,11 +167,44 @@ export function Gallery({ icons }: { icons: IconView[] }) {
 
   return (
     <main className="dc">
-      <div className="dc-shell">
+      {/* The MODIFIER carries the sticky, not `.dc-nav`. A sticky element only
+          travels within its own parent's box, and this shell wraps the nav and
+          nothing else — sticking the nav itself would pin it to a 60px-tall
+          parent, i.e. it would scroll away instantly. The shell is a direct
+          child of <main>, so it has the whole page to stick through. */}
+      <div className="dc-shell dc-shell--nav">
         {/* nav */}
         <nav className="dc-nav">
           <Logo />
           <div className="dc-nav-links">
+            {/* PHONE-ONLY NAV ACTIONS. Below 600 the nav already drops every <a>,
+                which takes the rainbow star CTA with it, and search lived down
+                in the section head describing a keyboard shortcut. Both jobs
+                come back here as icons: tap to search, tap to open the repo.
+
+                These carry aria-label because they have NO visible text — the
+                label-in-name rule that keeps aria-label off the ⌘K control does
+                not apply when there is no visible string to contradict. */}
+            <button
+              type="button"
+              className="dc-nav-icon"
+              aria-label="Search icons"
+              onClick={() => setPaletteOpen(true)}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.8" />
+                <path d="m16 16 4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+              </svg>
+            </button>
+            <a
+              className="dc-nav-icon"
+              href={REPO_URL}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Iconimate on GitHub"
+            >
+              <GithubGlyph />
+            </a>
             <ThemeToggle />
             <GithubStarButton />
           </div>
@@ -207,8 +240,39 @@ export function Gallery({ icons }: { icons: IconView[] }) {
             {/* The visible text is the accessible name, so no aria-label — the
                 previous bar read "Open search" to AT while showing "Search the
                 set…", which is a WCAG 2.5.3 label-in-name mismatch. */}
+            {/* TWO LABELS, ONE BUTTON, SWAPPED IN CSS. "Press ⌘K to search" is
+                unreadable advice on a device with no keyboard — the control was
+                always tappable, but it described a shortcut nobody on a phone
+                can use. Below 900 it becomes a plain search affordance instead.
+
+                Swapping with `display: none` rather than a matchMedia branch
+                keeps this a server-renderable component (no hydration mismatch,
+                no flash of the wrong label) AND keeps the accessible name
+                correct: a display:none label is out of the a11y tree, so the
+                name always matches what is actually on screen. That is the same
+                reason there is no aria-label here — see WCAG 2.5.3. */}
             <button type="button" className="dc-kbd-hint" onClick={() => setPaletteOpen(true)}>
-              Press <span className="dc-kbd">⌘K</span> to search
+              <span className="dc-kbd-hint__keys">
+                Press <span className="dc-kbd">⌘K</span> to search
+              </span>
+              <span className="dc-kbd-hint__tap">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden>
+                  <circle
+                    cx="11"
+                    cy="11"
+                    r="6.5"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                  />
+                  <path
+                    d="m16 16 4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                  />
+                </svg>
+                Search
+              </span>
             </button>
           </div>
 
