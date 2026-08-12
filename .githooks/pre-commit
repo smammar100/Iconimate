@@ -1,0 +1,21 @@
+#!/bin/sh
+# Record the repo's commit count so the nav version badge can read it at build.
+#
+# WHY A HOOK. Vercel builds from a source snapshot with no .git directory, so
+# `git rev-list --count` cannot run there — that is what produced the
+# "v0.1.0+00075dd" fallback in production instead of a number. The count has to
+# be committed as data.
+#
+# The +1 is the point: `git rev-list --count HEAD` counts commits that already
+# exist, and this runs BEFORE the current one is created. Writing the raw count
+# would leave the badge permanently one behind. Staging it here means the number
+# lands inside the very commit it describes.
+
+set -e
+
+count=$(git rev-list --count HEAD 2>/dev/null || echo 0)
+count=$((count + 1))
+
+target="lib/commit-count.json"
+printf '{\n  "count": %s\n}\n' "$count" > "$target"
+git add "$target"

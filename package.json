@@ -10,7 +10,8 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit && tsc -p scripts/tsconfig.registry.json --noEmit",
     "test": "node --test \"scripts/**/*.test.mjs\"",
-    "verify": "pnpm build:registry && pnpm typecheck && pnpm lint && pnpm test"
+    "verify": "pnpm build:registry && pnpm typecheck && pnpm lint && pnpm test",
+    "prepare": "git config core.hooksPath .githooks || exit 0"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

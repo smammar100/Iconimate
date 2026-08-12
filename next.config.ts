@@ -2,47 +2,68 @@ import type { NextConfig } from "next";
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 
+const git = (args: string[]) =>
+  execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+
+/**
+ * The repo's commit count.
+ *
+ * READ FROM A COMMITTED FILE, NOT FROM GIT. Vercel builds from a source
+ * snapshot with no .git directory, so `git rev-list --count` throws there — an
+ * earlier version of this fell back to a SHA and shipped "v0.1.0+00075dd" to
+ * production instead of a number. lib/commit-count.json is written and staged
+ * by .githooks/pre-commit, so the count travels with the code as data and needs
+ * no git, no network and no clone depth at build time.
+ *
+ * Git is still consulted where it exists (local dev, full checkouts) and the
+ * HIGHER of the two wins. That self-heals a commit made without the hook — a
+ * merge commit, a GitHub web edit, a clone that never ran `pnpm install` — on
+ * the next build, instead of leaving the badge stuck.
+ */
+function commitCount(): number {
+  let stored = 0;
+  try {
+    const file = JSON.parse(readFileSync(new URL("./lib/commit-count.json", import.meta.url), "utf8"));
+    stored = Number(file.count) || 0;
+  } catch {
+    /* first run before the hook has ever fired */
+  }
+
+  let live = 0;
+  try {
+    // A shallow clone's count is the clone depth, not the history — ignore it
+    // rather than let a too-low number win the Math.max below.
+    if (git(["rev-parse", "--is-shallow-repository"]) !== "true") {
+      live = Number(git(["rev-list", "--count", "HEAD"])) || 0;
+    }
+  } catch {
+    /* no .git — the committed count is the answer */
+  }
+
+  return Math.max(stored, live);
+}
+
 /**
  * Site version, resolved once at build time and inlined into the bundle.
  *
- * Shape: `<major>.<minor>.<commits>` — major/minor come from package.json, the
- * patch is the total commit count, so it advances by exactly one per commit
- * with nothing to remember to bump.
- *
- * WHY THIS ISN'T A GENERATED FILE. The obvious move is to emit version.gen.ts
- * from the registry generator like icon-meta.gen.ts. It doesn't work: a tracked
- * file recording the commit count has to be committed, which creates the next
- * commit, so it is permanently one behind and dirties every single diff. Held
- * in config and inlined at build, the number is always exactly right and no
- * file churns.
- *
- * SHALLOW CLONES. `git rev-list --count` on a shallow clone returns the depth,
- * not the history — a plausible, wrong, silently-too-low number. CI platforms
- * clone shallow by default often enough that this is a real risk, so a shallow
- * repo (or no git at all) falls back to the commit SHA rather than publish a
- * figure that looks authoritative and isn't. Vercel exposes the SHA as
- * VERCEL_GIT_COMMIT_SHA even where .git is unhelpful.
+ * Shape: `<major>.<minor>.<commits>` — nothing else, in every environment. The
+ * major/minor come from package.json; the patch advances by exactly one per
+ * commit with nothing to remember to bump.
  */
 function resolveVersion(): { version: string; commit: string } {
   const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf8"));
   const [major = "0", minor = "0"] = String(pkg.version ?? "0.0.0").split(".");
-  const base = `${major}.${minor}`;
 
-  const git = (args: string[]) =>
-    execFileSync("git", args, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
-
-  const envSha = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? "";
-
-  try {
-    const sha = envSha || git(["rev-parse", "--short=7", "HEAD"]);
-    if (git(["rev-parse", "--is-shallow-repository"]) === "true") {
-      return { version: `${base}.0+${sha}`, commit: sha };
+  let commit = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) ?? "";
+  if (!commit) {
+    try {
+      commit = git(["rev-parse", "--short=7", "HEAD"]);
+    } catch {
+      commit = "";
     }
-    return { version: `${base}.${git(["rev-list", "--count", "HEAD"])}`, commit: sha };
-  } catch {
-    // No git in the build image (tarball deploy, some sandboxes).
-    return { version: envSha ? `${base}.0+${envSha}` : base, commit: envSha };
   }
+
+  return { version: `${major}.${minor}.${commitCount()}`, commit };
 }
 
 const { version, commit } = resolveVersion();
