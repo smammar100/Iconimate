@@ -8,17 +8,10 @@ export interface IconMetaEntry {
 
 export const iconMeta: IconMetaEntry[] = [
   { slug: "heart", name: "Heart", keywords: ["like","love","favorite"] },
-  { slug: "star", name: "Star", keywords: ["favorite","favourite","rate","rating","review","like","bookmark","save","wishlist","quality"] },
-  { slug: "bookmark", name: "Bookmark", keywords: ["save","read later","flag"] },
-  { slug: "sun", name: "Sun", keywords: ["light","theme","day","weather"] },
+  { slug: "star", name: "Star", keywords: ["favorite","favourite","rate","rating","review","like","save","wishlist","quality"] },
   { slug: "arrow-right", name: "Arrow Right", keywords: ["send","next","forward","go"] },
   { slug: "acorn", name: "Acorn", keywords: ["nut","oak","seed","autumn","fall"] },
-  { slug: "mail", name: "Mail", keywords: ["email","envelope","message","inbox","send"] },
-  { slug: "bolt", name: "Bolt", keywords: ["lightning","flash","power","energy","zap"] },
-  { slug: "moon", name: "Moon", keywords: ["night","dark","theme","sleep","crescent"] },
-  { slug: "camera", name: "Camera", keywords: ["photo","capture","picture","lens","shutter"] },
   { slug: "trash", name: "Trash", keywords: ["delete","bin","remove","garbage"] },
-  { slug: "cloud", name: "Cloud", keywords: ["weather","sky","storage","upload"] },
   { slug: "address-book", name: "Address Book", keywords: ["contact","contacts","person","profile","directory","card"] },
   { slug: "control-tower", name: "Control Tower", keywords: ["airport","aviation","atc","air traffic","antenna","radar"] },
   { slug: "phone-book", name: "Phone Book", keywords: ["address book","contacts","directory","telephone","tabs","yellow pages"] },
@@ -50,7 +43,7 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "android-logo", name: "Android Logo", keywords: ["android","logo","robot","bot","google","mobile","phone","os","blink"] },
   { slug: "angle", name: "Angle", keywords: ["angle","geometry","measure","protractor","degree","math","corner","axis","draw"] },
   { slug: "angular", name: "Angular", keywords: ["angular","logo","brand","framework","shield","badge","javascript","typescript","google","flip"] },
-  { slug: "aperture", name: "Aperture", keywords: ["aperture","camera","lens","iris","photo","shutter","exposure","f-stop","focus","blades"] },
+  { slug: "aperture", name: "Aperture", keywords: ["aperture","lens","iris","photo","shutter","exposure","f-stop","focus","blades"] },
   { slug: "app-store-logo", name: "App Store Logo", keywords: ["app store","apple","ios","logo","brand","download","apps","draw"] },
   { slug: "app-window", name: "App Window", keywords: ["app","window","browser","screen","ui","application","desktop","dots","blink"] },
   { slug: "apple-logo", name: "Apple Logo", keywords: ["apple","logo","brand","fruit","mac","ios","leaf","flick"] },
@@ -182,8 +175,8 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "basket", name: "Basket", keywords: ["shopping","cart","market","groceries","store","buy","purchase","checkout","shop","items","carry"] },
   { slug: "basketball", name: "Basketball", keywords: ["sport","ball","hoop","dribble","spin","court","game","nba","team","play"] },
   { slug: "bathtub", name: "Bathtub", keywords: ["bath","shower","wash","bathroom","tub","clean","hygiene","rinse","soak","plumbing"] },
-  { slug: "battery-charging", name: "Battery Charging", keywords: ["battery","charge","charging","power","energy","bolt","electric","plug","level","full"] },
-  { slug: "battery-charging-vertical", name: "Battery Charging Vertical", keywords: ["battery","charge","charging","power","energy","bolt","electric","vertical","portrait","level"] },
+  { slug: "battery-charging", name: "Battery Charging", keywords: ["battery","charge","charging","power","energy","electric","plug","level","full"] },
+  { slug: "battery-charging-vertical", name: "Battery Charging Vertical", keywords: ["battery","charge","charging","power","energy","electric","vertical","portrait","level"] },
   { slug: "battery-empty", name: "Battery Empty", keywords: ["battery","empty","dead","low","power","drained","flat","charge","warning","energy"] },
   { slug: "battery-full", name: "Battery Full", keywords: ["battery","full","charged","power","energy","level","bars","complete","topped","charge"] },
   { slug: "battery-high", name: "Battery High", keywords: ["battery","high","charged","power","energy","level","bars","healthy","charge","full"] },
@@ -220,7 +213,7 @@ export const iconMeta: IconMetaEntry[] = [
   { slug: "biohazard", name: "Biohazard", keywords: ["biohazard","hazard","warning","danger","toxic","biological","contamination","infectious","quarantine","lab","safety","radiation","caution"] },
 ];
 
-export const HOME_HIDDEN_SLUGS = new Set<string>(["bookmark","sun","arrow-right","bolt","moon","camera","cloud","mail"]);
+export const HOME_HIDDEN_SLUGS = new Set<string>(["arrow-right"]);
 
 export const visibleIconMeta: IconMetaEntry[] = iconMeta.filter((e) => !HOME_HIDDEN_SLUGS.has(e.slug));
 

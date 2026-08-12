@@ -3,16 +3,9 @@ import type { IconHandle, IconProps } from "@/lib/icon";
 import { BellIcon } from "./bell";
 import { HeartIcon } from "./heart";
 import { StarIcon } from "./star";
-import { BookmarkIcon } from "./bookmark";
-import { SunIcon } from "./sun";
 import { ArrowRightIcon } from "./arrow-right";
 import { AcornIcon } from "./acorn";
-import { MailIcon } from "./mail";
-import { BoltIcon } from "./bolt";
-import { MoonIcon } from "./moon";
-import { CameraIcon } from "./camera";
 import { TrashIcon } from "./trash";
-import { CloudIcon } from "./cloud";
 import { AddressBookIcon } from "./address-book";
 import { ControlTowerIcon } from "./control-tower";
 import { PhoneBookIcon } from "./phone-book";
@@ -223,17 +216,10 @@ export interface IconEntry {
 
 export const icons: IconEntry[] = [
   { slug: "heart", name: "Heart", keywords: ["like", "love", "favorite"], Component: HeartIcon },
-  { slug: "star", name: "Star", keywords: ["favorite", "favourite", "rate", "rating", "review", "like", "bookmark", "save", "wishlist", "quality"], Component: StarIcon },
-  { slug: "bookmark", name: "Bookmark", keywords: ["save", "read later", "flag"], Component: BookmarkIcon },
-  { slug: "sun", name: "Sun", keywords: ["light", "theme", "day", "weather"], Component: SunIcon },
+  { slug: "star", name: "Star", keywords: ["favorite", "favourite", "rate", "rating", "review", "like", "save", "wishlist", "quality"], Component: StarIcon },
   { slug: "arrow-right", name: "Arrow Right", keywords: ["send", "next", "forward", "go"], Component: ArrowRightIcon },
   { slug: "acorn", name: "Acorn", keywords: ["nut", "oak", "seed", "autumn", "fall"], Component: AcornIcon },
-  { slug: "mail", name: "Mail", keywords: ["email", "envelope", "message", "inbox", "send"], Component: MailIcon },
-  { slug: "bolt", name: "Bolt", keywords: ["lightning", "flash", "power", "energy", "zap"], Component: BoltIcon },
-  { slug: "moon", name: "Moon", keywords: ["night", "dark", "theme", "sleep", "crescent"], Component: MoonIcon },
-  { slug: "camera", name: "Camera", keywords: ["photo", "capture", "picture", "lens", "shutter"], Component: CameraIcon },
   { slug: "trash", name: "Trash", keywords: ["delete", "bin", "remove", "garbage"], Component: TrashIcon },
-  { slug: "cloud", name: "Cloud", keywords: ["weather", "sky", "storage", "upload"], Component: CloudIcon },
   { slug: "address-book", name: "Address Book", keywords: ["contact", "contacts", "person", "profile", "directory", "card"], Component: AddressBookIcon },
   { slug: "control-tower", name: "Control Tower", keywords: ["airport", "aviation", "atc", "air traffic", "antenna", "radar"], Component: ControlTowerIcon },
   { slug: "phone-book", name: "Phone Book", keywords: ["address book", "contacts", "directory", "telephone", "tabs", "yellow pages"], Component: PhoneBookIcon },
@@ -265,7 +251,7 @@ export const icons: IconEntry[] = [
   { slug: "android-logo", name: "Android Logo", keywords: ["android", "logo", "robot", "bot", "google", "mobile", "phone", "os", "blink"], Component: AndroidLogoIcon },
   { slug: "angle", name: "Angle", keywords: ["angle", "geometry", "measure", "protractor", "degree", "math", "corner", "axis", "draw"], Component: AngleIcon },
   { slug: "angular", name: "Angular", keywords: ["angular", "logo", "brand", "framework", "shield", "badge", "javascript", "typescript", "google", "flip"], Component: AngularIcon },
-  { slug: "aperture", name: "Aperture", keywords: ["aperture", "camera", "lens", "iris", "photo", "shutter", "exposure", "f-stop", "focus", "blades"], Component: ApertureIcon },
+  { slug: "aperture", name: "Aperture", keywords: ["aperture", "lens", "iris", "photo", "shutter", "exposure", "f-stop", "focus", "blades"], Component: ApertureIcon },
   { slug: "app-store-logo", name: "App Store Logo", keywords: ["app store", "apple", "ios", "logo", "brand", "download", "apps", "draw"], Component: AppStoreLogoIcon },
   { slug: "app-window", name: "App Window", keywords: ["app", "window", "browser", "screen", "ui", "application", "desktop", "dots", "blink"], Component: AppWindowIcon },
   { slug: "apple-logo", name: "Apple Logo", keywords: ["apple", "logo", "brand", "fruit", "mac", "ios", "leaf", "flick"], Component: AppleLogoIcon },
@@ -397,8 +383,8 @@ export const icons: IconEntry[] = [
   { slug: "basket", name: "Basket", keywords: ["shopping", "cart", "market", "groceries", "store", "buy", "purchase", "checkout", "shop", "items", "carry"], Component: BasketIcon },
   { slug: "basketball", name: "Basketball", keywords: ["sport", "ball", "hoop", "dribble", "spin", "court", "game", "nba", "team", "play"], Component: BasketballIcon },
   { slug: "bathtub", name: "Bathtub", keywords: ["bath", "shower", "wash", "bathroom", "tub", "clean", "hygiene", "rinse", "soak", "plumbing"], Component: BathtubIcon },
-  { slug: "battery-charging", name: "Battery Charging", keywords: ["battery", "charge", "charging", "power", "energy", "bolt", "electric", "plug", "level", "full"], Component: BatteryChargingIcon },
-  { slug: "battery-charging-vertical", name: "Battery Charging Vertical", keywords: ["battery", "charge", "charging", "power", "energy", "bolt", "electric", "vertical", "portrait", "level"], Component: BatteryChargingVerticalIcon },
+  { slug: "battery-charging", name: "Battery Charging", keywords: ["battery", "charge", "charging", "power", "energy", "electric", "plug", "level", "full"], Component: BatteryChargingIcon },
+  { slug: "battery-charging-vertical", name: "Battery Charging Vertical", keywords: ["battery", "charge", "charging", "power", "energy", "electric", "vertical", "portrait", "level"], Component: BatteryChargingVerticalIcon },
   { slug: "battery-empty", name: "Battery Empty", keywords: ["battery", "empty", "dead", "low", "power", "drained", "flat", "charge", "warning", "energy"], Component: BatteryEmptyIcon },
   { slug: "battery-full", name: "Battery Full", keywords: ["battery", "full", "charged", "power", "energy", "level", "bars", "complete", "topped", "charge"], Component: BatteryFullIcon },
   { slug: "battery-high", name: "Battery High", keywords: ["battery", "high", "charged", "power", "energy", "level", "bars", "healthy", "charge", "full"], Component: BatteryHighIcon },
@@ -437,15 +423,8 @@ export const icons: IconEntry[] = [
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
 export const HOME_HIDDEN_SLUGS = new Set<string>([
-  "bookmark",
-  "sun",
   "arrow-right",
-  "bolt",
-  "moon",
-  "camera",
-  "cloud",
-  "mail",
-]);
+  ]);
 
 /** Icons shown on the home page (the registry minus the hidden slugs). */
 export const visibleIcons: IconEntry[] = icons.filter((entry) => !HOME_HIDDEN_SLUGS.has(entry.slug));
@@ -466,16 +445,9 @@ export {
   BinocularsIcon,
   HeartIcon,
   StarIcon,
-  BookmarkIcon,
-  SunIcon,
   ArrowRightIcon,
   AcornIcon,
-  MailIcon,
-  BoltIcon,
-  MoonIcon,
-  CameraIcon,
   TrashIcon,
-  CloudIcon,
   AddressBookIcon,
   ControlTowerIcon,
   PhoneBookIcon,

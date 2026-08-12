@@ -13,7 +13,7 @@ import { capturePackageManagerSelected } from "@/lib/analytics";
 // recognisable icons, validated against the registry so a rename can't leave a
 // dead command (falls back to the first visible icons if the list ever drifts).
 const INSTALL_ROTATION_SLUGS = [
-  "bell", "heart", "airplane", "alarm", "anchor", "camera", "axe", "bank", "acorn", "cloud",
+  "bell", "heart", "airplane", "alarm", "anchor", "axe", "bank", "acorn",
 ];
 
 /*
