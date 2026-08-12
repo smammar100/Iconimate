@@ -226,4 +226,4 @@ export const visibleIconMeta: IconMetaEntry[] = iconMeta.filter((e) => !HOME_HID
 
 /** Most recently authored icons, newest first — see iconRecency() in the generator.
  *  Empty when git history is unavailable, so consumers must fall back gracefully. */
-export const RECENT_SLUGS: string[] = ["biohazard","heart","star","trash","binoculars","binary","bicycle","bezier-curve","belt","bell-z","bell-slash","bell-simple-slash"];
+export const RECENT_SLUGS: string[] = ["star","biohazard","heart","trash","binoculars","binary","bicycle","bezier-curve","belt","bell-z","bell-slash","bell-simple-slash"];

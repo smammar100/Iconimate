@@ -9,10 +9,15 @@
 // handle API (startAnimation/stopAnimation) and reduced-motion support survive
 // untouched because the real source ships inside the file.
 //
+// Every emitted item also carries PROVENANCE — a content-hash version stamp and
+// the MIT/Phosphor notices, in both the JSON (`meta`) and the file itself. See
+// the "Provenance" section below for why a vendored copy has to describe itself.
+//
 // Run: node scripts/build-registry.mjs   (wired into prebuild + dev)
 
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, rmSync } from "node:fs";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { join, dirname, basename } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -267,6 +272,99 @@ export function buildStandalone(slug) {
   return out;
 }
 
+/* ── Provenance: version stamp + licence notice ─────────────────────────────
+
+   A registry item is VENDORED: `npx shadcn add` copies the file into the
+   consumer's repo and nothing ever updates it again. There is no dependency
+   edge, no lockfile entry, no update channel. Two consequences this section
+   exists to fix.
+
+   1. DRIFT WAS UNDETECTABLE. With no stamp in the file, neither the consumer
+      nor we could tell a current copy from one predating a glyph change. This
+      shipped: a downstream registry re-published `star` and `trash` from before
+      2b62de9 (the stroked star / pre-tip-in trash), and the only way to see it
+      was diffing raw path data by eye. A copy must be able to describe itself.
+
+   2. THE LICENCE DID NOT TRAVEL. MIT requires the notice accompany substantial
+      portions, and both README.md ("Every registry item ships Phosphor path
+      data, so that notice travels with the icons") and LICENSE ("redistributed
+      inside each registry item") already asserted it did. The emitted files
+      carried no notice at all. This makes those two claims true.
+
+   The version is a CONTENT HASH, not a counter: no bookkeeping to forget, and
+   stable across rebuilds — public/r/ is regenerated on every build, so a
+   time-based or incrementing stamp would churn every file on every deploy. */
+
+const AUTHOR = "smammar100 <https://iconimate.app>";
+const GLYPH_CREDIT = "Phosphor Icons (MIT) — https://phosphoricons.com";
+
+/** Short, stable content hash — the identity of one emitted component source. */
+export const contentVersion = (src) =>
+  createHash("sha256").update(src, "utf8").digest("hex").slice(0, 12);
+
+/**
+ * Date each icon's SOURCE last changed (YYYY-MM-DD), from git.
+ *
+ * Deliberately NOT iconRecency()'s "a dirty file sorts as now" rule: that one
+ * orders a UI list and leans on Date.now(), which here would rewrite all 211
+ * emitted files on every build. Determinism wins — a stamp that moves when
+ * nothing changed is worse than one lagging an uncommitted edit by a commit.
+ * Outside a git checkout every date is "" and is omitted from the output.
+ */
+export function iconUpdatedDates(slugList) {
+  const dates = new Map();
+  for (const slug of slugList) {
+    try {
+      const d = execFileSync("git", ["log", "-1", "--format=%cs", "--", `registry/icons/${slug}.tsx`], {
+        cwd: ROOT,
+        encoding: "utf8",
+      }).trim();
+      dates.set(slug, d);
+    } catch {
+      dates.set(slug, ""); // no git (tarball install, some sandboxes)
+    }
+  }
+  return dates;
+}
+
+/**
+ * The licence + provenance header carried by every emitted component.
+ *
+ * Placed AFTER the "use client" directive, not before it. A leading block
+ * comment is legal there, but the directive's entire job is to be unmistakably
+ * first, and nothing in this repo can prove otherwise: generated/registry/*.tsx
+ * is only ever typechecked by tsc, which ignores directives, and the site
+ * imports registry/icons/* rather than the emitted files — so no test or dev
+ * run would catch a dropped "use client". An unverifiable risk spread across
+ * every consumer's file is not worth the banner-on-line-1 convention.
+ */
+export function provenanceBanner({ slug, title, version, updated }) {
+  const stamp = updated ? `${version} · icon last changed ${updated}` : version;
+  return `/**
+ * ${title} — Iconimate
+ *
+ * Installed from ${SITE}/r/${slug}.json
+ * Version ${stamp}
+ *
+ * This file is a COPY and does not update itself. To pull the current version:
+ *   npx shadcn@latest add ${SITE}/r/${slug}.json
+ * To check whether yours is behind, compare the version above against
+ * ${SITE}/r/registry.json.
+ *
+ * Animation code: copyright (c) 2026 Muhammad Ammar (smammar100), MIT.
+ * Glyph geometry: Phosphor Icons, copyright (c) 2023 Phosphor Icons, MIT.
+ *                 https://phosphoricons.com
+ */`;
+}
+
+/** Splice the banner in just below the "use client" directive. */
+export function withProvenance(bare, banner) {
+  if (!bare.startsWith('"use client";\n')) {
+    throw new Error('emitted file does not open with the "use client" directive');
+  }
+  return bare.replace('"use client";\n', `"use client";\n\n${banner}\n`);
+}
+
 /* ── Metadata (names/keywords from the icons index, motion from icon-meta) ─ */
 
 export function loadEntries() {
@@ -338,19 +436,38 @@ rmSync(TSX_OUT_DIR, { recursive: true, force: true });
 mkdirSync(OUT_DIR, { recursive: true });
 mkdirSync(TSX_OUT_DIR, { recursive: true });
 
+const updatedDates = iconUpdatedDates(slugs);
+
 const items = [];
 for (const slug of slugs) {
-  const content = buildStandalone(slug);
+  const bare = buildStandalone(slug);
   const name = entries.get(slug)?.name ?? slug;
   const motion = motionNames.get(slug);
   const description = `Animated ${name} icon${motion ? ` (${motion})` : ""}. Hover to play; imperative startAnimation/stopAnimation handle for touch.`;
+
+  // Hash the component source WITHOUT the banner — the banner quotes the
+  // version, so hashing the finished file would be circular.
+  const version = contentVersion(bare);
+  const updated = updatedDates.get(slug) || "";
+  const content = withProvenance(bare, provenanceBanner({ slug, title: name, version, updated }));
+
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
     name: slug,
     type: "registry:ui",
     title: name,
+    author: AUTHOR,
     description,
     dependencies: ["motion"],
+    // `meta` is the schema's free-form bag (additionalProperties: true) and the
+    // only sanctioned home for this — registry-item.json has no `version` field.
+    meta: {
+      version,
+      ...(updated ? { updated } : {}),
+      source: `${SITE}/r/${slug}.json`,
+      license: "MIT",
+      glyph: GLYPH_CREDIT,
+    },
     files: [
       {
         path: `components/ui/icons/${slug}.tsx`,
@@ -361,7 +478,16 @@ for (const slug of slugs) {
   };
   writeFileSync(join(OUT_DIR, `${slug}.json`), JSON.stringify(item, null, 2) + "\n");
   writeFileSync(join(TSX_OUT_DIR, `${slug}.tsx`), content);
-  items.push({ name: slug, type: "registry:ui", title: name, description });
+  // Versions ride the index too, so one fetch of registry.json diffs the whole
+  // set — that is what makes a stale vendored copy findable without downloading
+  // 211 items and comparing path data.
+  items.push({
+    name: slug,
+    type: "registry:ui",
+    title: name,
+    description,
+    meta: { version, ...(updated ? { updated } : {}) },
+  });
 }
 
 const registry = {

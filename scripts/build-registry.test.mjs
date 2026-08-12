@@ -15,6 +15,9 @@ import {
   loadEntries,
   loadMotionNames,
   splitTokenDeclarations,
+  contentVersion,
+  provenanceBanner,
+  withProvenance,
   ICONS_DIR,
   OUT_DIR,
   ROOT,
@@ -133,3 +136,72 @@ for (const slug of ["bell", "avocado", "arrow-elbow-down-left"]) {
     assert.doesNotMatch(content, /\bcn\(/, `${slug} must not reference cn()`);
   });
 }
+
+/* ── Provenance contract ──────────────────────────────────────────────────────
+   A registry item is vendored — once `shadcn add` copies it, nothing updates it.
+   These pin the two things that make that survivable: the copy states its own
+   version, and it carries the licence notices README.md and LICENSE promise it
+   carries. A downstream registry shipped a pre-2b62de9 star with no way to tell;
+   that is the regression these guard. */
+
+test("contentVersion: stable for identical input, distinct for changed input", () => {
+  const a = buildStandalone("bell");
+  assert.equal(contentVersion(a), contentVersion(a), "same source hashes the same");
+  assert.notEqual(contentVersion(a), contentVersion(a + "\n"), "a changed byte changes the version");
+  assert.match(contentVersion(a), /^[0-9a-f]{12}$/, "version is a 12-char hex digest");
+});
+
+test('withProvenance: banner lands below "use client", which stays the first line', () => {
+  const out = withProvenance(
+    buildStandalone("bell"),
+    provenanceBanner({ slug: "bell", title: "Bell", version: "abc123abc123", updated: "2026-08-08" }),
+  );
+  assert.equal(out.split("\n")[0], '"use client";', 'the directive must remain line 1');
+  assert.ok(
+    out.indexOf("Iconimate") < out.indexOf("import "),
+    "banner precedes the imports",
+  );
+});
+
+test("withProvenance: throws rather than emit a file missing the directive", () => {
+  assert.throws(() => withProvenance("import x from 'y';\n", "/** b */"), /use client/);
+});
+
+for (const slug of ["bell", "star", "trash"]) {
+  test(`provenance: public/r/${slug}.json is versioned and carries both licences`, () => {
+    const item = JSON.parse(read(join(OUT_DIR, `${slug}.json`)));
+
+    assert.match(item.meta?.version ?? "", /^[0-9a-f]{12}$/, `${slug} has a version in meta`);
+    assert.equal(item.meta.source, `https://iconimate.app/r/${slug}.json`);
+    assert.equal(item.meta.license, "MIT");
+    assert.ok(item.author?.includes("iconimate.app"), `${slug} names its author`);
+
+    // The version must describe the shipped component, not drift from it.
+    const content = item.files[0].content;
+    const bare = content.replace(/\n\/\*\*[\s\S]*?\*\/\n/, "");
+    assert.equal(
+      contentVersion(bare),
+      item.meta.version,
+      `${slug}: meta.version must be the hash of the emitted component`,
+    );
+
+    // MIT travels with substantial portions — and README.md/LICENSE both claim it does.
+    assert.match(content, /copyright \(c\) 2026 Muhammad Ammar/i, `${slug} carries the project notice`);
+    assert.match(content, /copyright \(c\) 2023 Phosphor Icons/i, `${slug} carries the Phosphor notice`);
+    assert.match(content, /npx shadcn@latest add/, `${slug} tells a stale copy how to update`);
+  });
+}
+
+test("provenance: registry.json indexes every item's version, so one fetch finds drift", () => {
+  const registry = JSON.parse(read(join(OUT_DIR, "registry.json")));
+  assert.ok(registry.items.length > 0, "registry index is non-empty");
+  for (const entry of registry.items) {
+    assert.match(
+      entry.meta?.version ?? "",
+      /^[0-9a-f]{12}$/,
+      `${entry.name} must carry a version in the index`,
+    );
+    const item = JSON.parse(read(join(OUT_DIR, `${entry.name}.json`)));
+    assert.equal(entry.meta.version, item.meta.version, `${entry.name}: index and item versions agree`);
+  }
+});
