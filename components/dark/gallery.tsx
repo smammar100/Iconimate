@@ -9,6 +9,7 @@ import { HeroTiles } from "@/components/dark/hero-tiles";
 import { CtaFooter } from "@/components/dark/cta-footer";
 import { ThemeToggle } from "@/components/dark/theme-toggle";
 import { Logo } from "@/components/dark/logo";
+import { VersionBadge } from "@/components/dark/version-badge";
 import { GithubStarButton, GithubGlyph, REPO_URL } from "@/components/dark/github-star-button";
 import {
   fetchIconPrompt,
@@ -175,7 +176,13 @@ export function Gallery({ icons }: { icons: IconView[] }) {
       <div className="dc-shell dc-shell--nav">
         {/* nav */}
         <nav className="dc-nav">
-          <Logo />
+          {/* Logo and badge share a wrapper because .dc-nav is space-between:
+              a third direct child would spread three ways and pull the badge
+              into the middle of the bar instead of sitting by the wordmark. */}
+          <div className="dc-nav-brand">
+            <Logo />
+            <VersionBadge />
+          </div>
           <div className="dc-nav-links">
             {/* PHONE-ONLY NAV ACTIONS. Below 600 the nav already drops every <a>,
                 which takes the rainbow star CTA with it, and search lived down

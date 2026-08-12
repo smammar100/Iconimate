@@ -379,6 +379,49 @@ body {
   from { stroke-dashoffset: 44; }
   to { stroke-dashoffset: 0; }
 }
+
+/* Brand cluster: wordmark with the version chip beside it, vertically centred.
+   Exists so .dc-nav keeps exactly two flex children — a third direct child
+   would spread three ways under its space-between and strand the chip in the
+   middle of the bar instead of next to the wordmark it labels. */
+.dc-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Version chip — the "gray-subtle / sm" badge shape, rebuilt in plain CSS.
+   Its Tailwind original maps onto tokens this file already defines for both
+   themes, so there is no Tailwind here (removed from this project on purpose),
+   no clsx, and no second colour system to keep in sync.
+   Geometry matches the sm size: 11px / 20px tall / 6px sides / 0.2px tracking.
+   Rendered as a span, not a link — it labels the lockup rather than pointing
+   somewhere, so it takes no focus and needs no hover state.
+
+   The fill is --surface-1, the same token the hero tiles use, so the chip sits
+   on the palette's existing "level 1 surface" rather than introducing a grey of
+   its own — and it inverts correctly in dark (#fafafa -> #171717) where the raw
+   --background-200 would have gone to pure black. */
+.dc-version {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 9999px;
+  background: var(--surface-1);
+  color: var(--gray-1000);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.2px;
+  /* The patch is a commit count — it gains a digit eventually, and
+     proportional figures would resize the chip as it does. */
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
 .dc-nav-links {
   display: flex;
   align-items: center;
