@@ -60,7 +60,7 @@ export function Gallery({ icons }: { icons: IconView[] }) {
     const t = window.setTimeout(() => setHeroIntro(false), INTRO_HOLD_CLEAR_SECONDS * 1000);
     return () => window.clearTimeout(t);
   }, []);
-  const [toast, setToast] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ text: string; ok: boolean } | null>(null);
   const toastTimer = useRef<number | undefined>(undefined);
 
   // Deep link: /?icon=<slug> scrolls to the named card and plays it once the
@@ -137,6 +137,10 @@ export function Gallery({ icons }: { icons: IconView[] }) {
     async (kind: IconAction, slug: string, name: string, pm: PackageManager = "npm") => {
       let text: string;
       let message: string;
+      // Tracked so the toast can render the outcome it actually had. It used to
+      // show CheckGlyph unconditionally, so a failure read "✓ Couldn't copy
+      // Heart" — a green tick next to its own contradiction.
+      let ok = true;
       try {
         if (kind === "copy-code") {
           text = await fetchIconSource(slug);
@@ -157,9 +161,18 @@ export function Gallery({ icons }: { icons: IconView[] }) {
         // pm is only meaningful for the CLI line; the other two ignore it.
         captureIconCopied(slug, kind, kind === "copy-cli" ? pm : undefined);
       } catch {
-        message = `Couldn’t copy ${name}`;
+        ok = false;
+        // Name the surface that failed. "Couldn't copy Heart" sent us looking at
+        // the clipboard when the cause was /api/prompt returning 501 because
+        // Sanity has no credentials — a different button, and a config problem.
+        message =
+          kind === "copy-prompt"
+            ? `${name} AI prompt unavailable`
+            : kind === "copy-code"
+              ? `Couldn’t copy ${name} code`
+              : `Couldn’t copy ${name} install command`;
       }
-      setToast(message);
+      setToast({ text: message, ok });
       window.clearTimeout(toastTimer.current);
       toastTimer.current = window.setTimeout(() => setToast(null), 1900);
     },
@@ -354,22 +367,31 @@ export function Gallery({ icons }: { icons: IconView[] }) {
       <AnimatePresence>
         {toast && (
           <motion.div
-            key={toast}
-            className="dc-toast"
+            key={toast.text}
+            className={toast.ok ? "dc-toast" : "dc-toast dc-toast--error"}
             role="status"
             initial={{ opacity: 0, x: "-50%", y: 10, scale: 0.97 }}
             animate={{ opacity: 1, x: "-50%", y: 0, scale: 1 }}
             exit={{ opacity: 0, x: "-50%", y: 6, scale: 0.98, transition: { duration: 0.16, ease: "easeOut" } }}
             transition={{ type: "spring", visualDuration: 0.3, bounce: 0.25 }}
           >
-            <span className="dc-toast__check">
-              <CheckGlyph />
-            </span>
-            {toast}
+            <span className="dc-toast__check">{toast.ok ? <CheckGlyph /> : <AlertGlyph />}</span>
+            {toast.text}
           </motion.div>
         )}
       </AnimatePresence>
     </main>
+  );
+}
+
+/** Failure counterpart to CheckGlyph — same 24 grid, weight and caps. */
+function AlertGlyph() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 8v5" />
+      <path d="M12 16.5h.01" />
+      <circle cx="12" cy="12" r="9" />
+    </svg>
   );
 }
 

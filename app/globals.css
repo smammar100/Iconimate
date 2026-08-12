@@ -1611,6 +1611,14 @@ body {
   display: inline-flex;
 }
 
+/* Failure. The glyph used to be CheckGlyph unconditionally, so a failed copy
+   rendered a green tick beside "Couldn't copy Heart" — the icon asserting the
+   opposite of the sentence next to it. The colour follows the glyph so the two
+   can never disagree again. */
+.dc-toast--error .dc-toast__check {
+  color: var(--red-700);
+}
+
 /* interactive hero */
 .dc-ihero {
   position: relative;

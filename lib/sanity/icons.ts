@@ -27,6 +27,10 @@ export interface IconView {
   name: string;
   keywords: string[];
   motion: string;
+  /** Whether Sanity holds an aiPrompt for this icon — gates the card's AI-prompt
+   *  action, which can only 404 without one. False whenever Sanity is
+   *  unreachable or unconfigured, since there are no prompts to offer then. */
+  hasPrompt: boolean;
 }
 
 const PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
@@ -42,6 +46,7 @@ interface SanityIcon {
   motion?: string;
   keywords?: string[] | null;
   homeVisibility?: string;
+  hasPrompt?: boolean;
 }
 
 /** The repo's own answer — what the site rendered before Sanity existed. */
@@ -51,12 +56,14 @@ function fromRepo(): IconView[] {
     name: e.name,
     keywords: e.keywords,
     motion: metaFor(e.slug).motion,
+    // The repo has no prompts — they live only in Sanity.
+    hasPrompt: false,
   }));
 }
 
 async function fetchFromSanity(): Promise<SanityIcon[] | null> {
   if (!PROJECT_ID || !DATASET) return null;
-  const query = `*[_type == "icon"]{slug, name, motion, keywords, homeVisibility}`;
+  const query = `*[_type == "icon"]{slug, name, motion, keywords, homeVisibility, "hasPrompt": defined(aiPrompt)}`;
   const url =
     `https://${PROJECT_ID}.apicdn.sanity.io/v${API_VERSION}/data/query/${DATASET}` +
     `?query=${encodeURIComponent(query)}`;
@@ -94,6 +101,7 @@ export async function getIcons(): Promise<{ icons: IconView[]; source: "sanity" 
       name: doc?.name || base.name,
       keywords: doc?.keywords?.length ? doc.keywords : base.keywords,
       motion: doc?.motion || metaFor(base.slug).motion,
+      hasPrompt: doc?.hasPrompt === true,
     });
   }
 

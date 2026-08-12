@@ -8,6 +8,13 @@ import type { IconHandle } from "@/lib/icon";
 /** The copy actions a card (or palette row) can request. */
 export type IconAction = "copy-cli" | "copy-code" | "copy-prompt";
 
+/* The AI-prompt action is gated per icon on `icon.hasPrompt`, resolved from
+   Sanity in lib/sanity/icons.ts. It is NOT a global "is Sanity configured"
+   switch: prompts are written per document, so with Sanity fully configured
+   /api/prompt/heart still answers 404 while every other icon answers 200 —
+   which is exactly the failure this gate removes. Offering an action that can
+   only fail is worse than not offering it. */
+
 /**
  * A Dark Command grid cell. The whole card is the trigger — pointer, keyboard focus
  * and tap drive the icon through its imperative handle. A hover action row offers
@@ -33,7 +40,7 @@ export function DarkIconCard({
   // name and motion come from the resolved entry (Sanity, or the repo when
   // Sanity is unreachable) rather than being looked up here — otherwise a label
   // edited in the Studio would never reach the card.
-  const { name, slug, motion } = entry;
+  const { name, slug, motion, hasPrompt } = entry;
   // Each icon is its own lazy chunk — hydrates progressively instead of one
   // blocking registry bundle. Refs forward through React.lazy to IconHandle.
   const Component = LAZY_ICONS[slug];
@@ -122,18 +129,20 @@ export function DarkIconCard({
         >
           <TerminalGlyph />
         </button>
-        <button
-          type="button"
-          className="dc-card__action dc-tip"
-          aria-label={`Copy ${name} AI prompt`}
-          data-tip="Copy AI prompt"
-          onClick={(e) => {
-            e.stopPropagation();
-            onAction("copy-prompt", slug, name);
-          }}
-        >
-          <SparkleGlyph />
-        </button>
+        {hasPrompt && (
+          <button
+            type="button"
+            className="dc-card__action dc-tip"
+            aria-label={`Copy ${name} AI prompt`}
+            data-tip="Copy AI prompt"
+            onClick={(e) => {
+              e.stopPropagation();
+              onAction("copy-prompt", slug, name);
+            }}
+          >
+            <SparkleGlyph />
+          </button>
+        )}
       </span>
     </div>
   );
