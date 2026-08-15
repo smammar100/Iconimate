@@ -203,6 +203,8 @@ import { BicycleIcon } from "./bicycle";
 import { BinaryIcon } from "./binary";
 import { BinocularsIcon } from "./binoculars";
 import { BiohazardIcon } from "./biohazard";
+import { BirdIcon } from "./bird";
+import { BlueprintIcon } from "./blueprint";
 import { BellSimpleZIcon } from "./bell-simple-z";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
@@ -419,6 +421,8 @@ export const icons: IconEntry[] = [
   { slug: "binary", name: "Binary", keywords: ["binary", "bits", "bit", "code", "data", "digital", "computer", "computing", "machine code", "zeros and ones", "developer", "programming", "encoding"], Component: BinaryIcon },
   { slug: "binoculars", name: "Binoculars", keywords: ["binoculars", "search", "find", "explore", "discover", "look", "watch", "observe", "scout", "lookout", "zoom", "magnify", "vision", "spot", "survey"], Component: BinocularsIcon },
   { slug: "biohazard", name: "Biohazard", keywords: ["biohazard", "hazard", "warning", "danger", "toxic", "biological", "contamination", "infectious", "quarantine", "lab", "safety", "radiation", "caution"], Component: BiohazardIcon },
+  { slug: "bird", name: "Bird", keywords: ["bird", "wing", "wings", "fly", "flying", "flight", "feather", "sparrow", "tweet", "social", "animal", "nature", "freedom", "migrate"], Component: BirdIcon },
+  { slug: "blueprint", name: "Blueprint", keywords: ["blueprint", "plan", "draft", "drawing", "schematic", "architecture", "design", "engineering", "spec", "layout", "scroll", "technical", "grid"], Component: BlueprintIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
