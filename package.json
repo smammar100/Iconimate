@@ -10,6 +10,7 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit && tsc -p scripts/tsconfig.registry.json --noEmit",
     "test": "node --test \"scripts/**/*.test.mjs\"",
+    "audit:motion": "node scripts/audit-motion.mjs",
     "verify": "pnpm build:registry && pnpm typecheck && pnpm lint && pnpm test",
     "prepare": "git config core.hooksPath .githooks || exit 0"
   },

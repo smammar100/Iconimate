@@ -6,6 +6,24 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Iconimate — agent guide
 
+> **Authoring or editing motion? Read `.claude/MOTION.md` first — all of it.**
+>
+> It opens with **the standing test**: would a professional product ship this? These
+> icons install into other people's toolbars and fire on every hover, all day, next
+> to real work — a far harsher room than a gallery tile at 56px. Every motion is
+> audited against those six questions, every time, and any single failure blocks the
+> icon. **Never omit it.**
+>
+> This file owns the build mechanics: the generator, the three lockstep files, the
+> import allow-list, the site's UI tripwires. `MOTION.md` owns the motion — the verb
+> test, rest-pose parity and its pixel-diff gate, the 18-unit amplitude floor, the
+> lane audit, material-driven character, and what to reject from general UI motion
+> guidance written for buttons and modals.
+>
+> Note what it does **not** ban: spins, accents, squash and pulses all ship here and
+> are good. The anti-pattern is *generic* — an effect reached for because nobody
+> found the verb. §15 has the test that tells the two apart.
+
 Iconimate is an animated-icon gallery site (`app/`, `components/dark/`) plus a shadcn-style **registry**
 (`registry/`) that distributes each icon via `npx shadcn add`. A generator, `scripts/build-registry.mjs`,
 compiles the icon sources into `public/r/<slug>.json` (the shadcn registry items) plus
