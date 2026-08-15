@@ -25,20 +25,16 @@ import { captureIconCopied } from "@/lib/analytics";
 const GRID_COLUMNS = 5;
 
 /* Intro sequencing: the hero's own entrance (title rise + tile ripple in
-   HeroTiles) runs first; grid cards that are in view at load wait this long
-   before revealing. Rows revealed later by scrolling get no extra delay.
-   Kept short — at 1.1s the set read as stalled rather than sequenced, since the
-   cards are painted (position-only reveal, never opacity) and so sit visibly
-   frozen mid-offset for the whole hold. Must match the delay on
-   `.dc-section--intro` and `[data-intro] [data-reveal]` in globals.css. */
-const HERO_INTRO_SECONDS = 0.45;
+   HeroTiles) runs first, then the grid section fades in — matches the delay on
+   `.dc-section--intro` in globals.css.
 
-/* When to drop the data-intro hold. It must outlast the reveals it gates: the
-   rule sets `transition-delay: stagger + HERO_INTRO_SECONDS`, so removing the
-   attribute mid-delay re-resolves the delay to a value that has already elapsed
-   and the held cards jump to their end state instead of gliding. Cover the hold,
-   the 0.45s transition, and the widest --stagger (2 columns out at 0.05s). */
-const INTRO_HOLD_CLEAR_SECONDS = HERO_INTRO_SECONDS + 0.45 + 0.1 + 0.05;
+   CARDS IN VIEW AT LOAD DO NOT ANIMATE AT ALL. They used to be held back and
+   then raised 12px, which meant the server HTML painted them out of position and
+   hydration visibly corrected it. The rise now belongs solely to rows the
+   observer confirms are off-screen; hero-first ordering is carried by the
+   section's opacity fade. The `data-intro` attribute and its hold constant were
+   the machinery for that hold and are gone with it. */
+const HERO_INTRO_SECONDS = 0.45;
 
 /**
  * The interactive gallery. Everything here is client-side — the ⌘K palette,
@@ -52,14 +48,6 @@ const INTRO_HOLD_CLEAR_SECONDS = HERO_INTRO_SECONDS + 0.45 + 0.1 + 0.05;
  */
 export function Gallery({ icons }: { icons: IconView[] }) {
   const [paletteOpen, setPaletteOpen] = useState(false);
-  // True while the hero entrance is playing; adds a hold to the grid reveal
-  // so the intro reads hero-first, grid-second.
-  const [heroIntro, setHeroIntro] = useState(true);
-
-  useEffect(() => {
-    const t = window.setTimeout(() => setHeroIntro(false), INTRO_HOLD_CLEAR_SECONDS * 1000);
-    return () => window.clearTimeout(t);
-  }, []);
   const [toast, setToast] = useState<{ text: string; ok: boolean } | null>(null);
   const toastTimer = useRef<number | undefined>(undefined);
 
@@ -100,6 +88,15 @@ export function Gallery({ icons }: { icons: IconView[] }) {
           if (e.isIntersecting) {
             e.target.setAttribute("data-revealed", "");
             obs.unobserve(e.target);
+          } else {
+            // ARM ONLY WHAT IS CONFIRMED OFF-SCREEN. The offset is not in the
+            // CSS default and therefore not in the SSR HTML, so a card visible
+            // at load is intersecting on this first callback, gets revealed
+            // without ever being armed, and never moves. Applying the offset
+            // here is invisible by construction: the element is outside the
+            // viewport at the moment it receives it. Idempotent — an element
+            // can take several non-intersecting callbacks before it scrolls in.
+            e.target.setAttribute("data-armed", "");
           }
         }
       },
@@ -238,18 +235,13 @@ export function Gallery({ icons }: { icons: IconView[] }) {
         {/* the set */}
         {/* dc-section--intro fades the whole set in once the hero entrance has
             played (pure CSS, see globals.css) — without it the grid is painted
-            from the first frame and only the hero appears to animate.
-            data-intro applies the same hero-intro hold to whatever reveals
-            while the hero is still playing; it clears after, so rows scrolled
-            to later reveal with no hold. The reveal itself is CSS-driven (see
-            the single IntersectionObserver above + the reveal rules in
-            globals.css) — no per-card Motion wrapper / observer. */}
-        <section
-          id="icons"
-          className="dc-section dc-section--intro"
-          style={{ scrollMarginTop: 20 }}
-          data-intro={heroIntro ? "" : undefined}
-        >
+            from the first frame and only the hero appears to animate. It fades
+            ONLY; it used to also translateY(16px), which stacked with the
+            per-card rise into a 28px lift the moment the hero settled.
+            The reveal itself is CSS-driven (see the single IntersectionObserver
+            above + the reveal rules in globals.css) — no per-card Motion
+            wrapper / observer, and nothing in view at load moves. */}
+        <section id="icons" className="dc-section dc-section--intro" style={{ scrollMarginTop: 20 }}>
           {/* Reveals animate position only (no opacity): opacity:0 would be
               inlined in the SSR HTML and keep this text invisible until
               hydration, tanking LCP. Painted-but-offset is invisible to LCP. */}

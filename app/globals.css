@@ -851,14 +851,19 @@ body {
 .dc-section--intro {
   animation: dc-section-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.45s backwards;
 }
+/* FADE ONLY — NO TRANSLATE. This used to also run translateY(16px) -> 0, which
+   stacked on top of the per-card reveal's own translateY(12px) -> 0 running in
+   the same window. Measured on a replayed intro, the first card's viewport top
+   travelled 650px -> 622px: a 28px lift that begins the instant the 0.45s hold
+   ends, so the grid visibly slides up just as the hero finishes settling. Read
+   as a second render of a page that had already arrived. The section now only
+   fades; movement during the intro belongs to nothing. */
 @keyframes dc-section-in {
   from {
     opacity: 0;
-    transform: translateY(16px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -922,25 +927,39 @@ body {
    section adds the hero-intro hold (matches HERO_INTRO_SECONDS = 1.1s) to
    whatever reveals while the hero entrance is still playing. Replaces ~150
    per-card Motion whileInView wrappers. */
+/* THE DEFAULT IS AT REST, AND THE SERVER HTML MUST STAY THAT WAY.
+   This used to be `translateY(12px)` unconditionally, which put the offset in
+   the SSR markup: every above-the-fold card painted 12px low and only corrected
+   once hydration ran the observer. Traced on a real load, the first card sat at
+   top=684 with transform matrix(1,0,0,1,0,12) and then settled to 672 — the
+   "grid moves up after loading" report, and it happened on every visit no matter
+   what the intro did, because it is a hydration correction, not an animation.
+   Nothing above the fold may carry an offset it has to undo. */
 [data-reveal] {
+  transform: none;
+}
+/* Armed = the observer has confirmed this element is OFF-SCREEN. Only armed
+   elements take the offset, and they are outside the viewport at the moment it
+   is applied, so arming is never visible. */
+[data-reveal][data-armed] {
   transform: translateY(12px);
 }
-[data-reveal][data-revealed] {
+[data-reveal][data-armed][data-revealed] {
   transform: none;
   transition: transform 0.45s cubic-bezier(0.34, 1.2, 0.64, 1) var(--stagger, 0s);
 }
-/* Hold for above-the-fold rows so the intro reads hero-first, grid-second. Must
-   stay in step with HERO_INTRO_SECONDS in gallery.tsx, and the attribute that
-   gates it must not clear until these transitions have finished — swapping
-   transition-delay on an in-flight transition makes held cards snap. */
-[data-intro] [data-reveal][data-revealed] {
-  transition-delay: calc(var(--stagger, 0s) + 0.45s);
-}
+/* The old `[data-intro] [data-reveal][data-revealed]` hold lived here. It set
+   `transition-delay: calc(var(--stagger) + 0.45s)` so above-the-fold cards rose
+   only after the hero settled — which is precisely what made the grid appear to
+   arrive and then move. Above-the-fold cards no longer rise at all, so there is
+   nothing left to hold and the rule (and the data-intro attribute that gated it)
+   is gone. Hero-first ordering is now carried by the section's opacity fade
+   alone. */
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  [data-reveal][data-armed] {
     transform: none;
   }
-  [data-reveal][data-revealed] {
+  [data-reveal][data-armed][data-revealed] {
     transition: none;
   }
 }
@@ -1853,6 +1872,25 @@ body {
   align-self: stretch;
   align-content: center;
 }
+/* A THEME FLIP MUST BE INSTANTANEOUS, EVERYWHERE AT ONCE.
+   Surfaces carry different transitions: `.fh-tile--icon` eases background and
+   color over 0.15s, while `.fh-tile--soft` and `--blank` have none at all. They
+   are interleaved in the hero grid, so a theme change repainted them at
+   different times — measured on a dark -> light flip, the soft tiles were
+   already rgb(250,250,250) while the icon tiles were still rgb(23,23,23),
+   passing through rgb(209,209,209) and only landing ~220ms later. The grid
+   visibly checkerboarded through the swap.
+   Fixing it per-component means keeping every surface's transition in step
+   forever; suppressing transitions for the single frame of the flip fixes it
+   once, for surfaces that do not exist yet too. ThemeToggle sets this
+   attribute, commits the new colours, and drops it on the next frame — hover
+   and reveal transitions are unaffected because it is never set otherwise. */
+[data-theme-switching] *,
+[data-theme-switching] *::before,
+[data-theme-switching] *::after {
+  transition: none !important;
+}
+
 .fh-tile {
   aspect-ratio: 97 / 92;
   border-radius: 16px;
