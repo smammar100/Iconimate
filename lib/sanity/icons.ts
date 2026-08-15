@@ -1,4 +1,9 @@
-import { iconMeta, visibleIconMeta, HOME_HIDDEN_SLUGS } from "@/registry/icon-meta.gen";
+import {
+  iconMeta,
+  visibleIconMeta,
+  HOME_HIDDEN_SLUGS,
+  RECENCY_ORDER,
+} from "@/registry/icon-meta.gen";
 import { metaFor } from "@/components/dark/icon-meta";
 
 /**
@@ -49,16 +54,43 @@ interface SanityIcon {
   hasPrompt?: boolean;
 }
 
+/**
+ * Newest-authored first, which is the order the homepage grid runs in.
+ *
+ * THIS REPLACED A CURATED ORDER, DELIBERATELY. The registry array is hand-sequenced
+ * — "Control Tower" and "Phone Book" sit beside "Address Book" rather than at C and
+ * P — and that adjacency is now gone from the grid, because recency and curation
+ * cannot both drive one axis. The registry array still holds the curation, so this
+ * is one line to revert; nothing about it was thrown away.
+ *
+ * Slugs missing from RECENCY_ORDER (or all of it, when git is unavailable) fall to
+ * the end in their original relative order, so a lookup gap degrades to registry
+ * order instead of scrambling the grid.
+ */
+const RECENCY_RANK = new Map(RECENCY_ORDER.map((slug, i) => [slug, i]));
+function byRecency(list: IconView[]): IconView[] {
+  return list
+    .map((icon, i) => ({ icon, i }))
+    .sort(
+      (a, b) =>
+        (RECENCY_RANK.get(a.icon.slug) ?? Number.MAX_SAFE_INTEGER) -
+          (RECENCY_RANK.get(b.icon.slug) ?? Number.MAX_SAFE_INTEGER) || a.i - b.i,
+    )
+    .map((e) => e.icon);
+}
+
 /** The repo's own answer — what the site rendered before Sanity existed. */
 function fromRepo(): IconView[] {
-  return visibleIconMeta.map((e) => ({
-    slug: e.slug,
-    name: e.name,
-    keywords: e.keywords,
-    motion: metaFor(e.slug).motion,
-    // The repo has no prompts — they live only in Sanity.
-    hasPrompt: false,
-  }));
+  return byRecency(
+    visibleIconMeta.map((e) => ({
+      slug: e.slug,
+      name: e.name,
+      keywords: e.keywords,
+      motion: metaFor(e.slug).motion,
+      // The repo has no prompts — they live only in Sanity.
+      hasPrompt: false,
+    })),
+  );
 }
 
 async function fetchFromSanity(): Promise<SanityIcon[] | null> {
@@ -83,11 +115,10 @@ export async function getIcons(): Promise<{ icons: IconView[]; source: "sanity" 
 
   const bySlug = new Map(docs.filter((d) => d.slug).map((d) => [d.slug!, d]));
 
-  // Iterate the REPO's order, not Sanity's. The registry order is curated, not
-  // alphabetical — "Control Tower" and "Phone Book" deliberately sit beside
-  // "Address Book" — and Sanity has no field expressing that, so sorting by any
-  // property of the documents would silently reshuffle the gallery. The repo
-  // decides sequence and existence; Sanity fills in the words.
+  // Iterate the REPO's list, not Sanity's, for EXISTENCE — Sanity has no field
+  // expressing sequence, so ordering by any property of the documents would put
+  // the grid at the mercy of whatever Studio happens to return. The repo decides
+  // what exists; Sanity fills in the words; byRecency() below decides sequence.
   const icons: IconView[] = [];
   for (const base of iconMeta) {
     const doc = bySlug.get(base.slug);
@@ -109,5 +140,5 @@ export async function getIcons(): Promise<{ icons: IconView[]; source: "sanity" 
   // intent, so keep the repo's grid rather than ship a blank page.
   if (!icons.length) return { icons: fromRepo(), source: "repo" };
 
-  return { icons, source: "sanity" };
+  return { icons: byRecency(icons), source: "sanity" };
 }

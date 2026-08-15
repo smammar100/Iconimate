@@ -621,10 +621,14 @@ const recency = iconRecency([...entries.keys()]);
 // Ties are common — a batch of icons lands in one commit — so index order breaks
 // them, keeping the result deterministic instead of dependent on Map iteration.
 const orderIndex = new Map([...entries.keys()].map((s, i) => [s, i]));
-const recentSlugs = [...entries.keys()]
-  .filter((s) => !hiddenSlugs.includes(s))
-  .sort((a, b) => (recency.get(b) ?? 0) - (recency.get(a) ?? 0) || orderIndex.get(b) - orderIndex.get(a))
-  .slice(0, 12);
+// The FULL ordering, newest first — not just a top-N. The gallery orders the
+// whole grid by this, so truncating here would leave everything past the cut
+// silently in registry order. RECENT_SLUGS is derived from it rather than sorted
+// separately, so the palette's "Recently Added" and the grid can never disagree.
+const recencyOrder = [...entries.keys()].sort(
+  (a, b) => (recency.get(b) ?? 0) - (recency.get(a) ?? 0) || orderIndex.get(b) - orderIndex.get(a),
+);
+const recentSlugs = recencyOrder.filter((s) => !hiddenSlugs.includes(s)).slice(0, 12);
 
 const metaOut = `${GEN_HEADER}
 export interface IconMetaEntry {
@@ -646,6 +650,18 @@ export const visibleIconMeta: IconMetaEntry[] = iconMeta.filter((e) => !HOME_HID
 /** Most recently authored icons, newest first — see iconRecency() in the generator.
  *  Empty when git history is unavailable, so consumers must fall back gracefully. */
 export const RECENT_SLUGS: string[] = ${JSON.stringify(recentSlugs)};
+
+/** EVERY slug, newest first — the homepage grid's running order.
+ *
+ *  Recency is git mtime of registry/icons/<slug>.tsx (uncommitted files sort
+ *  newest), so this is "recently TOUCHED", not "recently added": re-animating an
+ *  old icon promotes it. That is intended — the grid is meant to surface what
+ *  changed lately — but it is why an old slug can appear at the top.
+ *
+ *  Ties (a batch landing in one commit) break by REVERSE registry index, so the
+ *  later of two icons added together still leads. Empty/uniform when git is
+ *  unavailable, in which case consumers keep registry order. */
+export const RECENCY_ORDER: string[] = ${JSON.stringify(recencyOrder)};
 `;
 writeFileSync(join(ROOT, "registry", "icon-meta.gen.ts"), metaOut);
 
