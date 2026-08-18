@@ -206,6 +206,13 @@ import { BiohazardIcon } from "./biohazard";
 import { BirdIcon } from "./bird";
 import { BlueprintIcon } from "./blueprint";
 import { BellSimpleZIcon } from "./bell-simple-z";
+import { HouseIcon } from "./house";
+import { UserIcon } from "./user";
+import { UsersThreeIcon } from "./users-three";
+import { EnvelopeIcon } from "./envelope";
+import { PhoneIcon } from "./phone";
+import { MagnifyingGlassIcon } from "./magnifying-glass";
+import { MapPinIcon } from "./map-pin";
 
 export type IconComponent = ForwardRefExoticComponent<IconProps & RefAttributes<IconHandle>>;
 
@@ -423,6 +430,13 @@ export const icons: IconEntry[] = [
   { slug: "biohazard", name: "Biohazard", keywords: ["biohazard", "hazard", "warning", "danger", "toxic", "biological", "contamination", "infectious", "quarantine", "lab", "safety", "radiation", "caution"], Component: BiohazardIcon },
   { slug: "bird", name: "Bird", keywords: ["bird", "wing", "wings", "fly", "flying", "flight", "feather", "sparrow", "tweet", "social", "animal", "nature", "freedom", "migrate"], Component: BirdIcon },
   { slug: "blueprint", name: "Blueprint", keywords: ["blueprint", "plan", "draft", "drawing", "schematic", "architecture", "design", "engineering", "spec", "layout", "scroll", "technical", "grid"], Component: BlueprintIcon },
+  { slug: "house", name: "House", keywords: ["house", "home", "building", "roof", "door", "dashboard", "index", "start", "residence", "property", "real estate", "shelter", "welcome"], Component: HouseIcon },
+  { slug: "user", name: "User", keywords: ["user", "person", "profile", "account", "avatar", "member", "people", "human", "customer", "login", "sign in", "identity", "contact"], Component: UserIcon },
+  { slug: "users-three", name: "Users Three", keywords: ["users", "people", "group", "team", "community", "members", "crowd", "audience", "collaborate", "together", "three", "social", "roster"], Component: UsersThreeIcon },
+  { slug: "envelope", name: "Envelope", keywords: ["envelope", "mail", "email", "message", "inbox", "letter", "send", "contact", "newsletter", "subscribe", "post", "unfold", "open"], Component: EnvelopeIcon },
+  { slug: "phone", name: "Phone", keywords: ["phone", "call", "telephone", "handset", "ring", "contact", "support", "dial", "mobile", "voice", "hotline", "receiver"], Component: PhoneIcon },
+  { slug: "magnifying-glass", name: "Magnifying Glass", keywords: ["search", "magnify", "zoom", "find", "lens", "look", "inspect", "explore", "query", "filter", "discover", "loupe", "glass"], Component: MagnifyingGlassIcon },
+  { slug: "map-pin", name: "Map Pin", keywords: ["map", "pin", "location", "marker", "place", "gps", "address", "navigate", "geo", "destination", "here", "drop", "waypoint"], Component: MapPinIcon },
 ];
 
 /** Slugs hidden from the public home page (still in the registry and installable). */
@@ -447,6 +461,13 @@ export {
   BicycleIcon,
   BinaryIcon,
   BinocularsIcon,
+  HouseIcon,
+  UserIcon,
+  UsersThreeIcon,
+  EnvelopeIcon,
+  PhoneIcon,
+  MagnifyingGlassIcon,
+  MapPinIcon,
   HeartIcon,
   StarIcon,
   ArrowRightIcon,

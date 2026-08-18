@@ -67,15 +67,31 @@ function motionProse(src) {
 }
 
 /**
- * Glyph paths. Most icons name their subpaths as consts; some keep a single path
- * inline in the JSX, so fall back to reading `d="..."` attributes.
+ * Glyph geometry. Most icons name their subpaths as consts; some keep a single
+ * path inline in the JSX, so fall back to reading `d="..."` attributes.
+ *
+ * CIRCLES ARE NOT PATHS AND MUST BE COLLECTED SEPARATELY. Several Phosphor
+ * glyphs carry a literal `<circle>` — `user`'s head, `magnifying-glass`'s lens,
+ * `map-pin`'s dot, `users-three`'s centre head — and those icons declare it as
+ * `const NAME = { cx, cy, r }`, which no `"M..."` pattern will ever match.
+ * Before this they were dropped silently, so the prompt promised subpaths that
+ * "recompose to the original glyph exactly" while omitting a whole element.
+ * They are emitted as the `<circle>` elements they actually are rather than
+ * converted to path data, because that is what the icon source contains and the
+ * distinction is load-bearing: animating a circle's `r` keeps the 16-unit pen,
+ * a `scale` on the equivalent path does not.
  */
 function glyphPaths(src) {
+  const circles = [
+    ...src.matchAll(
+      /^const ([A-Z_0-9]+)\s*=\s*\{\s*cx:\s*(-?[\d.]+)\s*,\s*cy:\s*(-?[\d.]+)\s*,\s*r:\s*(-?[\d.]+)\s*\}/gm,
+    ),
+  ].map((m) => ({ name: m[1], circle: { cx: m[2], cy: m[3], r: m[4] } }));
   const named = [...src.matchAll(/^const ([A-Z_0-9]+)\s*=\s*\n?\s*"(M[^"]{20,})"/gm)].map((m) => ({
     name: m[1],
     d: m[2],
   }));
-  if (named.length) return named;
+  if (named.length || circles.length) return [...named, ...circles];
   const inline = [...src.matchAll(/\bd="(M[^"]{20,})"/g)].map((m, i) => ({
     name: `PATH_${i + 1}`,
     d: m[1],
@@ -93,7 +109,13 @@ function labAlternatives(slug, motion) {
     const name = block[0].match(/name:\s*"([^"]*)"/)?.[1];
     if (!name) continue;
     const blurb = block[0].match(/blurb:\s*"([^"]*)"/)?.[1] ?? "";
-    const shipped = name.toLowerCase() === String(motion).toLowerCase();
+    // Lab variants are named "6 · Plant" but the motion label is "plant", so the
+    // ordinal prefix has to come off before comparing or [SHIPPED] never fires.
+    // It previously matched only where a variant happened to be named exactly
+    // like its motion (barn, bicycle, aperture); everywhere else the prompt said
+    // "the shipped one won" and then marked nothing.
+    const bare = name.replace(/^\s*\d+\s*[·.\-–—)]\s*/, "").trim().toLowerCase();
+    const shipped = bare === String(motion).trim().toLowerCase();
     rows.push(`  - ${name}${shipped ? " [SHIPPED]" : ""}${blurb ? ` — ${blurb}` : ""}`);
   }
   if (!rows.length) return "";
@@ -106,7 +128,11 @@ function buildPrompt({ slug, name, keywords, motion, src }) {
 
   const glyphBlock = paths.length
     ? `Phosphor "${slug}" on the 256 grid. Subpaths, which must recompose to the\noriginal glyph exactly:\n${paths
-        .map((p) => `  ${p.name} = "${p.d}"`)
+        .map((p) =>
+          p.circle
+            ? `  ${p.name} = <circle cx="${p.circle.cx}" cy="${p.circle.cy}" r="${p.circle.r}" />`
+            : `  ${p.name} = "${p.d}"`,
+        )
         .join("\n")}`
     : `Phosphor "${slug}" on the 256 grid. Use the original Phosphor glyph geometry\nunaltered at rest.`;
 
