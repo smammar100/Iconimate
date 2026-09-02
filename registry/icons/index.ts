@@ -205,6 +205,10 @@ import { BinocularsIcon } from "./binoculars";
 import { BiohazardIcon } from "./biohazard";
 import { BirdIcon } from "./bird";
 import { BlueprintIcon } from "./blueprint";
+import { BookmarkSimpleIcon } from "./bookmark-simple";
+import { GearIcon } from "./gear";
+import { GlobeIcon } from "./globe";
+import { ListIcon } from "./list";
 import { BellSimpleZIcon } from "./bell-simple-z";
 import { HouseIcon } from "./house";
 import { UserIcon } from "./user";
@@ -430,6 +434,10 @@ export const icons: IconEntry[] = [
   { slug: "biohazard", name: "Biohazard", keywords: ["biohazard", "hazard", "warning", "danger", "toxic", "biological", "contamination", "infectious", "quarantine", "lab", "safety", "radiation", "caution"], Component: BiohazardIcon },
   { slug: "bird", name: "Bird", keywords: ["bird", "wing", "wings", "fly", "flying", "flight", "feather", "sparrow", "tweet", "social", "animal", "nature", "freedom", "migrate"], Component: BirdIcon },
   { slug: "blueprint", name: "Blueprint", keywords: ["blueprint", "plan", "draft", "drawing", "schematic", "architecture", "design", "engineering", "spec", "layout", "scroll", "technical", "grid"], Component: BlueprintIcon },
+  { slug: "bookmark-simple", name: "Bookmark Simple", keywords: ["bookmark", "save", "saved", "ribbon", "marker", "flag", "read", "later", "favourite", "collection", "pin", "tag", "cloth", "gust"], Component: BookmarkSimpleIcon },
+  { slug: "gear", name: "Gear", keywords: ["gear", "settings", "cog", "preferences", "options", "config", "configuration", "setup", "admin", "control", "mechanical", "machine", "spin", "system"], Component: GearIcon },
+  { slug: "globe", name: "Globe", keywords: ["globe", "world", "earth", "planet", "international", "language", "locale", "translate", "web", "internet", "global", "meridian", "spin", "rotate"], Component: GlobeIcon },
+  { slug: "list", name: "List", keywords: ["list", "menu", "hamburger", "nav", "navigation", "rows", "lines", "items", "index", "outline", "bullets", "collapse", "fold", "stack"], Component: ListIcon },
   { slug: "house", name: "House", keywords: ["house", "home", "building", "roof", "door", "dashboard", "index", "start", "residence", "property", "real estate", "shelter", "welcome"], Component: HouseIcon },
   { slug: "user", name: "User", keywords: ["user", "person", "profile", "account", "avatar", "member", "people", "human", "customer", "login", "sign in", "identity", "contact"], Component: UserIcon },
   { slug: "users-three", name: "Users Three", keywords: ["users", "people", "group", "team", "community", "members", "crowd", "audience", "collaborate", "together", "three", "social", "roster"], Component: UsersThreeIcon },
