@@ -11,6 +11,9 @@
     "typecheck": "tsc --noEmit && tsc -p scripts/tsconfig.registry.json --noEmit",
     "test": "node --test \"scripts/**/*.test.mjs\"",
     "audit:motion": "node scripts/audit-motion.mjs",
+    "promo": "remotion studio remotion/index.ts",
+    "promo:render": "remotion render remotion/index.ts Promo out/iconimate-promo.mp4",
+    "promo:still": "remotion still remotion/index.ts Promo",
     "verify": "pnpm build:registry && pnpm typecheck && pnpm lint && pnpm test",
     "prepare": "git config core.hooksPath .githooks || exit 0"
   },
@@ -27,11 +30,14 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.60.0",
+    "@remotion/cli": "4.0.524",
+    "@remotion/google-fonts": "4.0.524",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "remotion": "4.0.524",
     "typescript": "^5"
   },
   "pnpm": {
