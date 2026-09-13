@@ -211,6 +211,7 @@ export const LAZY_ICONS: Record<string, LazyIcon> = {
   "bird": lazy(() => import("./icons/bird").then((m) => ({ default: m.BirdIcon }))),
   "blueprint": lazy(() => import("./icons/blueprint").then((m) => ({ default: m.BlueprintIcon }))),
   "bluetooth": lazy(() => import("./icons/bluetooth").then((m) => ({ default: m.BluetoothIcon }))),
+  "bluetooth-connected": lazy(() => import("./icons/bluetooth-connected").then((m) => ({ default: m.BluetoothConnectedIcon }))),
   "bookmark-simple": lazy(() => import("./icons/bookmark-simple").then((m) => ({ default: m.BookmarkSimpleIcon }))),
   "control-tower": lazy(() => import("./icons/control-tower").then((m) => ({ default: m.ControlTowerIcon }))),
   "envelope": lazy(() => import("./icons/envelope").then((m) => ({ default: m.EnvelopeIcon }))),

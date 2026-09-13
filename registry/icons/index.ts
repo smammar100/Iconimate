@@ -206,6 +206,7 @@ import { BiohazardIcon } from "./biohazard";
 import { BirdIcon } from "./bird";
 import { BlueprintIcon } from "./blueprint";
 import { BluetoothIcon } from "./bluetooth";
+import { BluetoothConnectedIcon } from "./bluetooth-connected";
 import { BookmarkSimpleIcon } from "./bookmark-simple";
 import { GearIcon } from "./gear";
 import { GlobeIcon } from "./globe";
@@ -436,6 +437,7 @@ export const icons: IconEntry[] = [
   { slug: "bird", name: "Bird", keywords: ["bird", "wing", "wings", "fly", "flying", "flight", "feather", "sparrow", "tweet", "social", "animal", "nature", "freedom", "migrate"], Component: BirdIcon },
   { slug: "blueprint", name: "Blueprint", keywords: ["blueprint", "plan", "draft", "drawing", "schematic", "architecture", "design", "engineering", "spec", "layout", "scroll", "technical", "grid"], Component: BlueprintIcon },
   { slug: "bluetooth", name: "Bluetooth", keywords: ["bluetooth", "wireless", "connect", "connection", "pair", "pairing", "device", "headphones", "link", "sync", "transmit", "signal", "rune"], Component: BluetoothIcon },
+  { slug: "bluetooth-connected", name: "Bluetooth Connected", keywords: ["bluetooth", "connected", "paired", "pairing", "wireless", "device", "headphones", "link", "handshake", "confirmed", "check", "success", "sync"], Component: BluetoothConnectedIcon },
   { slug: "bookmark-simple", name: "Bookmark Simple", keywords: ["bookmark", "save", "saved", "ribbon", "marker", "flag", "read", "later", "favourite", "collection", "pin", "tag", "cloth", "gust"], Component: BookmarkSimpleIcon },
   { slug: "gear", name: "Gear", keywords: ["gear", "settings", "cog", "preferences", "options", "config", "configuration", "setup", "admin", "control", "mechanical", "machine", "spin", "system"], Component: GearIcon },
   { slug: "globe", name: "Globe", keywords: ["globe", "world", "earth", "planet", "international", "language", "locale", "translate", "web", "internet", "global", "meridian", "spin", "rotate"], Component: GlobeIcon },

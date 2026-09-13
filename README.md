@@ -12,7 +12,7 @@ Hover any glyph and watch it come alive.
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/watchers/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Watchers" src="https://www.shieldcn.dev/github/watchers/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/last-commit/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Last commit" src="https://www.shieldcn.dev/github/last-commit/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/github/commits/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Commits" src="https://www.shieldcn.dev/github/commits/smammar100/Iconimate.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/Icons-217-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="217 icons" src="https://www.shieldcn.dev/badge/Icons-217-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/Icons-218-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="218 icons" src="https://www.shieldcn.dev/badge/Icons-218-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/License-MIT-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="MIT licensed" src="https://www.shieldcn.dev/badge/License-MIT-6E7681.svg?variant=secondary&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/Language-TypeScript-3178C6.svg?logo=typescript&amp;variant=branded&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="Language · TypeScript" src="https://www.shieldcn.dev/badge/Language-TypeScript-3178C6.svg?logo=typescript&amp;variant=branded&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
 <picture><source media="(prefers-color-scheme: dark)" srcset="https://www.shieldcn.dev/badge/React-19-61DAFB.svg?logo=react&amp;variant=branded&amp;size=lg&amp;mode=dark&amp;theme=neutral&amp;font=geist-mono"><img alt="React 19" src="https://www.shieldcn.dev/badge/React-19-61DAFB.svg?logo=react&amp;variant=branded&amp;size=lg&amp;mode=light&amp;theme=neutral&amp;font=geist-mono"></picture>
@@ -98,7 +98,7 @@ Every icon accepts a `size` prop (defaults to 28, calibrated to read at 24) plus
 
 ## The set
 
-217 icons and counting, including:
+218 icons and counting, including:
 
 | Icon | Motion |
 | --- | --- |
