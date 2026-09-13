@@ -1,14 +1,15 @@
 "use client";
 
 import { forwardRef, useImperativeHandle, type ReactNode } from "react";
-import { motion, type Variants } from "motion/react";
+import { motion, type Transition, type Variants } from "motion/react";
 import { useHover } from "@/hooks/use-hover";
 import { ARRIVE, RETURN_TRANSITION, SWEEP } from "@/lib/motion-tokens";
 import type { IconHandle, IconProps } from "@/lib/icon";
 import { AT, VariantGrid, type LabVariant } from "../_shared/harness";
 
 /**
- * LAB — Bluetooth, five takes, each built on what the one before it got wrong.
+ * LAB — Bluetooth, six takes. 1–5 are each built on what the one before it got
+ * wrong; 6 composes 2 and 5.
  *
  * VERB: the rune CONNECTS. Not "pulses", not "radiates" — there are no signal
  * arcs in this mark, and drawing some on would be a detached accent doing the
@@ -238,6 +239,117 @@ const pairDown: Variants = {
   },
 };
 
+/* ══ 6. CONNECT — 2 + 5 ══════════════════════════════════════════════════════
+   5's handshake, and the click that closes it launches 2's packet down the
+   wire. The arms lock, and the instant they do, something travels through them.
+
+   COMPOSING THEM CHANGES WHAT EACH ONE MEANS. Alone, 2's packet has no cause,
+   so it reads as a busy state. Alone, 5 ends on the click and nothing comes of
+   it. Launch the packet from the click and the lock is FOR something: pair,
+   then transmit.
+
+   OVERLAP, NOT HANDOFF (§11). The packet leaves on the frame the blades hit the
+   line, because the click causes it. A beat of stillness between them — the 4%
+   `blueprint` needs between drawing the paper and placing the grid — would make
+   two unrelated events out of one.
+
+   THE PACKET HAS TO CROSS PARTS THAT MOVE. 2 runs one dash along one path, but
+   5's arms are separate lines so they can rotate. So the wire is three elements
+   in pen order — upper arm (0..80), the body as one path from the hub round both
+   loops and back (80..592), and the lower arm drawn hub to tip (592..672) — each
+   with its own dash, keyed to the same position along the whole wire. Offset is
+   linear in position, so one timeline and one easing keep the three gaps moving
+   as one. Measured 16 / 40,319 = 0.04%, the same as 5's split. Cutting the body
+   into its five straight segments instead measures 0.16% and fails.
+
+   THE DASH IS 32 LONG, NOT 1. A dash pattern repeats every dash + gap. On an arm
+   the offset swings almost ten arm-lengths over the run, so with 2's dash of 1
+   the pattern's NEXT gap slides onto the arm mid-run. 32 keeps every other gap
+   far off every element.
+
+   THE PACKET PARKS PAST THE FAR END and jumps to the near end on the click.
+   Both are off the wire, so both are the rest pose, and the jump is a repeated
+   time (LAUNCH, LAUNCH) so no frame can sample a position in between. Parking
+   it past the end is what makes hover-out right in both halves: before the
+   click the packet has nowhere to go, and after it the return glides it onward
+   and out. 2 parks at the start, so leaving it mid-run drags the packet back.
+
+   EASE-OUT, WITH OVERSCAN. The packet should leave the click at speed, which a
+   curve starting from rest (SWEEP) cannot do. Ease-out's slow tail would then
+   hold the gap on the lower arm tip, so the run overshoots the wire by 48 units
+   and most of that tail happens off it. */
+const WIRE = 672;
+/** 2's gap in units (0.09 × 672); 44 of it shows once the round caps take theirs. */
+const PACKET = 60;
+const OVERSCAN = 48;
+const DASH = 32;
+const CONNECT_MS = 1120;
+/** 560ms: the frame 5's blades hit the line. */
+const LAUNCH = 560 / CONNECT_MS;
+const at = (...ms: number[]) => ms.map((m) => m / CONNECT_MS);
+
+/** The body in pen order: hub, lower loop, spine, upper loop, hub. */
+const BODY = "M128,128L192,176L128,224V32L192,80L128,128";
+/** Phosphor's lower arm, drawn from the hub out so its dash runs with the pen. */
+const ARM_DOWN_FROM_HUB = { x1: 128, y1: 128, x2: 64, y2: 176 };
+
+/** An element's dash, given where it starts along the wire and how long it is. */
+function packet(start: number, length: number) {
+  const local = (p: number) => (p - start) / length;
+  const before = local(0);
+  const past = local(WIRE + PACKET + OVERSCAN);
+  const dash = { pathLength: DASH, pathSpacing: PACKET / length };
+  const transition: Transition = {
+    duration: CONNECT_MS / 1000,
+    times: [0, LAUNCH, LAUNCH, 1],
+    ease: ["linear", "linear", "easeOut"],
+  };
+  return {
+    rest: { ...dash, pathOffset: past },
+    run: { ...dash, pathOffset: [past, past, before, past] },
+    transition,
+  };
+}
+const PACKET_UP = packet(0, 80);
+const PACKET_BODY = packet(80, 512);
+const PACKET_DOWN = packet(592, 80);
+
+/** 5's arm keyframes, in 5's milliseconds, held at rest for the packet's run. */
+const connectUp: Variants = {
+  normal: { rotate: 0, ...PACKET_UP.rest, transition: RETURN_TRANSITION },
+  animate: {
+    rotate: [0, 16, 15, 0, 3, 0, 0],
+    ...PACKET_UP.run,
+    transition: {
+      rotate: {
+        duration: CONNECT_MS / 1000,
+        times: at(0, 200, 440, 560, 640, 800, 1120),
+        ease: [ARRIVE, "linear", "easeIn", "easeOut", "easeInOut", "linear"],
+      },
+      pathOffset: PACKET_UP.transition,
+    },
+  },
+};
+const connectDown: Variants = {
+  normal: { rotate: 0, ...PACKET_DOWN.rest, transition: RETURN_TRANSITION },
+  animate: {
+    rotate: [0, 0, -13, -12, 0, -3, 0, 0],
+    ...PACKET_DOWN.run,
+    transition: {
+      rotate: {
+        duration: CONNECT_MS / 1000,
+        times: at(0, 160, 360, 440, 560, 640, 800, 1120),
+        ease: ["linear", ARRIVE, "linear", "easeIn", "easeOut", "easeInOut", "linear"],
+      },
+      pathOffset: PACKET_DOWN.transition,
+    },
+  },
+};
+const connectBody: Variants = {
+  normal: { ...PACKET_BODY.rest, transition: RETURN_TRANSITION },
+  animate: { ...PACKET_BODY.run, transition: { pathOffset: PACKET_BODY.transition } },
+};
+
 /* ── rendering ───────────────────────────────────────────────────────────── */
 
 function Static({
@@ -326,6 +438,22 @@ function makeArms(name: string, up: Variants, down: Variants) {
   return Icon;
 }
 
+/** 6: 5's arms on the hub pin, with 2's packet running across all three parts. */
+const ConnectIcon = forwardRef<IconHandle, IconProps>(function ConnectIcon({ size = 28, style, ...props }, ref) {
+  const { controls, reduced, start, stop, bind } = useHover();
+  useImperativeHandle(ref, () => ({ startAnimation: start, stopAnimation: stop }), [start, stop]);
+  if (reduced) return <Static size={size} style={style} bind={bind} {...props} />;
+  return (
+    <div {...props} {...bind} style={{ display: "inline-flex", ...style }}>
+      <Frame size={size} controls={controls}>
+        <motion.path d={BODY} variants={connectBody} />
+        <motion.line {...ARM_UP} variants={connectUp} style={HUB} />
+        <motion.line {...ARM_DOWN_FROM_HUB} variants={connectDown} style={HUB} />
+      </Frame>
+    </div>
+  );
+});
+
 const VARIANTS: LabVariant[] = [
   {
     name: "1 · Inscribe",
@@ -352,9 +480,14 @@ const VARIANTS: LabVariant[] = [
     blurb: "Ping, ack, both blades lock with a click",
     Component: makeArms("PairIcon", pairUp, pairDown),
   },
+  {
+    name: "6 · Connect",
+    blurb: "2 + 5 — the click that locks the arms sends a packet down the wire",
+    Component: ConnectIcon,
+  },
 ];
 
 export default function BluetoothLabPage() {
-  // playMs must outlast the LONGEST variant — 1 · Inscribe runs 1.1s.
+  // playMs must outlast the LONGEST variant — 6 · Connect runs 1.12s.
   return <VariantGrid title="Bluetooth" variants={VARIANTS} cycleMs={3000} playMs={1500} />;
 }

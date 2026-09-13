@@ -25,6 +25,7 @@ export const ICON_META: Record<string, IconMeta> = {
   biohazard: { motion: "ratchet", glow: "#A6CE39" },
   bird: { motion: "wingbeat", glow: "#57C7E3" },
   blueprint: { motion: "draw & snap", glow: "#5A8DEE" },
+  bluetooth: { motion: "connect", glow: "#0082FC" },
   "bookmark-simple": { motion: "gust", glow: "#E4685D" },
   gear: { motion: "spin-down", glow: "#8A94A6" },
   globe: { motion: "turn", glow: "#3FA9D6" },
